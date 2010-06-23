@@ -23,6 +23,9 @@ if( !version_compare($wp_version, '2.9', '>=') ) {
 if( !class_exists('Mute_screamer')) {
 	define( 'MSCR_PATH', dirname(__FILE__) );
 	set_include_path( get_include_path() . PATH_SEPARATOR . MSCR_PATH . '/lib' );
+	require_once 'IDS/Init.php';
+	require_once 'IDS/Log/Composite.php';
+	require_once 'IDS/Log/Database.php';
 
 	class Mute_screamer {
 		const INTRUSIONS_TABLE = 'mscr_intrusions';
@@ -37,7 +40,81 @@ if( !class_exists('Mute_screamer')) {
 		 * @return	object
 		 */
 		public function __construct() {
+			$this->options = get_option( 'mscr_options' );
+			$this->run();
+		}
 
+
+		/**
+		 * Initialise PHPIDS
+		 *
+		 * @return	object
+		 */
+		public function init_ids() {
+			$ids = IDS_Init::init( MSCR_PATH . '/lib/IDS/Config/Config.ini.php' );
+
+			$ids->config['General']['use_base_path'] = FALSE;
+			$ids->config['General']['filter_path'] = MSCR_PATH . '/lib/IDS/default_filter.xml';
+			$ids->config['General']['tmp_path'] = $this->upload_path();
+
+			$ids->config['Caching']['caching'] = 'none';
+
+			$ids->config['Logging']['wrapper'] = 'mysql:host=' . DB_HOST . ';port=3306;dbname=' . DB_NAME;
+			$ids->config['Logging']['user'] = DB_USER;
+			$ids->config['Logging']['password'] = DB_PASSWORD;
+			$ids->config['Logging']['table'] = Mute_screamer::INTRUSIONS_TABLE;
+
+			return $ids;
+		}
+
+
+		/**
+		 * Run PHPIDS
+		 */
+		public function run() {
+		    $request = array(
+		        'REQUEST' => $_REQUEST,
+		        'GET' => $_GET,
+		        'POST' => $_POST,
+		        'COOKIE' => $_COOKIE
+		    );
+
+			// Initialise IDS
+			$init = $this->init_ids();
+
+			// Run IDS
+			$ids = new IDS_Monitor($request, $init);
+			$result = $ids->run();
+
+			if( !$result->isEmpty() ) {
+				$compositeLog = new IDS_Log_Composite();
+				$compositeLog->addLogger(IDS_Log_Database::getInstance($init));
+				$compositeLog->execute($result);
+			}
+		}
+
+
+		/**
+		 * Get the current upload path
+		 *
+		 * @return	string
+		 */
+		private function upload_path() {
+			$upload_path = get_option( 'upload_path' );
+
+			if ( empty($upload_path) ) {
+				$dir = WP_CONTENT_DIR . '/uploads';
+			} else {
+				$dir = $upload_path;
+				if ( 'wp-content/uploads' == $upload_path ) {
+					$dir = WP_CONTENT_DIR . '/uploads';
+				} elseif ( 0 !== strpos($dir, ABSPATH) ) {
+					// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
+					$dir = path_join( ABSPATH, $dir );
+				}
+			}
+
+			return $dir;
 		}
 
 
