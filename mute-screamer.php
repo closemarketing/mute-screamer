@@ -37,8 +37,8 @@ if( !version_compare(PHP_VERSION, '5.1.6', '>=') ) {
 }
 
 global $wp_version;
-if( !version_compare($wp_version, '2.9', '>=') ) {
-	exit('Mute Screamer requires Wordpress 2.9.x or higher to run. You are currently running Wordpress ' . $wp_version . '.');
+if( !version_compare($wp_version, '3.0', '>=') ) {
+	exit('Mute Screamer requires Wordpress 3.0 or higher to run. You are currently running Wordpress ' . $wp_version . '.');
 }
 
 if( !class_exists('Mute_screamer')) {
