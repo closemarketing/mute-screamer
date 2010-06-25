@@ -1,4 +1,4 @@
-<?php  if ( !defined('ABSPATH') ) exit('No direct script access allowed');
+<?php  if ( !defined('ABSPATH') ) exit;
 /*
 Plugin Name: Mute Screamer
 Plugin URI: http://github.com/ampt/mute-screamer/
