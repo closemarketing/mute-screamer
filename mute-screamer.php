@@ -86,7 +86,7 @@ if( !class_exists('Mute_screamer')) {
 			$ids->config['Logging']['wrapper'] = 'mysql:host=' . DB_HOST . ';port=3306;dbname=' . DB_NAME;
 			$ids->config['Logging']['user'] = DB_USER;
 			$ids->config['Logging']['password'] = DB_PASSWORD;
-			$ids->config['Logging']['table'] = Mute_screamer::INTRUSIONS_TABLE;
+			$ids->config['Logging']['table'] = self::INTRUSIONS_TABLE;
 
 			return $ids;
 		}
@@ -170,7 +170,7 @@ if( !class_exists('Mute_screamer')) {
 
 			// Attack attempts database table
 			$wpdb->query("
-				CREATE TABLE IF NOT EXISTS `" . Mute_screamer::INTRUSIONS_TABLE . "` (
+				CREATE TABLE IF NOT EXISTS `" . self::INTRUSIONS_TABLE . "` (
 				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 				  `name` varchar(128) NOT NULL,
 				  `value` text NOT NULL,
@@ -205,7 +205,7 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		public static function uninstall() {
 			global $wpdb;
-			$wpdb->query( "DROP TABLE IF EXISTS `" . Mute_screamer::INTRUSIONS_TABLE . "`" );
+			$wpdb->query( "DROP TABLE IF EXISTS `" . self::INTRUSIONS_TABLE . "`" );
 		}
 	}
 }
