@@ -11,6 +11,8 @@ Author URI: http://notfornoone.com/
 /*
  * Mute Screamer
  *
+ * PHPIDS for Wordpress
+ *
  * Copyright (c) 2010 Luke Gallagher
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -65,7 +67,22 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		public function __construct() {
 			$this->options = get_option( 'mscr_options' );
+			$this->init();
 			$this->run();
+		}
+
+
+		/**
+		 * Initialise Mute Screamer
+		 *
+		 * @return	void
+		 */
+		private function init() {
+			if( is_admin() ) {
+				require_once 'mscr/utils.php';
+				require_once 'mscr_admin.php';
+				new Mscr_admin();
+			}
 		}
 
 
