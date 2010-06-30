@@ -2,7 +2,7 @@
 
 <div class="wrap">
 	<div class="icon32" id="icon-index"><br/></div>
-	<h2>Mute Screamer Intrusions</h2>
+	<h2>Mute Screamer Intrusions <?php echo $search_title; ?></h2>
 
 	<div class="filter">
 		<form method="get" action="" id="list-filter">
@@ -16,8 +16,8 @@
 		<input type="hidden" value="<?php echo $page;?>" name="page"/>
 		<p class="search-box">
 			<label for="s" class="screen-reader-text">Search Profiles:</label>
-			<input type="text" value="<?php echo esc_attr('');?>" name="usersearch" id="user-search-input"/>
-			<input type="submit" class="button" value="Search Profiles"/>
+			<input type="text" value="<?php echo esc_attr($intrusions_search);?>" name="intrusions_search" id="mscr-intrusions-search-input"/>
+			<input type="submit" class="button" value="Search Intrusions"/>
 		</p>
 	</form>
 

@@ -99,9 +99,18 @@ class Mscr_admin {
 		$offset = ( $pagenum * $limit ) - $limit;
 		$offset = ( $offset < 0 ) ? 0 : $offset;
 
-		$intrusions = $wpdb->get_results(
-			$wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . Mute_screamer::INTRUSIONS_TABLE . " ORDER BY created DESC LIMIT %d, %d", $offset, $limit )
-		);
+		// Get results
+		$search = isset( $_GET['intrusions_search'] ) ? esc_attr($_GET['intrusions_search']) : '';
+		$search_title = '';
+		if($search) {
+			$search_title = sprintf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', $search );
+			$token = '%'.$search.'%';
+			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . Mute_screamer::INTRUSIONS_TABLE . " WHERE (name LIKE %s OR page LIKE %s OR tags LIKE %s OR ip LIKE %s OR impact LIKE %s) ORDER BY created DESC LIMIT %d, %d", $token, $token, $token, $token, $token, $offset, $limit );
+		} else {
+			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . Mute_screamer::INTRUSIONS_TABLE . " ORDER BY created DESC LIMIT %d, %d", $offset, $limit );
+		}
+
+		$intrusions = $wpdb->get_results($sql);
 		$total_intrusions = $wpdb->get_var("SELECT FOUND_ROWS();");
 
 		// Construct pagination links
@@ -126,6 +135,8 @@ class Mscr_admin {
 		$data['columns'] = $columns;
 		$data['page'] = $_GET['page'];
 		$data['pagination'] = $pagination;
+		$data['intrusions_search'] = $search;
+		$data['search_title'] = $search_title;
 
 		Utils::view('admin_intrusions', $data);
 	}
