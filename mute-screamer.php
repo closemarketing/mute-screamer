@@ -206,22 +206,28 @@ if( !class_exists('Mute_screamer')) {
 
 
 		/**
-		 * Remove options on deactivation
+		 * Remove user meta on deactivation
 		 *
 		 * @return	void
 		 */
 		public static function deactivate() {
-			delete_option( 'mscr_options' );
+			global $wpdb;
+			$wpdb->query("DELETE FROM `{$wpdb->usermeta}` WHERE meta_key = 'mscr_intrusions_per_page'");
 		}
 
 
 		/**
-		 * Remove database tables on uninstall
+		 * Clean up database on uninstall
 		 *
 		 * @return	void
 		 */
 		public static function uninstall() {
 			global $wpdb;
+
+			// Remove Mute Screamer options
+			delete_option( 'mscr_options' );
+
+			// Remove intrustions table
 			$wpdb->query( "DROP TABLE IF EXISTS `" . self::INTRUSIONS_TABLE . "`" );
 		}
 	}
