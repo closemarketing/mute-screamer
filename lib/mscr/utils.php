@@ -45,4 +45,52 @@ class Utils {
 			trigger_error('Unable to load the requested view.', E_USER_ERROR);
 		}
 	}
+
+
+	/**
+	 * Create pagination links
+	 *
+	 * @return	string
+	 */
+	public static function pagination($current_page = 1, $total_pages = 0, $per_page = 0, $count = 0)
+	{
+		$page_links = paginate_links( array(
+			'base' => add_query_arg( 'paged', '%#%' ),
+			'format' => '',
+			'prev_text' => __('&laquo;'),
+			'next_text' => __('&raquo;'),
+			'total' => $total_pages,
+			'current' => $current_page
+		));
+
+		if( !$page_links ) {
+			return '';
+		}
+
+		$page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
+			number_format_i18n( ( $current_page - 1 ) * $per_page + 1 ),
+			number_format_i18n( min( $current_page * $per_page, $count ) ),
+			number_format_i18n( $count ),
+			$page_links
+		);
+
+		return "<div class='tablenav-pages'>{$page_links_text}</div>";
+	}
+
+
+	/**
+	 * Get intrusions per page option
+	 *
+	 * @return	integer
+	 */
+	public static function mscr_intrusions_per_page() {
+		$per_page = (int) get_user_option('mscr_intrusions_per_page');
+
+		// Set default if user option does not exist
+		if( !$per_page ) {
+			$per_page = 20;
+		}
+
+		return $per_page;
+	}
 }

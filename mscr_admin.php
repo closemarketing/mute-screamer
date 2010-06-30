@@ -38,12 +38,7 @@ class Mscr_admin {
 		global $current_user;
 
 		if( $screen_object->id == 'dashboard_page_mscr_intrusions' ) {
-			$per_page = (int) get_user_option( 'mscr_intrusions_per_page' );
-
-			// Set default if user option does not exist
-			if( !$per_page ) {
-				$per_page = 20;
-			}
+			$per_page = Utils::mscr_intrusions_per_page();
 
 			$data['per_page'] = $per_page;
 			$action = Utils::view('admin_intrusions_screen_options', $data, TRUE);
@@ -92,7 +87,26 @@ class Mscr_admin {
 	public function intrusions()
 	{
 		global $wpdb;
-		$intrusions = $wpdb->get_results("SELECT * FROM " . Mute_screamer::INTRUSIONS_TABLE . "  ORDER BY created DESC");
+
+		// Current page number, items per page
+		$per_page = Utils::mscr_intrusions_per_page();
+		$pagenum = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 0;
+		if ( empty($pagenum) )
+			$pagenum = 1;
+
+		// Offset, limit
+		$limit = $per_page;
+		$offset = ( $pagenum * $limit ) - $limit;
+		$offset = ( $offset < 0 ) ? 0 : $offset;
+
+		$intrusions = $wpdb->get_results(
+			$wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . Mute_screamer::INTRUSIONS_TABLE . " ORDER BY created DESC LIMIT %d, %d", $offset, $limit )
+		);
+		$total_intrusions = $wpdb->get_var("SELECT FOUND_ROWS();");
+
+		// Construct pagination links
+		$num_pages = ceil($total_intrusions / $per_page);
+		$pagination = Utils::pagination($pagenum, $num_pages, $per_page, $total_intrusions);
 
 		// Columns
 		$columns = array(
@@ -111,6 +125,7 @@ class Mscr_admin {
 		$data['style'] = '';
 		$data['columns'] = $columns;
 		$data['page'] = $_GET['page'];
+		$data['pagination'] = $pagination;
 
 		Utils::view('admin_intrusions', $data);
 	}

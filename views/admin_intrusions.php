@@ -34,7 +34,7 @@
 				<input type="hidden" name="page" value="<?php echo $page; ?>" />
 			</div>
 
-			<?php //echo Utils::pagination(); ?>
+			<?php echo $pagination; ?>
 
 			<br class="clear"/>
 		</div>
@@ -125,7 +125,7 @@
 		</table>
 
 		<div class="tablenav">
-			<?php //echo Utils::pagination(); ?>
+			<?php echo $pagination; ?>
 
 			<div class="alignleft actions">
 				<select name="action2">
