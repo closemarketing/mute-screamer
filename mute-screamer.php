@@ -51,6 +51,11 @@ if( !class_exists('Mute_screamer')) {
 	require_once 'IDS/Log/Composite.php';
 	require_once 'IDS/Log/Database.php';
 
+	// PHPIDS requires a writable folder even through we don't use it
+	if( !is_writable(Utils::upload_path()) ) {
+		exit("Mute Screamer requires that your uploads folder ".Utils::upload_path()." is writable.");
+	}
+
 	/**
 	 * Mute Screamer
 	 */
