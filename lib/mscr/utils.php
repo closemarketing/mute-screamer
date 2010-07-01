@@ -93,4 +93,28 @@ class Utils {
 
 		return $per_page;
 	}
+
+
+	/**
+	 * Get the current upload path
+	 *
+	 * @return	string
+	 */
+	public static function upload_path() {
+		$upload_path = get_option( 'upload_path' );
+
+		if ( empty($upload_path) ) {
+			$dir = WP_CONTENT_DIR . '/uploads';
+		} else {
+			$dir = $upload_path;
+			if ( 'wp-content/uploads' == $upload_path ) {
+				$dir = WP_CONTENT_DIR . '/uploads';
+			} elseif ( 0 !== strpos($dir, ABSPATH) ) {
+				// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
+				$dir = path_join( ABSPATH, $dir );
+			}
+		}
+
+		return $dir;
+	}
 }

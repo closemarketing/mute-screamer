@@ -46,6 +46,7 @@ if( !version_compare($wp_version, '3.0', '>=') ) {
 if( !class_exists('Mute_screamer')) {
 	define( 'MSCR_PATH', dirname(__FILE__) );
 	set_include_path( get_include_path() . PATH_SEPARATOR . MSCR_PATH . '/lib' );
+	require_once 'mscr/utils.php';
 	require_once 'IDS/Init.php';
 	require_once 'IDS/Log/Composite.php';
 	require_once 'IDS/Log/Database.php';
@@ -79,7 +80,6 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		private function init() {
 			if( is_admin() ) {
-				require_once 'mscr/utils.php';
 				require_once 'mscr_admin.php';
 				new Mscr_admin();
 			}
@@ -96,7 +96,7 @@ if( !class_exists('Mute_screamer')) {
 
 			$ids->config['General']['use_base_path'] = FALSE;
 			$ids->config['General']['filter_path'] = MSCR_PATH . '/lib/IDS/default_filter.xml';
-			$ids->config['General']['tmp_path'] = $this->upload_path();
+			$ids->config['General']['tmp_path'] = Utils::upload_path();
 
 			$ids->config['Caching']['caching'] = 'none';
 
@@ -132,30 +132,6 @@ if( !class_exists('Mute_screamer')) {
 				$compositeLog->addLogger(IDS_Log_Database::getInstance($init));
 				$compositeLog->execute($result);
 			}
-		}
-
-
-		/**
-		 * Get the current upload path
-		 *
-		 * @return	string
-		 */
-		private function upload_path() {
-			$upload_path = get_option( 'upload_path' );
-
-			if ( empty($upload_path) ) {
-				$dir = WP_CONTENT_DIR . '/uploads';
-			} else {
-				$dir = $upload_path;
-				if ( 'wp-content/uploads' == $upload_path ) {
-					$dir = WP_CONTENT_DIR . '/uploads';
-				} elseif ( 0 !== strpos($dir, ABSPATH) ) {
-					// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
-					$dir = path_join( ABSPATH, $dir );
-				}
-			}
-
-			return $dir;
 		}
 
 
