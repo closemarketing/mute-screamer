@@ -158,7 +158,8 @@ if( !class_exists('Mute_screamer')) {
 
 			// Default options
 			$options = array(
-				'notifications' => FALSE,
+				'email_threshold' => 10,
+				'email_notifications' => FALSE,
 				'email' => get_option('admin_email'),
 				'mode' => 'production',
 				'ban_time' => 1800

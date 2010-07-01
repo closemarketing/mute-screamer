@@ -24,6 +24,7 @@ class Mscr_admin {
 	 * @return	void
 	 */
 	public function admin_init() {
+		register_setting( 'mscr_options', 'mscr_options', array($this, 'options_validate') );
 	}
 
 
@@ -143,11 +144,43 @@ class Mscr_admin {
 
 
 	/**
+	 * Validate options
+	 *
+	 * @return	array
+	 */
+	public function options_validate( $input ) {
+		$options = get_option( 'mscr_options' );
+
+		foreach( array('email', 'email_threshold') as $key ) {
+			if( isset($input[$key]) ) {
+				$options[$key] = $input[$key];
+			}
+
+			switch($key) {
+				case 'email':
+					if( !is_email($options[$key]) ) {
+						$options[$key] = get_option('admin_email');
+					}
+					break;
+
+				case 'email_threshold':
+					$options[$key] = absint($options[$key]);
+			}
+		}
+
+		$options['email_notifications'] = isset($input['email_notifications']) ? 1 : 0;
+		return $options;
+	}
+
+
+	/**
 	 * Display options page
 	 *
 	 * @return	void
 	 */
 	public function options()
 	{
+		$options = get_option( 'mscr_options' );
+		Utils::view('admin_options', $options);
 	}
 }
