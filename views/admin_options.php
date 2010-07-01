@@ -18,7 +18,7 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row">Email Notifications</th>
+					<th scope="row">E-mail Notifications</th>
 					<td>
 						<fieldset>
 							<legend class="screen-reader-text"><span>Email notifications</span></legend>
