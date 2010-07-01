@@ -125,10 +125,8 @@ if( !class_exists('Mute_screamer')) {
 		        'COOKIE' => $_COOKIE
 		    );
 
-			// Initialise IDS
 			$init = $this->init_ids();
 
-			// Run IDS
 			$ids = new IDS_Monitor($request, $init);
 			$result = $ids->run();
 
@@ -212,12 +210,14 @@ if( !class_exists('Mute_screamer')) {
 			$wpdb->query( "DROP TABLE IF EXISTS `" . self::INTRUSIONS_TABLE . "`" );
 		}
 	}
-}
 
-if( !defined('WP_UNINSTALL_PLUGIN') ) {
-	register_activation_hook( __FILE__, 'Mute_screamer::activate' );
-	register_deactivation_hook( __FILE__, 'Mute_screamer::deactivate' );
-	register_uninstall_hook( __FILE__, 'Mute_screamer::uninstall' );
+	// Register activation, deactivation and uninstall hooks,
+	// start Mute Screamer once all plugins are loaded
+	if( !defined('WP_UNINSTALL_PLUGIN') ) {
+		register_activation_hook( __FILE__, 'Mute_screamer::activate' );
+		register_deactivation_hook( __FILE__, 'Mute_screamer::deactivate' );
+		register_uninstall_hook( __FILE__, 'Mute_screamer::uninstall' );
 
-	add_action( 'plugins_loaded', create_function('','new Mute_screamer();') );
+		add_action( 'plugins_loaded', create_function('','new Mute_screamer();') );
+	}
 }
