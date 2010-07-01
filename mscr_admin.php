@@ -75,7 +75,7 @@ class Mscr_admin {
 	 */
 	public function admin_menu() {
 		add_submenu_page( 'index.php', __('Mute Screamer Intrusions'), __('Intrusions'), 'activate_plugins', 'mscr_intrusions', array($this, 'intrusions') );
-		add_submenu_page( 'plugins.php', __('Mute Screamer Configuration'), __('Mute Screamer'), 'activate_plugins', 'mscr_options', array($this, 'options') );
+		add_options_page( __('Mute Screamer Configuration'), __('Mute Screamer'), 'activate_plugins', 'mscr_options', array($this, 'options') );
 	}
 
 
