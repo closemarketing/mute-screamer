@@ -126,7 +126,6 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		public function run() {
 		    $request = array(
-		        'REQUEST' => $_REQUEST,
 		        'GET' => $_GET,
 		        'POST' => $_POST,
 		        'COOKIE' => $_COOKIE
