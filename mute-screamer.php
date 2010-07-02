@@ -64,6 +64,7 @@ if( !class_exists('Mute_screamer')) {
 		private $email = '';
 		private $email_notifications = '';
 		private $email_threshold = '';
+		private $result = FALSE;
 
 		/**
 		 * Constructor
@@ -134,14 +135,16 @@ if( !class_exists('Mute_screamer')) {
 			$init = $this->init_ids();
 
 			$ids = new IDS_Monitor($request, $init);
-			$result = $ids->run();
+			$this->result = $ids->run();
 
-			if( !$result->isEmpty() ) {
+			if( !$this->result->isEmpty() ) {
 				$compositeLog = new IDS_Log_Composite();
 				$compositeLog->addLogger(IDS_Log_Database::getInstance($init));
-				$compositeLog->execute($result);
+				$compositeLog->execute($this->result);
 
-				$this->email($result->getImpact());
+				if( $this->email_notifications ) {
+					$this->email();
+				}
 			}
 		}
 
@@ -149,17 +152,18 @@ if( !class_exists('Mute_screamer')) {
 		/**
 		 * Send an alert email if the impact is over the email threshold
 		 *
-		 * @param	integer
 		 * @return	void
 		 */
-		public function email( $impact = 0 ) {
-			if( $impact < $this->email_threshold ) {
+		private function email() {
+			if( $this->result->getImpact() < $this->email_threshold ) {
 				return;
 			}
 
-			$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-			$message = sprintf(__('Mute Screamer has detected an attck on your site %s'), $blogname) . "\r\n\r\n";
-			$subject = sprintf(__('[%s] Mute Screamer IDS Alert'), $blogname);
+			$data['blogname'] = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+			$data['result'] = $this->result;
+
+			$message = Utils::view('alert_email', $data, TRUE);
+			$subject = sprintf(__('[%s] Mute Screamer IDS Alert'), $data['blogname']);
 
 			wp_mail( $this->email, $subject, $message );
 		}
