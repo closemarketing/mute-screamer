@@ -104,18 +104,25 @@ if( !class_exists('Mute_screamer')) {
 		 * @return	object
 		 */
 		public function init_ids() {
-			$ids = IDS_Init::init( MSCR_PATH . '/lib/IDS/Config/Config.ini.php' );
+			$config['General']['filter_type'] = 'xml';
+			$config['General']['base_path'] = MSCR_PATH . '/lib/IDS/';
+			$config['General']['use_base_path'] = FALSE;
+			$config['General']['filter_path'] = MSCR_PATH . '/lib/IDS/default_filter.xml';
+			$config['General']['tmp_path'] = Utils::upload_path();
+			$config['General']['scan_keys'] = FALSE;
 
-			$ids->config['General']['use_base_path'] = FALSE;
-			$ids->config['General']['filter_path'] = MSCR_PATH . '/lib/IDS/default_filter.xml';
-			$ids->config['General']['tmp_path'] = Utils::upload_path();
+			$config['General']['HTML_Purifier_Path'] = 'vendors/htmlpurifier/HTMLPurifier.auto.php';
+			$config['General']['HTML_Purifier_Cache'] = Utils::upload_path();
 
-			$ids->config['Caching']['caching'] = 'none';
+			$config['Caching']['caching'] = 'none';
 
-			$ids->config['Logging']['wrapper'] = 'mysql:host=' . DB_HOST . ';port=3306;dbname=' . DB_NAME;
-			$ids->config['Logging']['user'] = DB_USER;
-			$ids->config['Logging']['password'] = DB_PASSWORD;
-			$ids->config['Logging']['table'] = self::INTRUSIONS_TABLE;
+			$config['Logging']['wrapper'] = 'mysql:host=' . DB_HOST . ';port=3306;dbname=' . DB_NAME;
+			$config['Logging']['user'] = DB_USER;
+			$config['Logging']['password'] = DB_PASSWORD;
+			$config['Logging']['table'] = self::INTRUSIONS_TABLE;
+
+			$ids = IDS_Init::init();
+			$ids->setConfig( $config, TRUE );
 
 			return $ids;
 		}
