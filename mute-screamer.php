@@ -124,6 +124,12 @@ if( !class_exists('Mute_screamer')) {
 			// Mark fields that shouldn't be monitored
 			$config['General']['exceptions'] = $this->exception_fields ? $this->exception_fields : array();
 
+			// Mark fields that contain HTML
+			$config['General']['html'] = $this->html_fields ? $this->html_fields : array();
+
+			// Mark fields that have JSON data
+			$config['General']['json'] = $this->json_fields ? $this->json_fields : array();
+
 			$ids = IDS_Init::init();
 			$ids->setConfig( $config, TRUE );
 

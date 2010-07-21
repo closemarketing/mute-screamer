@@ -52,6 +52,33 @@
 						</fieldset>
 					</td>
 				</tr>
+
+				<tr valign="top">
+					<th scope="row">HTML fields</th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span>HTML fields</span></legend>
+							<p><label for="mscr_html_fields">
+								Define fields that contain HTML and need preparation before hitting the PHPIDS rules.<br />
+								Note: Fields must contain valid HTML
+							</label></p>
+							<p><textarea class="large-text code" id="mscr_html_fields" cols="50" rows="10" name="mscr_options[html_fields]"><?php echo $html_fields; ?></textarea></p>
+						</fieldset>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">JSON fields</th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span>JSON fields</span></legend>
+							<p><label for="mscr_json_fields">
+								Define fields that contain JSON data and should be treated as such.
+							</label></p>
+							<p><textarea class="large-text code" id="mscr_json_fields" cols="50" rows="10" name="mscr_options[json_fields]"><?php echo $json_fields; ?></textarea></p>
+						</fieldset>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 
