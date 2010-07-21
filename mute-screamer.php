@@ -221,7 +221,7 @@ if( !class_exists('Mute_screamer')) {
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
 			);
 
-			add_option( 'mscr_options', $options );
+			update_option( 'mscr_options', $options );
 		}
 
 
