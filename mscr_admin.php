@@ -22,6 +22,59 @@ class Mscr_admin {
 	 */
 	public function admin_init() {
 		register_setting( 'mscr_options', 'mscr_options', array($this, 'options_validate') );
+		$this->do_action();
+	}
+
+
+	/**
+	 * Perform an action based on the request
+	 *
+	 * @return	void
+	 */
+	private function do_action() {
+		global $wpdb;
+
+		// Handle bulk actions
+		if ( isset( $_GET['doaction'] ) || isset( $_GET['doaction2'] ) ) {
+			check_admin_referer('mscr_action_intrusions_bulk');
+			$sendback = remove_query_arg( array('intrusions' ), wp_get_referer() );
+
+			if ( ( $_GET['action'] != -1 || $_GET['action2'] != -1 ) && ( isset($_GET['page']) && isset($_GET['intrusions']) ) ) {
+				$intrusion_ids = $_GET['intrusions'];
+				$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
+			} else {
+				wp_redirect( admin_url("index.php?page=mscr_intrusions") );
+				exit;
+			}
+
+			switch( $doaction ) {
+				case 'bulk_delete':
+					$deleted = 0;
+					foreach( (array) $intrusion_ids as $intrusion_id ) {
+						if( !current_user_can('activate_plugins') )
+							wp_die( __('You are not allowed to delete this item.') );
+
+						$sql = $wpdb->prepare( "DELETE FROM ".Mute_screamer::INTRUSIONS_TABLE." WHERE id = %d", $intrusion_id );
+						$result = $wpdb->query( $sql );
+
+						if( ! $result) {
+							wp_die( __('Error in deleting...') );
+						}
+						$deleted++;
+					}
+					$sendback = add_query_arg( 'deleted', $deleted, $sendback );
+					break;
+			}
+
+			if( isset($_GET['action']) )
+				$sendback = remove_query_arg( array('action', 'action2', 'intrusions'), $sendback );
+
+			wp_redirect($sendback);
+			exit;
+		} elseif( ! empty($_GET['_wp_http_referer']) ) {
+			wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
+			exit;
+		}
 	}
 
 
@@ -128,6 +181,10 @@ class Mscr_admin {
 		);
 		$columns = apply_filters('mscr_admin_intrusions_columns', $columns);
 
+		// Was something deleted?
+		$deleted = isset($_GET['deleted']) ? (int) $_GET['deleted'] : 0;
+
+		$data['message'] = FALSE;
 		$data['intrusions'] = $intrusions;
 		$data['style'] = '';
 		$data['columns'] = $columns;
@@ -135,6 +192,9 @@ class Mscr_admin {
 		$data['pagination'] = $pagination;
 		$data['intrusions_search'] = $search;
 		$data['search_title'] = $search_title;
+
+		if( $deleted )
+			$data['message'] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted ), number_format_i18n( $deleted ) );
 
 		Utils::view('admin_intrusions', $data);
 	}

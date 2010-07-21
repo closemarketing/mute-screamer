@@ -4,6 +4,12 @@
 	<div class="icon32" id="icon-index"><br/></div>
 	<h2>Mute Screamer Intrusions <?php echo $search_title; ?></h2>
 
+	<?php if ( $message ) : ?>
+
+	<div id="message" class="updated"><p><?php echo $message; ?></p></div>
+
+	<?php endif; ?>
+
 	<div class="filter">
 		<form method="get" action="" id="list-filter">
 			<ul class="subsubsub">
