@@ -4,9 +4,6 @@
  * Mute Screamer admin class
  */
 class Mscr_admin {
-	private $page = FALSE;
-	private $controller = FALSE;
-
 	/**
 	 * Constructor
 	 */
