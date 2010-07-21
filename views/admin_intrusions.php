@@ -29,7 +29,7 @@
 					<option value="bulk_delete">Delete</option>
 				</select>
 				<input type="submit" class="button-secondary action" id="doaction" name="doaction" value="Apply"/>
-				<?php wp_nonce_field('mscr_action_intrusions_delete'); ?>
+				<?php wp_nonce_field('mscr_action_intrusions_bulk'); ?>
 
 				<input type="hidden" name="page" value="<?php echo $page; ?>" />
 			</div>
@@ -58,16 +58,16 @@
 				</tr>
 			</tfoot>
 
-			<tbody class="list:user user-list" id="users">
+			<tbody class="list:intrusion intrusion-list" id="mscr_intrusions">
 
 				<?php if($intrusions) : ?>
 					<?php foreach($intrusions as $intrusion) : ?>
 
 						<?php $style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"'; ?>
 
-						<tr<?php echo $style; ?> id="user-<?php echo $intrusion->id; ?>">
+						<tr<?php echo $style; ?> id="intrusion-<?php echo $intrusion->id; ?>">
 							<th class="check-column" scope="row">
-								<input type="checkbox" value="<?php echo $intrusion->id; ?>" class="<?php echo ''; ?>" id="user_<?php echo $intrusion->id; ?>" name="intrusions[]"/>
+								<input type="checkbox" value="<?php echo $intrusion->id; ?>" class="<?php echo ''; ?>" id="intrusion_<?php echo $intrusion->id; ?>" name="intrusions[]"/>
 							</th>
 							<?php foreach($columns as $key => $val) : ?>
 								<td class="<?php echo $key; ?> column-<?php echo $key; ?>">
