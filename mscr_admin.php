@@ -151,7 +151,7 @@ class Mscr_admin {
 	public function options_validate( $input ) {
 		$options = get_option( 'mscr_options' );
 
-		foreach( array('email', 'email_threshold') as $key ) {
+		foreach( array( 'email', 'email_threshold', 'exception_fields' ) as $key ) {
 			if( isset($input[$key]) ) {
 				$options[$key] = $input[$key];
 			}
@@ -165,6 +165,11 @@ class Mscr_admin {
 
 				case 'email_threshold':
 					$options[$key] = absint($options[$key]);
+					break;
+
+				case 'exception_fields':
+					$options[$key] = str_replace( array( "\r\n", "\n", "\r" ), "\n", $options[$key] );
+					$options[$key] = explode( "\n", $options[$key] );
 			}
 		}
 
@@ -181,6 +186,8 @@ class Mscr_admin {
 	public function options()
 	{
 		$options = get_option( 'mscr_options' );
+		$options['exception_fields'] = implode("\r\n", $options['exception_fields']);
+
 		Utils::view('admin_options', $options);
 	}
 }

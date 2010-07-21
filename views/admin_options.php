@@ -31,10 +31,25 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row"><label for="admin_email">E-mail threshold </label></th>
+					<th scope="row"><label for="mscr_email_threshold">E-mail threshold </label></th>
 					<td>
 						<input type="text" class="small-text" value="<?php echo $email_threshold; ?>" id="mscr_email_threshold" name="mscr_options[email_threshold]" />
 						<span class="description">Minimum impact to send an alert email.</span>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">Exception fields</th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span>Exception fields</span></legend>
+							<p><label for="mscr_exception_fields">
+								Define fields that will be excluded from PHPIDS. One field per line. We've already added some defaults.<br />
+								Example - exlude the POST field my_field: POST.my_field <br />
+								Example - regular expression exclude: /.*foo/i
+							</label></p>
+							<p><textarea class="large-text code" id="mscr_exception_fields" cols="50" rows="10" name="mscr_options[exception_fields]"><?php echo $exception_fields; ?></textarea></p>
+						</fieldset>
 					</td>
 				</tr>
 			</tbody>

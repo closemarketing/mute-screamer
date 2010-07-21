@@ -76,7 +76,7 @@ if( !class_exists('Mute_screamer')) {
 		public function __construct() {
 			$options = get_option( 'mscr_options' );
 
-			foreach( array('email', 'email_notifications', 'email_threshold') as $key ) {
+			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields' ) as $key ) {
 				$this->$key = isset( $options[$key] ) ? $options[$key] : FALSE;
 			}
 
@@ -120,6 +120,9 @@ if( !class_exists('Mute_screamer')) {
 			$config['Logging']['user'] = DB_USER;
 			$config['Logging']['password'] = DB_PASSWORD;
 			$config['Logging']['table'] = self::INTRUSIONS_TABLE;
+
+			// Mark fields that shouldn't be monitored
+			$config['General']['exceptions'] = $this->exception_fields ? $this->exception_fields : array();
 
 			$ids = IDS_Init::init();
 			$ids->setConfig( $config, TRUE );
@@ -200,7 +203,7 @@ if( !class_exists('Mute_screamer')) {
 				'email' => get_option('admin_email'),
 				'mode' => 'production',
 				'ban_time' => 1800,
-				'exception_fields' => array(),
+				'exception_fields' => array( 'REQUEST.content', 'POST.content', 'REQUEST.__utmz', 'COOKIE.__utmc', 'REQUEST.s_pers', 'COOKIE.s_pers' ),
 				'html_fields' => array(),
 				'json_fields' => array()
 			);
