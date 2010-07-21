@@ -51,7 +51,7 @@ if( !class_exists('Mute_screamer')) {
 	require_once 'IDS/Log/Composite.php';
 	require_once 'IDS/Log/Database.php';
 
-	// PHPIDS requires a writable folder even through we don't use it
+	// PHPIDS requires a writable folder
 	if( !is_writable(Utils::upload_path()) ) {
 		exit("Mute Screamer requires that your uploads folder ".Utils::upload_path()." is writable.");
 	}
@@ -140,7 +140,6 @@ if( !class_exists('Mute_screamer')) {
 		    );
 
 			$init = $this->init_ids();
-
 			$ids = new IDS_Monitor($request, $init);
 			$this->result = $ids->run();
 
@@ -200,7 +199,10 @@ if( !class_exists('Mute_screamer')) {
 				'email_notifications' => FALSE,
 				'email' => get_option('admin_email'),
 				'mode' => 'production',
-				'ban_time' => 1800
+				'ban_time' => 1800,
+				'exception_fields' => array(),
+				'html_fields' => array(),
+				'json_fields' => array()
 			);
 
 			// Attack attempts database table
