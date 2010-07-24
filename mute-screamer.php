@@ -209,7 +209,7 @@ if( !class_exists('Mute_screamer')) {
 				'email' => get_option('admin_email'),
 				'mode' => 'production',
 				'ban_time' => 1800,
-				'exception_fields' => array( 'REQUEST.content', 'POST.content', 'REQUEST.__utmz', 'COOKIE.__utmc', 'REQUEST.s_pers', 'COOKIE.s_pers' ),
+				'exception_fields' => array( 'REQUEST.content', 'POST.content', 'REQUEST.__utmz', 'COOKIE.__utmz', 'REQUEST.s_pers', 'COOKIE.s_pers' ),
 				'html_fields' => array(),
 				'json_fields' => array()
 			);
