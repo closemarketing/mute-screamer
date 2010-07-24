@@ -4,7 +4,7 @@ Plugin Name: Mute Screamer
 Plugin URI: http://github.com/ampt/mute-screamer/
 Description: <a href="http://phpids.org/">PHPIDS</a> for Wordpress.
 Author: ampt
-Version: 0.1
+Version: 0.16
 Author URI: http://notfornoone.com/
 */
 
