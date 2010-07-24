@@ -230,6 +230,13 @@ if( !class_exists('Mute_screamer')) {
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
 			);
 
+			// Do previous options exist? Merge them, this way we keep existing options
+			// and if an update adds new options they get added too.
+			$prev_options = get_option( 'mscr_options' );
+			if( is_array($prev_options) ) {
+				$options = array_merge( $options, $prev_options );
+			}
+
 			update_option( 'mscr_options', $options );
 		}
 
