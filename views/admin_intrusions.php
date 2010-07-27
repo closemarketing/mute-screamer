@@ -21,12 +21,13 @@
 	<form method="get" action="admin.php" class="search-form">
 		<input type="hidden" value="<?php echo $page;?>" name="page"/>
 		<p class="search-box">
-			<label for="s" class="screen-reader-text">Search Profiles:</label>
+			<label for="s" class="screen-reader-text">Search Intrusions:</label>
 			<input type="text" value="<?php echo esc_attr($intrusions_search);?>" name="intrusions_search" id="mscr-intrusions-search-input"/>
 			<input type="submit" class="button" value="Search Intrusions"/>
 		</p>
 	</form>
 
+	<?php if($intrusions) : ?>
 	<form method="get" action="" id="posts-filter">
 		<div class="tablenav">
 			<div class="alignleft actions">
@@ -66,7 +67,6 @@
 
 			<tbody class="list:intrusion intrusion-list" id="mscr_intrusions">
 
-				<?php if($intrusions) : ?>
 					<?php foreach($intrusions as $intrusion) : ?>
 
 						<?php $style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"'; ?>
@@ -119,13 +119,6 @@
 						</tr>
 
 					<?php endforeach; ?>
-				<?php else : ?>
-
-					<tr>
-						<td colspan="<?php echo count($columns); ?>">How good is that, no intrusions.</td>
-					</tr>
-
-				<?php endif; ?>
 
 			</tbody>
 		</table>
@@ -143,6 +136,17 @@
 			<br class="clear"/>
 		</div>
 	</form>
+
+	<?php elseif( ! $search_title ) : ?>
+
+	<p>How good is that, no intrusions.</p>
+
+	<?php else : ?>
+
+	<p>No intrusions found.</p>
+
+	<?php endif; ?>
+
 </div>
 <script type='text/javascript'>
 jQuery(function(){
