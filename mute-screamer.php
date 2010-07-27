@@ -185,16 +185,6 @@ if( !class_exists('Mute_screamer')) {
 
 
 		/**
-		 * Get the Mute Screamer instance
-		 *
-		 * @return	object
-		 */
-		public static function self() {
-			return $this;
-		}
-
-
-		/**
 		 * Setup options, database table on activation
 		 *
 		 * @return	void
