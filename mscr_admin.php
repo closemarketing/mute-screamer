@@ -229,6 +229,14 @@ class Mscr_admin {
 				case 'json_fields':
 					$options[$key] = str_replace( array( "\r\n", "\n", "\r" ), "\n", $options[$key] );
 					$options[$key] = explode( "\n", $options[$key] );
+
+					// Exception fields array must not contain an empty string
+					// otherwise all fields will be excepted
+					foreach( $options[$key] as $k => $v ) {
+						if( strlen($options[$key][$k]) == 0 ) {
+							unset($options[$key][$k]);
+						}
+					}
 			}
 		}
 
