@@ -21,6 +21,8 @@ class Mscr_admin {
 	 * @return	void
 	 */
 	public function admin_init() {
+		// Once a setting is registered adding/updating options
+		// will run options_validate, which we may not want in all cases
 		register_setting( 'mscr_options', 'mscr_options', array($this, 'options_validate') );
 		$this->do_action();
 	}
@@ -205,13 +207,15 @@ class Mscr_admin {
 	 *
 	 * @return	array
 	 */
-	public function options_validate( $input ) {
+	public function options_validate( $input = array() ) {
 		$options = get_option( 'mscr_options' );
 
 		foreach( array( 'email', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields' ) as $key ) {
-			if( isset($input[$key]) ) {
-				$options[$key] = $input[$key];
+			if( ! isset($input[$key]) ) {
+				continue;
 			}
+
+			$options[$key] = $input[$key];
 
 			switch($key) {
 				case 'email':
