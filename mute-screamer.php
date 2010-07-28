@@ -230,8 +230,6 @@ if( !class_exists('Mute_screamer')) {
 		/**
 		 * Initialse options
 		 *
-		 * @param	string
-		 * @param	mixed
 		 * @return	void
 		 */
 		private function init_options() {
