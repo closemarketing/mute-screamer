@@ -119,11 +119,6 @@ if( !class_exists('Mute_screamer')) {
 
 			$config['Caching']['caching'] = 'none';
 
-			$config['Logging']['wrapper'] = 'mysql:host=' . DB_HOST . ';port=3306;dbname=' . DB_NAME;
-			$config['Logging']['user'] = DB_USER;
-			$config['Logging']['password'] = DB_PASSWORD;
-			$config['Logging']['table'] = self::INTRUSIONS_TABLE;
-
 			// Mark fields that shouldn't be monitored
 			$config['General']['exceptions'] = $this->exception_fields ? $this->exception_fields : FALSE;
 
