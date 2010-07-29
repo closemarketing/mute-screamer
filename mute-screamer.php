@@ -47,9 +47,9 @@ if( !class_exists('Mute_screamer')) {
 	define( 'MSCR_PATH', dirname(__FILE__) );
 	set_include_path( get_include_path() . PATH_SEPARATOR . MSCR_PATH . '/lib' );
 	require_once 'mscr/utils.php';
+	require_once 'mscr/log_database.php';
 	require_once 'IDS/Init.php';
 	require_once 'IDS/Log/Composite.php';
-	require_once 'IDS/Log/Database.php';
 
 	// PHPIDS requires a writable folder
 	if( !is_writable(Utils::upload_path()) ) {
@@ -158,7 +158,7 @@ if( !class_exists('Mute_screamer')) {
 			if( !$this->result->isEmpty() ) {
 				$this->update_intrusion_count();
 				$compositeLog = new IDS_Log_Composite();
-				$compositeLog->addLogger(IDS_Log_Database::getInstance($init));
+				$compositeLog->addLogger( new mscr_log_database() );
 				$compositeLog->execute($this->result);
 
 				if( $this->email_notifications ) {
