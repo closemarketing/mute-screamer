@@ -53,12 +53,14 @@ class mscr_log_database implements IDS_Log_Interface {
 		}
 
 		foreach( $report_data as $event ) {
-			$data['page'] = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
-			$data['ip'] = $this->ip;
 			$data['name'] = $event->getName();
 			$data['value'] = $event->getValue();
-			$data['impact'] = $event->getImpact();
+			$data['page'] = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
 			$data['tags'] = implode( ', ', $event->getTags() );
+			$data['ip'] = $this->ip;
+			$data['impact'] = $event->getImpact();
+			$data['origin'] = $_SERVER['SERVER_ADDR'];
+			$data['created'] = date( 'Y-m-d H:i:s', current_time('timestamp') );
 
 			if( FALSE === $wpdb->insert( Mute_screamer::INTRUSIONS_TABLE, $data ) ) {
 				return FALSE;
