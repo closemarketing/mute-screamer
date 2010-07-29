@@ -54,7 +54,7 @@ class mscr_log_database implements IDS_Log_Interface {
 
 		foreach( $report_data as $event ) {
 			$data['name'] = $event->getName();
-			$data['value'] = $event->getValue();
+			$data['value'] = stripslashes( $event->getValue() );
 			$data['page'] = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
 			$data['tags'] = implode( ', ', $event->getTags() );
 			$data['ip'] = $this->ip;
