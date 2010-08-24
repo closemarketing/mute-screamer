@@ -4,7 +4,7 @@ Plugin Name: Mute Screamer
 Plugin URI: http://wordpress.org/extend/plugins/mute-screamer/
 Description: <a href="http://phpids.org/">PHPIDS</a> for Wordpress.
 Author: ampt
-Version: 0.22
+Version: 0.3.0
 Author URI: http://notfornoone.com/
 */
 
@@ -34,8 +34,8 @@ Author URI: http://notfornoone.com/
  * THE SOFTWARE.
  */
 
-if( !version_compare(PHP_VERSION, '5.1.6', '>=') ) {
-	exit('Mute Screamer requires PHP 5.1.6 or higher to run. You are currently running PHP ' . PHP_VERSION . '.');
+if( !version_compare(PHP_VERSION, '5.2', '>=') ) {
+	exit('Mute Screamer requires PHP 5.2 or higher to run. You are currently running PHP ' . PHP_VERSION . '.');
 }
 
 global $wp_version;
