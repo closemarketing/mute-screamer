@@ -1,7 +1,8 @@
 <?php if( ! defined('ABSPATH')) exit;
 echo "Mute Screamer has detected an attack on your site {$blogname}.\r\n\r\n";
 echo "Total impact: ".$result->getImpact()."\r\n";
-echo "Affected tags: ".join(', ', $result->getTags())."\r\n\r\n";
+echo "Affected tags: ".join(', ', $result->getTags())."\r\n";
+echo "Detected ip address: {$ip_address}\r\n\r\n";
 
 foreach( $result->getIterator() as $event ) {
 	echo "Variable: ".esc_html($event->getName())."\r\n";

@@ -175,6 +175,7 @@ if( !class_exists('Mute_screamer')) {
 
 			$data['blogname'] = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 			$data['result'] = $this->result;
+			$data['ip_address'] = MSCR_Utils::ip_address();
 
 			$message = MSCR_Utils::view('alert_email', $data, TRUE);
 			$subject = sprintf(__('[%s] Mute Screamer IDS Alert'), $data['blogname']);
