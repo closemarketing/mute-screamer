@@ -4,7 +4,7 @@
 
 ## Minimum Requirements ##
 
-* PHP 5.1.6
+* PHP 5.2
 * Wordpress 3.0
 
 ## Installation ##
