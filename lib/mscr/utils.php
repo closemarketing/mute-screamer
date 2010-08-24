@@ -3,7 +3,7 @@
 /*
  * Mute Screamer utils class
  */
-class Utils {
+class MSCR_Utils {
 	/**
 	 * Load a template file
 	 *

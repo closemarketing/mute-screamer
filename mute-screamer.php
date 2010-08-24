@@ -52,8 +52,8 @@ if( !class_exists('Mute_screamer')) {
 	require_once 'IDS/Log/Composite.php';
 
 	// PHPIDS requires a writable folder
-	if( !is_writable(Utils::upload_path()) ) {
-		exit("Mute Screamer requires that your uploads folder ".Utils::upload_path()." is writable.");
+	if( !is_writable(MSCR_Utils::upload_path()) ) {
+		exit("Mute Screamer requires that your uploads folder ".MSCR_Utils::upload_path()." is writable.");
 	}
 
 	/**
@@ -111,11 +111,11 @@ if( !class_exists('Mute_screamer')) {
 			$config['General']['base_path'] = MSCR_PATH . '/lib/IDS/';
 			$config['General']['use_base_path'] = FALSE;
 			$config['General']['filter_path'] = MSCR_PATH . '/lib/IDS/default_filter.xml';
-			$config['General']['tmp_path'] = Utils::upload_path();
+			$config['General']['tmp_path'] = MSCR_Utils::upload_path();
 			$config['General']['scan_keys'] = FALSE;
 
 			$config['General']['HTML_Purifier_Path'] = 'vendors/htmlpurifier/HTMLPurifier.auto.php';
-			$config['General']['HTML_Purifier_Cache'] = Utils::upload_path();
+			$config['General']['HTML_Purifier_Cache'] = MSCR_Utils::upload_path();
 
 			$config['Caching']['caching'] = 'none';
 
@@ -176,7 +176,7 @@ if( !class_exists('Mute_screamer')) {
 			$data['blogname'] = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 			$data['result'] = $this->result;
 
-			$message = Utils::view('alert_email', $data, TRUE);
+			$message = MSCR_Utils::view('alert_email', $data, TRUE);
 			$subject = sprintf(__('[%s] Mute Screamer IDS Alert'), $data['blogname']);
 
 			wp_mail( $this->email, $subject, $message );

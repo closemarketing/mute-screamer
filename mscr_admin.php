@@ -96,10 +96,10 @@ class Mscr_admin {
 		global $current_user;
 
 		if( $screen_object->id == 'dashboard_page_mscr_intrusions' ) {
-			$per_page = Utils::mscr_intrusions_per_page();
+			$per_page = MSCR_Utils::mscr_intrusions_per_page();
 
 			$data['per_page'] = $per_page;
-			$action = Utils::view('admin_intrusions_screen_options', $data, TRUE);
+			$action = MSCR_Utils::view('admin_intrusions_screen_options', $data, TRUE);
 		}
 
 		return $action;
@@ -149,7 +149,7 @@ class Mscr_admin {
 		global $wpdb;
 
 		// Current page number, items per page
-		$per_page = Utils::mscr_intrusions_per_page();
+		$per_page = MSCR_Utils::mscr_intrusions_per_page();
 		$pagenum = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 0;
 		if ( empty($pagenum) )
 			$pagenum = 1;
@@ -175,7 +175,7 @@ class Mscr_admin {
 
 		// Construct pagination links
 		$num_pages = ceil($total_intrusions / $per_page);
-		$pagination = Utils::pagination($pagenum, $num_pages, $per_page, $total_intrusions);
+		$pagination = MSCR_Utils::pagination($pagenum, $num_pages, $per_page, $total_intrusions);
 
 		// Columns
 		$columns = array(
@@ -205,7 +205,7 @@ class Mscr_admin {
 		if( $deleted )
 			$data['message'] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted ), number_format_i18n( $deleted ) );
 
-		Utils::view('admin_intrusions', $data);
+		MSCR_Utils::view('admin_intrusions', $data);
 	}
 
 
@@ -268,6 +268,6 @@ class Mscr_admin {
 		$options['html_fields'] = implode("\r\n", $options['html_fields']);
 		$options['json_fields'] = implode("\r\n", $options['json_fields']);
 
-		Utils::view('admin_options', $options);
+		MSCR_Utils::view('admin_options', $options);
 	}
 }
