@@ -4,6 +4,8 @@
  * Mute Screamer utils class
  */
 class MSCR_Utils {
+	public static $ip = FALSE;
+
 	/**
 	 * Load a template file
 	 *
@@ -116,5 +118,35 @@ class MSCR_Utils {
 		}
 
 		return $dir;
+	}
+
+
+	/**
+	 * Fetch ip address
+	 *
+	 * @return	string
+	 */
+	public static function ip_address() {
+		$ip = '0.0.0.0';
+
+		if( self::$ip )
+			return self::$ip;
+
+		foreach( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
+			if( ! isset($_SERVER[$key]) )
+				continue;
+
+			foreach( explode(',', $_SERVER[$key]) as $val ) {
+				$ip = trim($val);
+
+				if( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== FALSE ) {
+					self::$ip = $ip;
+					return $ip;
+				}
+			}
+	    }
+
+		self::$ip = $ip;
+		return $ip;
 	}
 }
