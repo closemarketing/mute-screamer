@@ -61,7 +61,7 @@
 								Example - exlude the POST field my_field: POST.my_field <br />
 								Example - regular expression exclude: /.*foo/i
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_exception_fields" cols="50" rows="10" name="mscr_options[exception_fields]"><?php echo $exception_fields; ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_exception_fields" cols="50" rows="5" name="mscr_options[exception_fields]"><?php echo $exception_fields; ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
@@ -75,7 +75,7 @@
 								Define fields that contain HTML and need preparation before hitting the PHPIDS rules.<br />
 								Note: Fields must contain valid HTML
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_html_fields" cols="50" rows="10" name="mscr_options[html_fields]"><?php echo $html_fields; ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_html_fields" cols="50" rows="5" name="mscr_options[html_fields]"><?php echo $html_fields; ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
@@ -88,7 +88,7 @@
 							<p><label for="mscr_json_fields">
 								Define fields that contain JSON data and should be treated as such.
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_json_fields" cols="50" rows="10" name="mscr_options[json_fields]"><?php echo $json_fields; ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_json_fields" cols="50" rows="5" name="mscr_options[json_fields]"><?php echo $json_fields; ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
