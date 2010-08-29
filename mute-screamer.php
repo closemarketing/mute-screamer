@@ -254,13 +254,25 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		public static function activate() {
 			global $wpdb;
+			$default_exceptions = array(
+				'REQUEST.permalink_structure',
+				'POST.permalink_structure',
+				'REQUEST.selection',
+				'POST.selection',
+				'REQUEST.content',
+				'POST.content',
+				'REQUEST.__utmz',
+				'COOKIE.__utmz',
+				'REQUEST.s_pers',
+				'COOKIE.s_pers'
+			);
 
 			// Default options
 			$options = array(
 				'email_threshold' => 10,
 				'email_notifications' => FALSE,
 				'email' => get_option('admin_email'),
-				'exception_fields' => array( 'REQUEST.content', 'POST.content', 'REQUEST.__utmz', 'COOKIE.__utmz', 'REQUEST.s_pers', 'COOKIE.s_pers' ),
+				'exception_fields' => $default_exceptions,
 				'html_fields' => array(),
 				'json_fields' => array(),
 				'new_intrusions_count' => 0
