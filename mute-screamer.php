@@ -139,6 +139,11 @@ if( !class_exists('Mute_screamer')) {
 		 * Run PHPIDS
 		 */
 		public function run() {
+			// Are we running in the WordPress admin?
+			if( is_admin() AND $this->enable_admin == FALSE ) {
+				return;
+			}
+
 		    $request = array(
 		        'REQUEST' => $_REQUEST,
 		        'GET' => $_GET,
@@ -230,7 +235,7 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		private function init_options() {
 			$options = get_option( 'mscr_options' );
-			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields', 'new_intrusions_count' ) as $key ) {
+			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields', 'new_intrusions_count', 'enable_admin' ) as $key ) {
 				$this->$key = isset( $options[$key] ) ? $options[$key] : FALSE;
 			}
 		}
@@ -275,7 +280,8 @@ if( !class_exists('Mute_screamer')) {
 				'exception_fields' => $default_exceptions,
 				'html_fields' => array(),
 				'json_fields' => array(),
-				'new_intrusions_count' => 0
+				'new_intrusions_count' => 0,
+				'enable_admin' => 1
 			);
 
 			// Attack attempts database table

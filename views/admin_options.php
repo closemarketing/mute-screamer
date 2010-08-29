@@ -10,6 +10,19 @@
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
+					<th scope="row">WordPress Admin</th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span>WordPress Admin</span></legend>
+							<label for="mscr_enable_admin">
+								<input type="checkbox" value="1" id="mscr_enable_admin" name="mscr_options[enable_admin]" <?php checked('1', $enable_admin); ?> />
+								Enable Mute Screamer for the WordPress admin
+							</label>
+						</fieldset>
+					</td>
+				</tr>
+
+				<tr valign="top">
 					<th scope="row"><label for="mscr_email">E-mail address </label></th>
 					<td>
 						<input type="text" class="regular-text" value="<?php echo $email; ?>" id="mscr_email" name="mscr_options[email]">

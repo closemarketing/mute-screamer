@@ -252,6 +252,8 @@ class Mscr_admin {
 		}
 
 		$options['email_notifications'] = isset($input['email_notifications']) ? 1 : 0;
+		$options['enable_admin'] = isset($input['enable_admin']) ? 1 : 0;
+
 		return $options;
 	}
 
