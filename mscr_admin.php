@@ -251,6 +251,10 @@ class Mscr_admin {
 			}
 		}
 
+		// Update the warning threshold
+		$options['warning_threshold'] = absint( $input['warning_threshold'] );
+
+		// Checkboxes
 		$options['email_notifications'] = isset($input['email_notifications']) ? 1 : 0;
 		$options['enable_admin'] = isset($input['enable_admin']) ? 1 : 0;
 

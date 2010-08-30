@@ -164,6 +164,8 @@ if( !class_exists('Mute_screamer')) {
 				if( $this->email_notifications ) {
 					$this->email();
 				}
+
+				$this->warning_page();
 			}
 		}
 
@@ -186,6 +188,52 @@ if( !class_exists('Mute_screamer')) {
 			$subject = sprintf(__('[%s] Mute Screamer IDS Alert'), $data['blogname']);
 
 			wp_mail( $this->email, $subject, $message );
+		}
+
+
+		/**
+		 * Display a warning page if the impact is over the warning threshold
+		 *
+		 * @return	void
+		 */
+		private function warning_page() {
+			if( $this->result->getImpact() < $this->warning_threshold ) {
+				return;
+			}
+
+			add_action( 'template_redirect', array($this, 'load_template') );
+		}
+
+
+		/**
+		 * Show a 500 error page if the template exists.
+		 * Otherwise show a 404 error or redirect to homepage.
+		 *
+		 * @return	void
+		 */
+		public function load_template( $template = '' ) {
+			$templates[] = "500.php";
+			$templates[] = "404.php";
+
+			$template = locate_template( $templates );
+
+			// Did we find a template? If not fail silently...
+			if( '' == $template )
+				exit;
+
+			if( '404.php' == basename($template) ) {
+				status_header( 404 );
+				nocache_headers();
+			} else if( '500.php' == basename($template) ) {
+				status_header( 500 );
+				nocache_headers();
+			} else {
+				wp_redirect( get_blog_info('url') );
+				exit;
+			}
+
+			load_template( $template );
+			exit;
 		}
 
 
@@ -235,7 +283,7 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		private function init_options() {
 			$options = get_option( 'mscr_options' );
-			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields', 'new_intrusions_count', 'enable_admin' ) as $key ) {
+			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields', 'new_intrusions_count', 'enable_admin', 'warning_threshold' ) as $key ) {
 				$this->$key = isset( $options[$key] ) ? $options[$key] : FALSE;
 			}
 		}
@@ -281,7 +329,8 @@ if( !class_exists('Mute_screamer')) {
 				'html_fields' => array(),
 				'json_fields' => array(),
 				'new_intrusions_count' => 0,
-				'enable_admin' => 1
+				'enable_admin' => 1,
+				'warning_threshold' => 40
 			);
 
 			// Attack attempts database table

@@ -7,6 +7,7 @@
 	<form action="options.php" method="post">
 		<?php settings_fields('mscr_options'); ?>
 
+		<h3>General Settings</h3>
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
@@ -21,11 +22,16 @@
 						</fieldset>
 					</td>
 				</tr>
+			</tbody>
+		</table>
 
+		<h3>Email</h3>
+		<table class="form-table">
+			<tbody>
 				<tr valign="top">
 					<th scope="row"><label for="mscr_email">E-mail address </label></th>
 					<td>
-						<input type="text" class="regular-text" value="<?php echo $email; ?>" id="mscr_email" name="mscr_options[email]">
+						<input type="text" class="regular-text" value="<?php echo $email; ?>" id="mscr_email" name="mscr_options[email]" />
 						<span class="description">This address is used to send intrusion alerts.</span>
 					</td>
 				</tr>
@@ -50,7 +56,28 @@
 						<span class="description">Minimum impact to send an alert email.</span>
 					</td>
 				</tr>
+			</tbody>
+		</table>
 
+		<h3>Warning Page</h3>
+		<p>To setup a warning page you will need to create a template named 500.php for your theme.</p>
+		<p>You can find an example 500.php template based on <a href="http://wordpress.org/extend/themes/twentyten">TwentyTen</a> supplied with Mute Screamer in <?php echo WP_PLUGIN_DIR; ?>/mute-screamer/templates/500.php</p>
+		<p>If a 500.php template can't be found then Mute Screamer will try 404.php and if that fails it will redirect to the homepage.</p>
+		<table class="form-table">
+			<tbody>
+				<tr valign="top">
+					<th scope="row"><label for="mscr_warning_threshold">Warning threshold</label></th>
+					<td>
+						<input type="text" class="small-text" value="<?php echo $warning_threshold; ?>" id="mscr_warning_threshold" name="mscr_options[warning_threshold]" />
+						<span class="description">Minimum impact to show warning page.</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h3>Exceptions</h3>
+		<table class="form-table">
+			<tbody>
 				<tr valign="top">
 					<th scope="row">Exception fields</th>
 					<td>
