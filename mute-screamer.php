@@ -324,6 +324,7 @@ if( !class_exists('Mute_screamer')) {
 
 			// Default options
 			$options = array(
+				'db_version' => 1,
 				'email_threshold' => 10,
 				'email_notifications' => FALSE,
 				'email' => get_option('admin_email'),
