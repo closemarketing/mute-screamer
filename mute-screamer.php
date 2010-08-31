@@ -94,6 +94,7 @@ if( !class_exists('Mute_screamer')) {
 		private function init() {
 			$this->init_options();
 
+			// Are we in the WP Admin?
 			if( is_admin() ) {
 				require_once 'mscr_admin.php';
 				new Mscr_admin();
@@ -307,6 +308,7 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		public static function activate() {
 			global $wpdb;
+
 			$default_exceptions = array(
 				'REQUEST.permalink_structure',
 				'POST.permalink_structure',
@@ -361,13 +363,13 @@ if( !class_exists('Mute_screamer')) {
 
 
 		/**
-		 * Remove user meta on deactivation
+		 * Clean up on deactivation
 		 *
 		 * @return	void
 		 */
 		public static function deactivate() {
 			global $wpdb;
-			$wpdb->query("DELETE FROM `{$wpdb->usermeta}` WHERE meta_key = 'mscr_intrusions_per_page'");
+			$wpdb->query( "DELETE FROM `{$wpdb->usermeta}` WHERE meta_key = 'mscr_intrusions_per_page'" );
 		}
 
 
