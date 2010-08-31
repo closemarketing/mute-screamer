@@ -251,7 +251,8 @@ class Mscr_admin {
 			}
 		}
 
-		// Update the warning threshold
+		// Warnings
+		$options['warning_wp_admin'] = isset($input['warning_wp_admin']) ? 1 : 0;
 		$options['warning_threshold'] = absint( $input['warning_threshold'] );
 
 		// Checkboxes

@@ -61,10 +61,23 @@
 
 		<h3>Warning Page</h3>
 		<p>To setup a warning page you will need to create a template named 500.php for your theme.</p>
-		<p>You can find an example 500.php template based on <a href="http://wordpress.org/extend/themes/twentyten">TwentyTen</a> supplied with Mute Screamer in <?php echo WP_PLUGIN_DIR; ?>/mute-screamer/templates/500.php</p>
-		<p>If a 500.php template can't be found then Mute Screamer will try 404.php and if that fails it will redirect to the homepage.</p>
+		<p>You can find an example 500.php template based on <a href="http://wordpress.org/extend/themes/twentyten">TwentyTen</a> in <?php echo WP_PLUGIN_DIR; ?>/mute-screamer/templates/500.php</p>
+		<p>If a 500.php template can't be found then 404.php is used, and if that fails it will redirect to the homepage.</p>
 		<table class="form-table">
 			<tbody>
+				<tr valign="top">
+					<th scope="row">WordPress admin warning</th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span>WordPress admin warning</span></legend>
+							<label for="mscr_warning_wp_admin">
+								<input type="checkbox" value="1" id="mscr_warning_wp_admin" name="mscr_options[warning_wp_admin]" <?php checked('1', $warning_wp_admin); ?> />
+								End the user's session for requests in the WordPress admin
+							</label>
+						</fieldset>
+					</td>
+				</tr>
+
 				<tr valign="top">
 					<th scope="row"><label for="mscr_warning_threshold">Warning threshold</label></th>
 					<td>

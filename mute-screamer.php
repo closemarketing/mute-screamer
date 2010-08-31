@@ -194,6 +194,7 @@ if( !class_exists('Mute_screamer')) {
 
 		/**
 		 * Display a warning page if the impact is over the warning threshold
+		 * If the request was in WP Admin logout the current user.
 		 *
 		 * @return	void
 		 */
@@ -202,6 +203,14 @@ if( !class_exists('Mute_screamer')) {
 				return;
 			}
 
+			// End user's session if they are in the wp admin
+			if( is_admin() AND $this->warning_wp_admin == TRUE ) {
+				wp_logout();
+				wp_safe_redirect( '/wp-login.php?loggedout=true' );
+				exit;
+			}
+
+			// Load custom error page
 			add_action( 'template_redirect', array($this, 'load_template') );
 		}
 
@@ -284,7 +293,7 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		private function init_options() {
 			$options = get_option( 'mscr_options' );
-			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields', 'new_intrusions_count', 'enable_admin', 'warning_threshold' ) as $key ) {
+			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields', 'new_intrusions_count', 'enable_admin', 'warning_threshold', 'warning_wp_admin' ) as $key ) {
 				$this->$key = isset( $options[$key] ) ? $options[$key] : FALSE;
 			}
 		}
@@ -333,7 +342,8 @@ if( !class_exists('Mute_screamer')) {
 				'json_fields' => array(),
 				'new_intrusions_count' => 0,
 				'enable_admin' => 1,
-				'warning_threshold' => 40
+				'warning_threshold' => 40,
+				'warning_wp_admin' => 0
 			);
 
 			// Attack attempts database table
