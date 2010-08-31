@@ -396,6 +396,6 @@ if( !class_exists('Mute_screamer')) {
 		register_deactivation_hook( __FILE__, 'Mute_screamer::deactivate' );
 		register_uninstall_hook( __FILE__, 'Mute_screamer::uninstall' );
 
-		add_action( 'plugins_loaded', create_function('','new Mute_screamer();') );
+		add_action( 'init', create_function('','new Mute_screamer();') );
 	}
 }
