@@ -224,6 +224,7 @@ if( !class_exists('Mute_screamer')) {
 		public function load_template( $template = '' ) {
 			$templates[] = "500.php";
 			$templates[] = "404.php";
+			$templates[] = "index.php";
 
 			$template = locate_template( $templates );
 
@@ -238,7 +239,7 @@ if( !class_exists('Mute_screamer')) {
 				status_header( 500 );
 				nocache_headers();
 			} else {
-				wp_redirect( get_blog_info('url') );
+				wp_redirect( get_bloginfo('url') );
 				exit;
 			}
 
