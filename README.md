@@ -18,4 +18,6 @@
 * View attack logs. Go to WP-Admin -> Dashboard -> Intrusions
 * Send alert emails
 * Configure PHPIDS exceptions, html and json fields
+* Display a warning page
+* Log users out of WP Admin
 * Removes all options and database tables when deleted via the Plugins admin page
