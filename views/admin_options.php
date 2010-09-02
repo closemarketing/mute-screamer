@@ -72,7 +72,7 @@
 							<legend class="screen-reader-text"><span>WordPress admin warning</span></legend>
 							<label for="mscr_warning_wp_admin">
 								<input type="checkbox" value="1" id="mscr_warning_wp_admin" name="mscr_options[warning_wp_admin]" <?php checked('1', $warning_wp_admin); ?> />
-								End the user's session for requests in the WordPress admin
+								Log user out of the WordPress admin
 							</label>
 						</fieldset>
 					</td>
