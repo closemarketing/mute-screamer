@@ -8,11 +8,6 @@ class Mscr_admin {
 	 * Constructor
 	 */
 	public function __construct() {
-		// Reset new instrusions badge for admin menu
-		// Must be called before register_setting
-		if( isset( $_GET['page'] ) && $_GET['page'] == 'mscr_intrusions' )
-			Mute_screamer::instance()->set_option( 'new_intrusions_count', 0 );
-
 		add_action( 'admin_init', array($this, 'admin_init') );
 		add_action( 'admin_menu', array($this, 'admin_menu') );
 		add_filter( 'screen_settings', array($this, 'screen_settings'), 10, 2 );
@@ -26,10 +21,20 @@ class Mscr_admin {
 	 * @return	void
 	 */
 	public function admin_init() {
+		// Are we on Mute Screamer's intrusions page?
+		if( $this->page() == 'mscr_intrusions' ) {
+			// Handle bulk actions
+			$this->do_action();
+
+			// Reset new instrusions badge for admin menu
+			// Must be called before register_setting
+			Mute_screamer::instance()->set_option( 'new_intrusions_count', 0 );
+			return;
+		}
+
 		// Once a setting is registered adding/updating options
 		// will run options_validate, which we may not want in all cases
 		register_setting( 'mscr_options', 'mscr_options', array($this, 'options_validate') );
-		$this->do_action();
 	}
 
 
@@ -276,5 +281,15 @@ class Mscr_admin {
 		$options['json_fields'] = implode("\r\n", $options['json_fields']);
 
 		MSCR_Utils::view('admin_options', $options);
+	}
+
+
+	/**
+	 * Retrieve the admin page variable
+	 *
+	 * @return	string|bool
+	 */
+	private function page() {
+		return isset( $_GET['page'] ) ? $_GET['page'] : FALSE;
 	}
 }
