@@ -294,7 +294,20 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		private function init_options() {
 			$options = get_option( 'mscr_options' );
-			foreach( array('email', 'email_notifications', 'email_threshold', 'exception_fields', 'html_fields', 'json_fields', 'new_intrusions_count', 'enable_admin', 'warning_threshold', 'warning_wp_admin' ) as $key ) {
+			$default_options = array(
+				'email',
+				'email_notifications',
+				'email_threshold',
+				'exception_fields',
+				'html_fields',
+				'json_fields',
+				'new_intrusions_count',
+				'enable_admin',
+				'warning_threshold',
+				'warning_wp_admin'
+			);
+
+			foreach( $default_options as $key ) {
 				$this->$key = isset( $options[$key] ) ? $options[$key] : FALSE;
 			}
 		}
