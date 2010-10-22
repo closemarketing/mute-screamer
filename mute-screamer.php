@@ -96,6 +96,7 @@ if( !class_exists('Mute_screamer')) {
 
 			// Are we in the WP Admin?
 			if( is_admin() ) {
+				require_once 'mscr/Update.php';
 				require_once 'mscr_admin.php';
 				new Mscr_admin();
 			}

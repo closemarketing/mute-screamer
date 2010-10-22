@@ -12,6 +12,15 @@ class Mscr_admin {
 		add_action( 'admin_menu', array($this, 'admin_menu') );
 		add_filter( 'screen_settings', array($this, 'screen_settings'), 10, 2 );
 		add_filter( 'set-screen-option', array($this, 'set_screen_option'), 10, 3 );
+
+		// Run update routines
+		// TODO: Don't check for updates will on update-core.php
+		$update = MSCR_Update::instance();
+		$update->update_check();
+
+		// Update core actions, displays Mute Screamer updates in the Wordpress update admin page
+		add_action( 'load-update-core.php', array($update, 'load_update_core') );
+		add_action( 'core_upgrade_preamble', array($update, 'list_mscr_updates') );
 	}
 
 
@@ -273,8 +282,11 @@ class Mscr_admin {
 	 *
 	 * @return	void
 	 */
-	public function options()
-	{
+	public function options() {
+		//$url = 'options-general.php?page=mscr_options&action=update_phpids';
+		//request_filesystem_credentials($url, '', true, ABSPATH);
+		//return;
+
 		$options = get_option( 'mscr_options' );
 		$options['exception_fields'] = implode("\r\n", $options['exception_fields']);
 		$options['html_fields'] = implode("\r\n", $options['html_fields']);
