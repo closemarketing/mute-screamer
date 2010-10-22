@@ -296,6 +296,7 @@ if( !class_exists('Mute_screamer')) {
 		private function init_options() {
 			$options = get_option( 'mscr_options' );
 			$default_options = array(
+				'db_version',
 				'email',
 				'email_notifications',
 				'email_threshold',
@@ -416,7 +417,7 @@ if( !class_exists('Mute_screamer')) {
 	}
 
 	// Register activation, deactivation and uninstall hooks,
-	// start Mute Screamer once all plugins are loaded
+	// run Mute Screamer on init
 	if( !defined('WP_UNINSTALL_PLUGIN') ) {
 		register_activation_hook( __FILE__, 'Mute_screamer::activate' );
 		register_deactivation_hook( __FILE__, 'Mute_screamer::deactivate' );
