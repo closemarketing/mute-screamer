@@ -205,22 +205,19 @@ class MSCR_Update {
 	/**
 	 * A hook to use
 	 */
-	public static function load_update_core() {}
+	public function load_update_core() {}
 
 	/**
 	 * Display update notices on the update page
 	 */
-	public static function list_mscr_updates() {
-		$updates = self::updates();
-
-		if( ! $updates ) {
+	public function list_mscr_updates() {
+		if( empty( $this->updates['updates'] ) ) {
 			echo '<h3>' . __( 'Mute Screamer' ) . '</h3>';
 			echo '<p>' . __( 'Is up to date.' ) . '</p>';
 			return;
 		}
-	}
 
-	public static function updates() {
-		return FALSE;
+		// TODO: Fix revision number
+		MSCR_Utils::view( 'admin_update', array( 'files' => $this->updates['updates'] ) );
 	}
 }
