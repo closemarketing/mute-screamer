@@ -150,8 +150,45 @@ class Mscr_admin {
 		$intrusions_menu_title = sprintf( __('Intrusions %s'), "<span class='update-plugins count-$intrusion_count' title='$intrusion_count'><span class='update-count'>" . number_format_i18n($intrusion_count) . "</span></span>" );
 		add_dashboard_page( __('Mute Screamer Intrusions'), $intrusions_menu_title, 'activate_plugins', 'mscr_intrusions', array($this, 'intrusions') );
 		add_options_page( __('Mute Screamer Configuration'), __('Mute Screamer'), 'activate_plugins', 'mscr_options', array($this, 'options') );
+
+		// Modify the Dashboard menu updates count
+		$this->set_update_badge();
 	}
 
+	/**
+	 * Change the updates badge in the Dashboard menu
+	 * if there are updates available for Mute Screamer
+	 *
+	 * @return	void
+	 */
+	private function set_update_badge() {
+		global $submenu;
+		$updates = get_site_transient( 'mscr_update' );
+
+		if( $updates === FALSE OR empty( $updates['updates'] ) )
+			return;
+
+		if( ! isset( $submenu['index.php'] ) )
+			return;
+
+		$update_count = count( $updates );
+		$existing_count = 0;
+
+		// Find the update-core submenu
+		foreach( $submenu['index.php'] as &$item ) {
+			if( isset( $item[2] ) && $item[2] == 'update-core.php' ) {
+				// Is there already an update badge? Get existing update count
+				if( strpos( $item[0], '<span' ) !== FALSE ) {
+					$existing_count = preg_replace('/.+?<span\b[^>]*><span\b[^>]*>(\d+)<\/span><\/span>/', '$1', $item[0]);
+				}
+
+				$update_count += (int) $existing_count;
+				$update_title = sprintf(_n('%d Update', '%d Updates', $update_count), $update_count);
+				$item[0] = sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>");
+				break;
+			}
+		}
+	}
 
 	/**
 	 * Display PHPIDS Intrusions
