@@ -87,8 +87,11 @@ class MSCR_Update {
 			}
 
 			// Does the sha1 differ?
-			if( ! $this->sha1_check() )
+			if( ! $this->sha1_check() ) {
+				// File doesn't need updating remove from update array
+				unset( $this->updates['updates'][$file] );
 				continue;
+			}
 
 			// Simple XML elements can't be serialized so cast them to strings
 			$details = $this->updates['updates'][$this->file];
