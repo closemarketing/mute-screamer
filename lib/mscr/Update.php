@@ -100,7 +100,7 @@ class MSCR_Update {
 			$details->revision = preg_replace('/Revision (\d+).+/si', '$1', $rss->channel->item->title);
 			$details->date = (string) $rss->channel->item->pubDate;
 			$details->revision_url = (string) $rss->channel->item->guid;
-			$details->revision_file_url = "https://trac.php-ids.org/index.fcgi/export/{$details->revision}/trunk/lib/IDS/default_filter.xml";
+			$details->revision_file_url = "https://trac.php-ids.org/index.fcgi/export/{$details->revision}/trunk/lib/IDS/{$this->file}";
 
 			// Did we parse the revision number correctly?
 			if( ! ctype_digit( $details->revision ) ) {
