@@ -176,6 +176,13 @@ class MSCR_Update {
 	 * @return	array
 	 */
 	private function remote_get( $url = '', $options = array() ) {
+		$cache = get_site_transient( 'mscr_requests_cache' );
+
+		// Is it in the cache?
+		$hash = md5( $url );
+		if( isset( $cache[$hash] ) )
+			return $cache[$hash];
+
 		// Default options
 		if( empty( $options ) ) {
 			$options = array( 'sslverify' => FALSE );
@@ -188,6 +195,12 @@ class MSCR_Update {
 
 		if( 200 != $response['response']['code'] )
 			return array( 'body' => '' );
+
+		if( ! is_array( $cache ) )
+			$cache = array();
+
+		$cache[$hash] = $response;
+		set_site_transient( 'mscr_requests_cache', $cache, $this->timeout );
 
 		return $response;
 	}
