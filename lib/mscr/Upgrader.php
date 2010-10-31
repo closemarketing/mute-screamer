@@ -77,7 +77,7 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 			$this->maintenance_mode( false );
 
 			show_message( __('Mute Screamer updated successfully') );
-			show_message( '<a target="_parent" href="' . esc_url( self_admin_url() ) . '">' . __('Go to Dashboard') . '</a>' );
+			show_message( '<a target="_parent" href="' . esc_url( admin_url() ) . '">' . __('Go to Dashboard') . '</a>' );
 			return true;
 		}
 
