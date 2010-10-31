@@ -14,7 +14,10 @@ class Mscr_admin {
 		add_filter( 'set-screen-option', array($this, 'set_screen_option'), 10, 3 );
 
 		// Run update routines
-		// TODO: Don't check for updates will on update-core.php
+		// TODO: Don't check for updates while viewing update-core.php
+		// TODO: Don't check for updates on wp-login.php, this happens when you request
+		// TODO: an admin page but are not logged in and then redirected to wp-login.php
+		// TODO: Don't check for updates during the update process
 		$update = MSCR_Update::instance();
 		$update->update_check();
 
