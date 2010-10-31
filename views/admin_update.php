@@ -2,7 +2,7 @@
 
 <h3><?php _e( 'Mute Screamer' ); ?></h3>
 <p><?php _e( 'The following files have new versions available. Check the ones you want to update and then click &#8220;Update Mute Screamer&#8221;.' ); ?></p>
-<form method="post" action="<?php echo ''; ?>" name="upgrade-mute-screamer" class="upgrade">
+<form method="post" action="update.php?action=mscr_upgrade_diff" name="upgrade-mute-screamer" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
 <p><input id="upgrade-mute-screamer" class="button" type="submit" value="<?php esc_attr_e('Update Mute Screamer'); ?>" name="upgrade" /></p>
 <table class="widefat" cellspacing="0" id="update-mute-screamer-table">

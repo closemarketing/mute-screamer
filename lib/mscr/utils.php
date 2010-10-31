@@ -149,4 +149,57 @@ class MSCR_Utils {
 		self::$ip = $ip;
 		return $ip;
 	}
+
+	/**
+	 * Text diff. This is the same as wp_text_diff, the only
+	 * difference is we use a custom text diff render class.
+	 *
+	 * @param	string the left file to compare
+	 * @param	string the right file to compare
+	 * @return	string Rendered table of diff files
+	 */
+	public static function text_diff( $left_string, $right_string, $args = null ) {
+		$defaults = array( 'title' => '', 'title_left' => '', 'title_right' => '' );
+		$args = wp_parse_args( $args, $defaults );
+
+		if ( ! class_exists( 'WP_Text_Diff_Renderer_Table' ) )
+			require( ABSPATH . WPINC . '/wp-diff.php' );
+
+		if ( ! class_exists( 'MSCR_Text_Diff_Renderer_Table' ) )
+			require( 'mscr/Text_Diff_Render.php' );
+
+		$left_string  = normalize_whitespace($left_string);
+		$right_string = normalize_whitespace($right_string);
+
+		$left_lines  = split("\n", $left_string);
+		$right_lines = split("\n", $right_string);
+
+		$text_diff = new Text_Diff($left_lines, $right_lines);
+		$renderer  = new MSCR_Text_Diff_Renderer_Table();
+		$diff = $renderer->render($text_diff);
+
+		if ( !$diff )
+			return '';
+
+		$r  = "<table class='diff'>\n";
+		$r .= "<col class='ltype' /><col class='content' /><col class='ltype' /><col class='content' />";
+
+		if ( $args['title'] || $args['title_left'] || $args['title_right'] )
+			$r .= "<thead>";
+		if ( $args['title'] )
+			$r .= "<tr class='diff-title'><th colspan='4'>$args[title]</th></tr>\n";
+		if ( $args['title_left'] || $args['title_right'] ) {
+			$r .= "<tr class='diff-sub-title'>\n";
+			$r .= "\t<td></td><th>$args[title_left]</th>\n";
+			$r .= "\t<td></td><th>$args[title_right]</th>\n";
+			$r .= "</tr>\n";
+		}
+		if ( $args['title'] || $args['title_left'] || $args['title_right'] )
+			$r .= "</thead>\n";
+
+		$r .= "<tbody>\n$diff\n</tbody>\n";
+		$r .= "</table>";
+
+		return $r;
+	}
 }

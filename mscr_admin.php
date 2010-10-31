@@ -18,9 +18,14 @@ class Mscr_admin {
 		$update = MSCR_Update::instance();
 		$update->update_check();
 
-		// Update core actions, displays Mute Screamer updates in the Wordpress update admin page
-		add_action( 'load-update-core.php', array($update, 'load_update_core') );
-		add_action( 'core_upgrade_preamble', array($update, 'list_mscr_updates') );
+		// Update core actions
+		// add_action( 'load-update-core.php', array($update, 'load_update_core') );
+
+		// Display Mute Screamer updates in the Wordpress update admin page
+		add_action( 'core_upgrade_preamble', array( $update, 'list_mscr_updates' ) );
+
+		// Update Mute Screamer action
+		add_action( 'update-custom_mscr_upgrade_diff', array( $update, 'do_upgrade_diff' ) );
 	}
 
 
@@ -40,6 +45,9 @@ class Mscr_admin {
 			Mute_screamer::instance()->set_option( 'new_intrusions_count', 0 );
 			return;
 		}
+
+		// Add admin CSS
+		wp_enqueue_style( 'mscr_styles', WP_PLUGIN_URL . '/mute-screamer/css/mscr.css', array(), Mute_screamer::VERSION );
 
 		// Once a setting is registered adding/updating options
 		// will run options_validate, which we may not want in all cases

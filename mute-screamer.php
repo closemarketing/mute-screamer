@@ -61,6 +61,7 @@ if( !class_exists('Mute_screamer')) {
 	 */
 	class Mute_screamer {
 		const INTRUSIONS_TABLE 			= 'mscr_intrusions';
+		const VERSION		 			= '0.32';
 		private static $instance 		= NULL;
 		private $email 					= '';
 		private $email_notifications 	= '';

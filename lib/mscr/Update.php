@@ -236,4 +236,83 @@ class MSCR_Update {
 		// TODO: Fix revision number
 		MSCR_Utils::view( 'admin_update', array( 'files' => $this->updates['updates'] ) );
 	}
+
+	/**
+	 * Display diff of files to be upgraded
+	 */
+	public function do_upgrade_diff() {
+		$diff_files = array();
+
+		if ( ! current_user_can('update_plugins') )
+			wp_die(__('You do not have sufficient permissions to update Mute Screamer for this site.'));
+
+		check_admin_referer('upgrade-core');
+
+		// TODO: Utils POST, GET, COOKIE
+		// $files = MSRC_Utils::post( 'checked' );
+
+		$files = array();
+		if( isset( $_POST['checked'] ) ) {
+			$files = (array) $_POST['checked'];
+		}
+
+		// Valid files to upgrade?
+		foreach( $files as $file ) {
+			if( ! isset( $this->updates['updates'][$file]))
+				continue;
+
+			// Get local file
+			$local = MSCR_PATH.'/lib/IDS/'.$file;
+
+			if( ! file_exists( $local ) ) {
+				wp_die( new WP_Error( 'mscr_upgrade_file_missing', esc_html($file).' does not exist.' ) );
+			}
+
+			if( ! @is_readable( $local ) ) {
+				wp_die( new WP_Error( 'mscr_upgrade_file_read_error', 'Can not read file '.esc_html($file).'.' ) );
+			}
+
+			$local = file_get_contents( $local );
+
+			// Fetch remote file
+			$remote = $this->remote_get( $this->updates['updates'][$file]->revision_file_url );
+
+			if( $remote['body'] == '' )
+				wp_die( new WP_Error( 'mscr_upgrade_error', 'Could not connect to phpids.org, please try again later.' ) );
+
+			$remote = $remote['body'];
+
+			$diff_files[$file] = new stdClass;
+			$diff_files[$file]->name = $file;
+			$diff_files[$file]->diff = MSCR_Utils::text_diff( $local, $remote );
+		}
+
+		if( empty( $diff_files ) )
+			wp_die( new WP_Error( 'mscr_upgrade_error', 'No files to update.' ) );
+
+		$url = 'update.php?action=mscr_upgrade_run&files=' . urlencode(implode(',', $files));
+		$url = wp_nonce_url($url, 'bulk-update-mscr');
+
+		$this->admin_header( __('Update Mute Screamer') );
+
+		$data['url'] = $url;
+		$data['diff_files'] = $diff_files;
+
+		MSCR_Utils::view( 'admin_update_diff', $data );
+	}
+
+	/**
+	 * Admin header, because we are firing our own action
+	 * in /wp-admin/update.php which does not set this up
+	 * for us.
+	 *
+	 * @param string title
+	 * @return void
+	 */
+	private function admin_header( $title ) {
+		// Admin header requires these variables to be in scope
+		// TODO: Test for multisite variables that need to be in scope
+		global $hook_suffix, $pagenow, $is_iphone, $current_screen, $user_identity, $wp_locale;
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
+	}
 }
