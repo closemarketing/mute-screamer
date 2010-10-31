@@ -202,4 +202,48 @@ class MSCR_Utils {
 
 		return $r;
 	}
+
+	/**
+	 * Fetch item from the GET array
+	 *
+	 * @param	string
+	 * @return	string|bool
+	 */
+	public static function get( $index = '' ) {
+		return self::_fetch_from_array( $_GET, $index );
+	}
+
+	/**
+	 * Fetch item from the POST array
+	 *
+	 * @param	string
+	 * @return	string|bool
+	 */
+	public static function post( $index = '' ) {
+		return self::_fetch_from_array( $_POST, $index );
+	}
+
+	/**
+	 * Fetch item from the SERVER array
+	 *
+	 * @param	string
+	 * @return	string|bool
+	 */
+	public static function server( $index = '' ) {
+		return self::_fetch_from_array( $_SERVER, $index );
+	}
+
+	/**
+	 * Fetch items from global arrays
+	 *
+	 * @param	array
+	 * @param	string
+	 * @return	string|bool
+	 */
+	private static function _fetch_from_array( $array, $index = '' ) {
+		if( ! isset( $array[$index] ) )
+			return false;
+
+		return $array[$index];
+	}
 }
