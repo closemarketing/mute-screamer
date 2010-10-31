@@ -248,13 +248,7 @@ class MSCR_Update {
 
 		check_admin_referer('upgrade-core');
 
-		// TODO: Utils POST, GET, COOKIE
-		// $files = MSRC_Utils::post( 'checked' );
-
-		$files = array();
-		if( isset( $_POST['checked'] ) ) {
-			$files = (array) $_POST['checked'];
-		}
+		$files = (array) MSCR_Utils::post( 'checked' );
 
 		// Valid files to upgrade?
 		foreach( $files as $file ) {

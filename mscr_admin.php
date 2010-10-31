@@ -36,12 +36,12 @@ class Mscr_admin {
 	 */
 	public function admin_init() {
 		// Are we on Mute Screamer's intrusions page?
-		if( $this->page() == 'mscr_intrusions' ) {
+		if( MSCR_Utils::get( 'page' ) == 'mscr_intrusions' ) {
 			// Handle bulk actions
 			$this->do_action();
 
 			// Reset new instrusions badge for admin menu
-			// Must be called before register_setting
+			// Must be called before register_setting, becuase it updates options
 			Mute_screamer::instance()->set_option( 'new_intrusions_count', 0 );
 			return;
 		}
@@ -338,15 +338,5 @@ class Mscr_admin {
 		$options['json_fields'] = implode("\r\n", $options['json_fields']);
 
 		MSCR_Utils::view('admin_options', $options);
-	}
-
-
-	/**
-	 * Retrieve the admin page variable
-	 *
-	 * @return	string|bool
-	 */
-	private function page() {
-		return isset( $_GET['page'] ) ? $_GET['page'] : FALSE;
 	}
 }
