@@ -309,4 +309,69 @@ class MSCR_Update {
 		global $hook_suffix, $pagenow, $is_iphone, $current_screen, $user_identity, $wp_locale;
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
 	}
+
+	/**
+	 * Display upgrade page, setup the iframe to run the upgrade
+	 */
+	public function do_upgrade() {
+		if ( ! current_user_can( 'update_plugins' ) )
+			wp_die( __( 'You do not have sufficient permissions to update Mute Screamer for this site.' ) );
+
+		check_admin_referer( 'mscr-upgrade-diff' );
+
+
+		$url = MSCR_Utils::post( 'url' );
+
+		$this->admin_header( __('Update Mute Screamer') );
+
+		echo '<div class="wrap">';
+		screen_icon('plugins');
+		echo '<h2>' . esc_html__('Update Mute Screamer') . '</h2>';
+		echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
+		echo '</div>';
+	}
+
+	/**
+	 * This is in an iframe
+	 */
+	public function do_upgrade_run() {
+		$upgrade_files = array(
+			'default_filter.xml',
+			'Converter.php'
+		);
+		$files = MSCR_Utils::get( 'files' );
+		$files = explode( ',', $files );
+
+		if ( ! current_user_can( 'update_plugins' ) )
+			wp_die( __( 'You do not have sufficient permissions to update Mute Screamer for this site.' ) );
+
+		check_admin_referer( 'bulk-update-mscr' );
+
+		// Valid files to upgrade?
+		foreach( $files as $key => $val ) {
+			if( ! in_array( $val, $upgrade_files ) )
+				wp_die( __( esc_html($val)." can't be upgraded." ) );
+
+			// Fetch file contents from cache
+			$files[$val] = $this->remote_get( $this->updates['updates'][$val]->revision_file_url );
+			unset( $files[$key] ); // Remove existing integer based index
+		}
+
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+		require_once 'mscr/Upgrader.php';
+		wp_enqueue_script('jquery');
+		iframe_header();
+
+		$upgrader = new MSCR_Upgrader();
+		$res = $upgrader->upgrade( $files );
+
+		// All good? Clear the update array, reset transients
+		if( $res ) {
+			$this->updates['updates'] = array();
+			set_site_transient( 'mscr_update', $this->updates, $this->timeout );
+			delete_site_transient( 'mscr_requests_cache' );
+		}
+
+		iframe_footer();
+	}
 }

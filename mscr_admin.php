@@ -26,6 +26,8 @@ class Mscr_admin {
 
 		// Update Mute Screamer action
 		add_action( 'update-custom_mscr_upgrade_diff', array( $update, 'do_upgrade_diff' ) );
+		add_action( 'update-custom_mscr_upgrade', array( $update, 'do_upgrade' ) );
+		add_action( 'update-custom_mscr_upgrade_run', array( $update, 'do_upgrade_run' ) );
 	}
 
 
