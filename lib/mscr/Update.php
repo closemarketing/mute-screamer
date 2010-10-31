@@ -8,13 +8,9 @@
  */
 class MSCR_Update {
 	public static $instance = NULL;
-	public $rules_file = 'default_filter.xml';
-	public $converter_file = 'Coverter.php';
-	public $rules_rss_url = 'https://trac.php-ids.org/index.fcgi/log/trunk/lib/IDS/default_filter.xml?limit=5&format=rss';
-	public $converter_rss_url = 'https://trac.php-ids.org/index.fcgi/log/trunk/lib/IDS/Converter.php?limit=5&format=rss';
-	private $updates = array(); // TODO: rename to update_cache
+	private $updates = array();
 	private $file = '';
-	private $timeout = 3600;
+	private $timeout = 86400;
 
 	/**
 	 * Constructor
@@ -39,26 +35,16 @@ class MSCR_Update {
 
 	/**
 	 * Check for updates to Converter.php and default_filter.xml
+	 * 1. does the sha1 differ from the local version?
+	 * 2. fetch the latest rss entry, get revision number, get file revision
+	 * 3. does the sha1 match the revision version of the file from rss?
+	 * 4. display update notice, with link to changeset
 	 *
 	 * @return	bool
 	 */
 	public function update_check() {
-		/*
-		 * Reference
-		 * wp_version_check() in wp-includes
-		 * wp-admin/update-core.php
-		 * wp-admin/update.php
-		 * wp-includes/update.php
-		 * class-http.php
-		 * http.php
-		 */
-
-		/*
-		 1. does the sha1 differ from the local version?
-		 2. fetch the latest rss entry, get revision number, get file revision
-		 3. does the sha1 match the revision version of the file from rss?
-		 4. display update notice, with link to changeset
-		 */
+		// TODO: Make this more efficient/responsive so it doesn't
+		// TODO: look like Wordpress is really slow
 
 		// Is it time to check for updates?
 		if( $this->updates !== FALSE )
@@ -219,11 +205,6 @@ class MSCR_Update {
 	}
 
 	/**
-	 * A hook to use
-	 */
-	public function load_update_core() {}
-
-	/**
 	 * Display update notices on the update page
 	 */
 	public function list_mscr_updates() {
@@ -233,7 +214,7 @@ class MSCR_Update {
 			return;
 		}
 
-		// TODO: Fix revision number
+		// TODO: Fix current revision number
 		MSCR_Utils::view( 'admin_update', array( 'files' => $this->updates['updates'] ) );
 	}
 
