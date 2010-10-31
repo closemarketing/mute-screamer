@@ -285,7 +285,7 @@ if( !class_exists('Mute_screamer')) {
 
 			$options[$key] = $val;
 			update_option( 'mscr_options', $options );
-			$this->init_options();
+			$this->$key = $val;
 		}
 
 
