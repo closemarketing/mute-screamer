@@ -25,7 +25,7 @@
 		echo "
 	<tr class='active'>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($file) . "' /></th>
-		<td class='plugin-title'><strong>{$file}</strong>" . sprintf(__('You have revision %1$s installed. Update to %2$s. <a href="%3$s">Review changeset</a>.'), 0, $file_data->revision, $file_data->revision_url) . "</td>
+		<td class='plugin-title'><strong>{$file}</strong>" . sprintf(__('Update to revision %1$s. <a href="%2$s">Review changeset</a>.'), $file_data->revision, $file_data->revision_url) . "</td>
 	</tr>";
 	}
 ?>
