@@ -23,3 +23,13 @@
 * Auto update default_filter.xml and Converter.php from phpids.org
 * Auto update will show a diff of changes to be applied
 * Removes all options and database tables when deleted via the Plugins admin page
+
+## Screen Shots ##
+
+![Intrusion logs](http://github.com/ampt/mute-screamer/raw/master/screenshot-1.png)
+
+Intrusion logs
+
+![Auto update diff confirmation](http://github.com/ampt/mute-screamer/raw/master/screenshot-2.png)
+
+Auto update diff
