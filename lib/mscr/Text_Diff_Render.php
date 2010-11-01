@@ -1,8 +1,98 @@
 <?php  if ( ! defined('ABSPATH') ) exit;
 
 class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
-	public $_leading_context_lines  = 5;
-	public $_trailing_context_lines = 5;
+	public $_leading_context_lines  = 3;
+	public $_trailing_context_lines = 3;
+
+	/**
+	 * @ignore
+	 *
+	 * @param string $line HTML-escape the value.
+	 * @return string
+	 */
+	function addedLine( $line ) {
+		return "<td class='diff-addedline'>+</td><td class='diff-addedline'>{$line}</td>";
+	}
+
+	/**
+	 * @ignore
+	 *
+	 * @param string $line HTML-escape the value.
+	 * @return string
+	 */
+	function deletedLine( $line ) {
+		return "<td class='diff-deletedline'>-</td><td class='diff-deletedline'>{$line}</td>";
+	}
+
+	/**
+	 * @ignore
+	 *
+	 * @param string $line HTML-escape the value.
+	 * @return string
+	 */
+	function contextLine( $line ) {
+		return "<td class='diff-context'> </td><td class='diff-context'>{$line}</td>";
+	}
+
+	/**
+	 * @ignore
+	 *
+	 * @param string $header
+	 * @return string
+	 */
+	function _startBlock( $header ) {
+		return '<tr><td colspan="2" class="start-block">&nbsp;' . $header . "</td></tr>\n";
+	}
+
+    function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    {
+        if ($xlen > 1) {
+            $xbeg .= ',' . ($xbeg + $xlen - 1);
+        }
+        if ($ylen > 1) {
+            $ybeg .= ',' . ($ybeg + $ylen - 1);
+        }
+
+        // this matches the GNU Diff behaviour
+        if ($xlen && !$ylen) {
+            $ybeg--;
+        } elseif (!$xlen) {
+            $xbeg--;
+        }
+
+        return $xbeg . ($xlen ? ($ylen ? 'c' : 'd') : 'a') . $ybeg;
+    }
+
+	/**
+	 * Render block
+	 *
+	 * @return string
+	 */
+    function _block( $xbeg, $xlen, $ybeg, $ylen, &$edits ) {
+        $output = $this->_startBlock($this->_blockHeader($xbeg, $xlen, $ybeg, $ylen));
+
+        foreach ($edits as $edit) {
+            switch (strtolower(get_class($edit))) {
+            case 'text_diff_op_copy':
+                $output .= $this->_context($edit->orig);
+                break;
+
+            case 'text_diff_op_add':
+                $output .= $this->_added($edit->final);
+                break;
+
+            case 'text_diff_op_delete':
+                $output .= $this->_deleted($edit->orig);
+                break;
+
+            case 'text_diff_op_change':
+                $output .= $this->_changed($edit->orig, $edit->final);
+                break;
+            }
+        }
+
+        return $output . $this->_endBlock();
+    }
 
 	/**
 	 * @ignore

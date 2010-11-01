@@ -28,16 +28,25 @@
 	padding: 0 0 1em 0;
 	background: #fff;
 }
+#mscr_diff div.mscr_diff_file div.data .form-table {
+	margin-top: 0;
+}
 #mscr_diff div.mscr_diff_file #revision-field-content td {
 	padding: 0;
-	line-height: 15px;
 }
 #mscr_diff div.mscr_diff_file #revision-field-content td div.pre {
 	padding: 0;
+	white-space: nowrap;
 }
-
+#mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff {
+	border-collapse: collapse;
+}
 #mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .diff-addedline,
 #mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .diff-deletedline,
 #mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .diff-context {
 	width: 100%;
+}
+#mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .start-block {
+	background: #e6eff2;
+	color: #908787;
 }
