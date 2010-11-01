@@ -262,8 +262,10 @@ class MSCR_Update {
 			$diff_files[$file]->diff = MSCR_Utils::text_diff( $local, $remote );
 		}
 
-		if( empty( $diff_files ) )
-			wp_die( new WP_Error( 'mscr_upgrade_error', 'No files to update.' ) );
+		if( empty( $diff_files ) ) {
+			wp_redirect( admin_url( 'update-core.php' ) );
+			exit;
+		}
 
 		$url = 'update.php?action=mscr_upgrade_run&files=' . urlencode(implode(',', $files));
 		$url = wp_nonce_url($url, 'bulk-update-mscr');
