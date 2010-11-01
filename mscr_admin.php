@@ -14,20 +14,13 @@ class Mscr_admin {
 		add_filter( 'set-screen-option', array($this, 'set_screen_option'), 10, 3 );
 
 		// Run update routines
-		// TODO: Don't check for updates while viewing update-core.php
-		// TODO: Don't check for updates on wp-login.php, this happens when you request
-		// TODO: an admin page but are not logged in and then redirected to wp-login.php
-		// TODO: Don't check for updates during the update process
 		$update = MSCR_Update::instance();
 		$update->update_check();
-
-		// Update core actions
-		// add_action( 'load-update-core.php', array($update, 'load_update_core') );
 
 		// Display Mute Screamer updates in the Wordpress update admin page
 		add_action( 'core_upgrade_preamble', array( $update, 'list_mscr_updates' ) );
 
-		// Update Mute Screamer action
+		// Update Mute Screamer actions
 		add_action( 'update-custom_mscr_upgrade_diff', array( $update, 'do_upgrade_diff' ) );
 		add_action( 'update-custom_mscr_upgrade', array( $update, 'do_upgrade' ) );
 		add_action( 'update-custom_mscr_upgrade_run', array( $update, 'do_upgrade_run' ) );

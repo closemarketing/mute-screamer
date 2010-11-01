@@ -46,6 +46,9 @@ class MSCR_Update {
 		// TODO: Make this more efficient/responsive so it doesn't
 		// TODO: look like Wordpress is really slow
 
+		if( !$this->can_update() )
+			return FALSE;
+
 		// Is it time to check for updates?
 		if( $this->updates !== FALSE )
 			return FALSE;
@@ -91,7 +94,6 @@ class MSCR_Update {
 			// Did we parse the revision number correctly?
 			if( ! ctype_digit( $details->revision ) ) {
 				$this->abort();
-				// wp_die( new WP_Error( 'revision_parse_failed', 'Mute Screamer could not parse the revision number.' ) );
 				return FALSE;
 			}
 		}
@@ -107,6 +109,30 @@ class MSCR_Update {
 		// TODO: If the sha1's are the same then we can run the update
 
 		set_site_transient( 'mscr_update', $this->updates, $this->timeout );
+	}
+
+
+	/**
+	 * Is it a good time to check for updates?
+	 *
+	 * @return	bool
+	 */
+	private function can_update() {
+		// Don't check for updates on wp-login.php, this happens when you request
+		// an admin page but are not logged in and then redirected to wp-login.php
+		if( FALSE === wp_validate_auth_cookie() )
+			return FALSE;
+
+		// Don't check for updates during the update process
+		$actions = array(
+			'mscr_upgrade_diff',
+			'mscr_upgrade',
+			'mscr_upgrade_run'
+		);
+		if( in_array( MSCR_Utils::get( 'action' ), $actions ) )
+			return FALSE;
+
+		return TRUE;
 	}
 
 	/**
