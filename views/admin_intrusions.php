@@ -102,10 +102,6 @@
 											echo $intrusion->impact;
 											break;
 
-										case 'origin':
-											echo $intrusion->origin;
-											break;
-
 										case 'date':
 											echo $intrusion->created;
 											break;

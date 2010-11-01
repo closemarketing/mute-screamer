@@ -249,7 +249,6 @@ class Mscr_admin {
 			'tags' => 'Tags',
 			'ip' => 'IP',
 			'impact' => 'Impact',
-			'origin' => 'Origin',
 			'date' => 'Date'
 		);
 		$columns = apply_filters('mscr_admin_intrusions_columns', $columns);
