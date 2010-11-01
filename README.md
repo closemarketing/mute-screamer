@@ -20,4 +20,6 @@
 * Configure PHPIDS exceptions, html and json fields
 * Display a warning page
 * Log users out of WP Admin
+* Auto update default_filter.xml and Converter.php from phpids.org
+* Auto update will show a diff of changes to be applied
 * Removes all options and database tables when deleted via the Plugins admin page
