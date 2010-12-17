@@ -20,16 +20,6 @@
         <impact>4</impact>
     </filter>
     <filter>
-        <id>69</id>
-        <rule><![CDATA[(?:[\s\d\/"]+(?:on\w+|style|poster|background)=[$"\w])]]></rule>
-        <description>finds malicious attribute injection attempts</description>
-        <tags>
-            <tag>xss</tag>
-            <tag>csrf</tag>
-        </tags>
-        <impact>6</impact>
-    </filter>	
-    <filter>
         <id>3</id>
         <rule><![CDATA[(?:^>[\w\s]*<\/?\w{2,}>)]]></rule>
         <description>finds unquoted attribute breaking injections</description>
@@ -228,7 +218,7 @@
     </filter>
     <filter>
         <id>21</id>
-        <rule><![CDATA[(?:,\s*(?:alert|showmodaldialog|eval)\s*,)|(?::\s*eval\s*[^\s])|([^:\s\w,.\/?+-]\s*)?(?<![a-z\/_@])(\s*return\s*)?(?:(?:document\s*\.)?(?:.+\/)?(?:alert|eval|msgbox|showmodaldialog|prompt|write(?:ln)?|confirm|dialog|open))\s*(?:[^a-z\s]|(?:\s*[^\s\w,.@\/+-]))|(?:java[\s\/]*\.[\s\/]*lang)|(?:\w\s*=\s*new\s+\w+)|(?:&\s*\w+\s*\)[^,])|(?:\+[\W\d]*new\s+\w+[\W\d]*\+)|(?:document\.\w)]]></rule>
+        <rule><![CDATA[(?:,\s*(?:alert|showmodaldialog|eval)\s*,)|(?::\s*eval\s*[^\s])|([^:\s\w,.\/?+-]\s*)?(?<![a-z\/_@])(\s*return\s*)?(?:(?:document\s*\.)?(?:.+\/)?(?:alert|eval|msgbox|showmodaldialog|prompt|write(?:ln)?|confirm|dialog|open))\s*(?:[^a-z\s\-]|(?:\s*[^\s\w,.@\/+-]))|(?:java[\s\/]*\.[\s\/]*lang)|(?:\w\s*=\s*new\s+\w+)|(?:&\s*\w+\s*\)[^,])|(?:\+[\W\d]*new\s+\w+[\W\d]*\+)|(?:document\.\w)]]></rule>
         <description>Detects very basic XSS probings</description>
         <tags>
             <tag>xss</tag>
@@ -602,8 +592,8 @@
     </filter>
     <filter>
         <id>57</id>
-        <rule><![CDATA[(?:select\s*\*\s*from)|((?:select|create|rename|truncate|load|alter|delete|update|insert|desc)\s*\(\s*space\s*\()]]></rule>
-        <description>Detects MySQL comment-/space-obfuscated injections</description>
+        <rule><![CDATA[(?:,.*[)\da-f"]"(?:".*"|\Z|[^"]+))|(?:select\s*\*\s*from)|((?:select|create|rename|truncate|load|alter|delete|update|insert|desc)\s*\(\s*space\s*\()]]></rule>
+        <description>Detects MySQL comment-/space-obfuscated injections and backtick termination</description>
         <tags>
             <tag>sqli</tag>
             <tag>id</tag>
@@ -656,7 +646,7 @@
     </filter>   
     <filter>
         <id>62</id>
-        <rule><![CDATA[(?:function[^(]*\([^)]*\))|(?:(?:delete|void|throw|instanceof|new|typeof)\W+\w+\s*[([])|([)\]]\s*\.\s*\w+\s*=)|(?:\(\s*new\s+\w+\s*\)\.)]]></rule>
+        <rule><![CDATA[(?:function[^(]*\([^)]*\))|(?:(?:delete|void|throw|instanceof|new|typeof)[^\w.]+\w+\s*[([])|([)\]]\s*\.\s*\w+\s*=)|(?:\(\s*new\s+\w+\s*\)\.)]]></rule>
         <description>Detects common function declarations and special JS operators</description>
         <tags>
             <tag>id</tag>
@@ -736,5 +726,15 @@
             <tag>sqli</tag>
         </tags>
         <impact>4</impact>
-    </filter>      
+    </filter>
+    <filter>
+        <id>71</id>
+        <rule><![CDATA[(?:[\s\d\/"]+(?:on\w+|style|poster|background)=[$"\w])]]></rule>
+        <description>finds malicious attribute injection attempts</description>
+        <tags>
+            <tag>xss</tag>
+            <tag>csrf</tag>
+        </tags>
+        <impact>6</impact>
+    </filter>   
 </filters>

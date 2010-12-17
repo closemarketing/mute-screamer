@@ -122,6 +122,7 @@ class IDS_Converter
         //make sure inline comments are detected and converted correctly
         $value = preg_replace('/(<\w+)\/+(\w+=?)/m', '$1/$2', $value);
         $value = preg_replace('/[^\\\:]\/\/(.*)$/m', '/**/$1', $value);
+        $value = preg_replace('/([^\-&])#.*[\r\n\v\f]/m', '$1', $value);
 
         return $value;
     }
@@ -302,7 +303,7 @@ class IDS_Converter
     public static function convertFromSQLHex($value)
     {
         $matches = array();
-        if(preg_match_all('/(?:(?:\A|[^\d])0x[a-f\d]{2,}[a-f\d]*)+/im', $value, $matches)) {
+        if(preg_match_all('/(?:(?:\A|[^\d])0x[a-f\d]{3,}[a-f\d]*)+/im', $value, $matches)) {
         	foreach($matches[0] as $match) {
                 $converted = '';
                 foreach(str_split($match, 2) as $hex_index) {
@@ -314,7 +315,7 @@ class IDS_Converter
             }
         }
         // take care of hex encoded ctrl chars
-        $value = preg_replace('/0x\d+/m', 1, $value);
+        $value = preg_replace('/0x\d+/m', ' 1 ', $value);
         
         return $value;
     }
@@ -329,9 +330,10 @@ class IDS_Converter
      */
     public static function convertFromSQLKeywords($value)
     {
-        $pattern = array('/(?:IS\s+null)|(LIKE\s+null)|' .
-            '(?:(?:^|\W)IN[+\s]*\([\s\d"]+[^()]*\))/ims');
+        $pattern = array('/(?:is\s+null)|(like\s+null)|' .
+            '(?:(?:^|\W)in[+\s]*\([\s\d"]+[^()]*\))/ims');
         $value   = preg_replace($pattern, '"=0', $value);
+        
         $value   = preg_replace('/\W+\s*like\s*\W+/ims', '1" OR "1"', $value);
         $value   = preg_replace('/null[,"\s]/ims', ',0', $value);
         $value   = preg_replace('/\d+\./ims', ' 1', $value);
@@ -339,17 +341,20 @@ class IDS_Converter
         $value   = preg_replace('/(?:between|mod)/ims', 'or', $value);
         $value   = preg_replace('/(?:and\s+\d+\.?\d*)/ims', '', $value);
         $value   = preg_replace('/(?:\s+and\s+)/ims', ' or ', $value);
-        $pattern = array('/[^\w,(]NULL|\\\N|TRUE|FALSE|UTC_TIME|' .
-                         'LOCALTIME(?:STAMP)?|CURRENT_\w+|BINARY|' .
-                         '(?:(?:ASCII|SOUNDEX|FIND_IN_SET|' .
-                         'MD5|R?LIKE)[+\s]*\([^()]+\))|(?:-+\d)/ims');
+
+        $pattern = array('/[^\w,(]null|\\\n|true|false|utc_time|' .
+                         'localtime(?:stamp)?|current_\w+|binary|' .
+                         '(?:(?:ascii|soundex|find_in_set|' .
+                         'md5|r?like)[+\s]*\([^()]+\))|(?:-+\d)/ims');
         $value   = preg_replace($pattern, 0, $value);
-        $pattern = array('/(?:NOT\s+BETWEEN)|(?:IS\s+NOT)|(?:NOT\s+IN)|' .
-                         '(?:XOR|\WDIV\W|<>|RLIKE(?:\s+BINARY)?)|' .
-                         '(?:REGEXP\s+BINARY)|' .
-                         '(?:SOUNDS\s+LIKE)/ims');
+
+        $pattern = array('/(?:not\s+between)|(?:is\s+not)|(?:not\s+in)|' .
+                         '(?:xor|<>|rlike(?:\s+binary)?)|' .
+                         '(?:regexp\s+binary)|' .
+                         '(?:sounds\s+like)/ims');
         $value   = preg_replace($pattern, '!', $value);
         $value   = preg_replace('/"\s+\d/', '"', $value);
+        $value   = preg_replace('/(\W)div(\W)/ims', '$1 OR $2', $value);
         $value   = preg_replace('/\/(?:\d+|null)/', null, $value);
 
         return $value;
