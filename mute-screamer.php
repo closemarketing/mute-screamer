@@ -336,6 +336,8 @@ if( !class_exists('Mute_screamer')) {
 			global $wpdb;
 
 			$default_exceptions = array(
+				'REQUEST.comment',
+				'POST.comment',
 				'REQUEST.permalink_structure',
 				'POST.permalink_structure',
 				'REQUEST.selection',
