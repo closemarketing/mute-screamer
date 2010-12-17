@@ -296,22 +296,10 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		private function init_options() {
 			$options = get_option( 'mscr_options' );
-			$default_options = array(
-				'db_version',
-				'email',
-				'email_notifications',
-				'email_threshold',
-				'exception_fields',
-				'html_fields',
-				'json_fields',
-				'new_intrusions_count',
-				'enable_admin',
-				'warning_threshold',
-				'warning_wp_admin'
-			);
+			$default_options = self::default_options();
 
-			foreach( $default_options as $key ) {
-				$this->$key = isset( $options[$key] ) ? $options[$key] : FALSE;
+			foreach( $default_options as $key => $val ) {
+				$this->$key = isset( $options[$key] ) ? $options[$key] : $val;
 			}
 		}
 
@@ -328,13 +316,11 @@ if( !class_exists('Mute_screamer')) {
 
 
 		/**
-		 * Setup options, database table on activation
+		 * Default options
 		 *
-		 * @return	void
+		 * @return	array
 		 */
-		public static function activate() {
-			global $wpdb;
-
+		public static function default_options() {
 			$default_exceptions = array(
 				'REQUEST.comment',
 				'POST.comment',
@@ -350,10 +336,9 @@ if( !class_exists('Mute_screamer')) {
 				'COOKIE.s_pers'
 			);
 
-			// Default options
-			$options = array(
+			return array(
 				'db_version' => 1,
-				'email_threshold' => 10,
+				'email_threshold' => 20,
 				'email_notifications' => FALSE,
 				'email' => get_option('admin_email'),
 				'exception_fields' => $default_exceptions,
@@ -364,6 +349,19 @@ if( !class_exists('Mute_screamer')) {
 				'warning_threshold' => 40,
 				'warning_wp_admin' => 0
 			);
+		}
+
+
+		/**
+		 * Setup options, database table on activation
+		 *
+		 * @return	void
+		 */
+		public static function activate() {
+			global $wpdb;
+
+			// Default options
+			$options = self::default_options();
 
 			// Attack attempts database table
 			$wpdb->query("
@@ -414,7 +412,7 @@ if( !class_exists('Mute_screamer')) {
 			// Remove Mute Screamer options
 			delete_option( 'mscr_options' );
 
-			// Remove intrustions table
+			// Remove intrusions table
 			$wpdb->query( "DROP TABLE IF EXISTS `" . self::INTRUSIONS_TABLE . "`" );
 		}
 	}
