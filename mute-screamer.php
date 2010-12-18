@@ -51,11 +51,6 @@ if( !class_exists('Mute_screamer')) {
 	require_once 'IDS/Init.php';
 	require_once 'IDS/Log/Composite.php';
 
-	// PHPIDS requires a writable folder
-	if( !is_writable(MSCR_Utils::upload_path()) ) {
-		exit("Mute Screamer requires that your uploads folder ".MSCR_Utils::upload_path()." is writable.");
-	}
-
 	/**
 	 * Mute Screamer
 	 */
@@ -81,8 +76,14 @@ if( !class_exists('Mute_screamer')) {
 		 */
 		public function __construct() {
 			self::$instance = $this;
-
 			$this->init();
+
+			// PHPIDS requires a writable folder
+			if( !is_writable( MSCR_Utils::upload_path() ) ) {
+				add_action( 'admin_notices', 'MSCR_Utils::writable_notice' );
+				return;
+			}
+
 			$this->run();
 		}
 

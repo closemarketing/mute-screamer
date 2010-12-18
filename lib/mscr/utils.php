@@ -122,6 +122,14 @@ class MSCR_Utils {
 
 
 	/**
+	 * Show admin notice if the uploads folder is not writable
+	 */
+	public static function writable_notice() {
+		echo "<div class='update-nag'>Mute Screamer requires that your uploads folder ".self::upload_path()." is writable.</div>";
+	}
+
+
+	/**
 	 * Fetch ip address
 	 *
 	 * @return	string
