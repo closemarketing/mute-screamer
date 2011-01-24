@@ -26,10 +26,10 @@
 
 ## Screen Shots ##
 
-![Intrusion logs](http://github.com/ampt/mute-screamer/raw/master/screenshot-1.png)
+![Intrusion logs](https://github.com/ampt/mute-screamer/raw/master/screenshot-1.png)
 
 Intrusion logs
 
-![Auto update diff confirmation](http://github.com/ampt/mute-screamer/raw/master/screenshot-2.png)
+![Auto update diff confirmation](https://github.com/ampt/mute-screamer/raw/master/screenshot-2.png)
 
 Auto update diff
