@@ -34,16 +34,7 @@ Author URI: http://notfornoone.com/
  * THE SOFTWARE.
  */
 
-if( !version_compare(PHP_VERSION, '5.2', '>=') ) {
-	exit('Mute Screamer requires PHP 5.2 or higher to run. You are currently running PHP ' . PHP_VERSION . '.');
-}
-
-global $wp_version;
-if( !version_compare($wp_version, '3.0', '>=') ) {
-	exit('Mute Screamer requires Wordpress 3.0 or higher to run. You are currently running Wordpress ' . $wp_version . '.');
-}
-
-if( !class_exists('Mute_screamer')) {
+if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '>=' ) ) {
 	define( 'MSCR_PATH', dirname(__FILE__) );
 	set_include_path( get_include_path() . PATH_SEPARATOR . MSCR_PATH . '/lib' );
 	require_once 'mscr/utils.php';
@@ -75,15 +66,18 @@ if( !class_exists('Mute_screamer')) {
 		 * @return	object
 		 */
 		public function __construct() {
-			self::$instance = $this;
-			$this->init();
+			// Require 3.0.
+			if ( ! function_exists( '__return_false' ) )
+				return;
 
 			// PHPIDS requires a writable folder
-			if( !is_writable( MSCR_Utils::upload_path() ) ) {
+			if( ! is_writable( MSCR_Utils::upload_path() ) ) {
 				add_action( 'admin_notices', 'MSCR_Utils::writable_notice' );
 				return;
 			}
 
+			self::$instance = $this;
+			$this->init();
 			$this->run();
 		}
 
