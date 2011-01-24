@@ -106,7 +106,7 @@ class Mscr_admin {
 
 
 	/**
-	 * Add custon screen options to a plugin page
+	 * Add custom screen options to a plugin page
 	 *
 	 * @param	string
 	 * @param	object
@@ -325,10 +325,6 @@ class Mscr_admin {
 	 * @return	void
 	 */
 	public function options() {
-		//$url = 'options-general.php?page=mscr_options&action=update_phpids';
-		//request_filesystem_credentials($url, '', true, ABSPATH);
-		//return;
-
 		$options = get_option( 'mscr_options' );
 		$options['exception_fields'] = implode("\r\n", $options['exception_fields']);
 		$options['html_fields'] = implode("\r\n", $options['html_fields']);
