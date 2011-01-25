@@ -66,9 +66,9 @@ class Mscr_admin {
 			check_admin_referer('mscr_action_intrusions_bulk');
 			$sendback = remove_query_arg( array('intrusions' ), wp_get_referer() );
 
-			if ( ( $_GET['action'] != -1 || $_GET['action2'] != -1 ) && ( isset($_GET['page']) && isset($_GET['intrusions']) ) ) {
+			if ( ( $_GET['action'] != '' || $_GET['action2'] != '' ) && ( isset($_GET['page']) && isset($_GET['intrusions']) ) ) {
 				$intrusion_ids = $_GET['intrusions'];
-				$doaction = ($_GET['action'] != -1) ? $_GET['action'] : $_GET['action2'];
+				$doaction = ( $_GET['action'] != '' ) ? $_GET['action'] : $_GET['action2'];
 			} else {
 				wp_redirect( admin_url("index.php?page=mscr_intrusions") );
 				exit;
