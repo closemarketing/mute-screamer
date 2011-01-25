@@ -55,7 +55,7 @@ class mscr_log_database implements IDS_Log_Interface {
 			$data['ip'] = $this->ip;
 			$data['impact'] = $event->getImpact();
 			$data['origin'] = $_SERVER['SERVER_ADDR'];
-			$data['created'] = date( 'Y-m-d H:i:s', current_time('timestamp') );
+			$data['created'] = date( 'Y-m-d H:i:s', time() );
 
 			if( FALSE === $wpdb->insert( $wpdb->mscr_intrusions, $data ) ) {
 				return FALSE;

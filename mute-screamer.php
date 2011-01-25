@@ -361,10 +361,27 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 		private function upgrade() {
 			global $wpdb;
 
-			// Prefix intrusions table
 			if( $this->db_version < 2 ) {
+				// Prefix intrusions table
 				$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->mscr_intrusions . "`" );
 				$wpdb->query( "ALTER TABLE ".self::INTRUSIONS_TABLE." RENAME TO {$wpdb->mscr_intrusions}" );
+
+				// Take a punt and change the intrusion dates to what we *think* GMT time is
+				$time_difference = get_option( 'gmt_offset' );
+
+				$server_time = time() + date('Z');
+				$blog_time = $server_time + $time_difference * 3600;
+				$gmt_time = time();
+
+				$diff_gmt_server = ($gmt_time - $server_time) / 3600;
+				$diff_blog_server = ($blog_time - $server_time) / 3600;
+				$diff_gmt_blog = $diff_gmt_server - $diff_blog_server;
+				$gmt_offset = -$diff_gmt_blog;
+
+				// Add or substract time to all dates, to get GMT dates
+				$add_hours = intval($diff_gmt_blog);
+				$add_minutes = intval(60 * ($diff_gmt_blog - $add_hours));
+				$wpdb->query( "UPDATE $wpdb->mscr_intrusions SET created = DATE_ADD(created, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)" );
 			}
 
 			// Update db version

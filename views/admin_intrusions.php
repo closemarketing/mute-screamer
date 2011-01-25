@@ -103,7 +103,7 @@
 											break;
 
 										case 'date':
-											echo $intrusion->created;
+											echo date( "{$date_format} {$time_format}", strtotime( $intrusion->created ) + $time_offset );
 											break;
 
 										default:

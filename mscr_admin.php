@@ -258,6 +258,10 @@ class Mscr_admin {
 		$data['intrusions_search'] = $search;
 		$data['search_title'] = $search_title;
 
+		$data['time_offset'] = get_option( 'gmt_offset' ) * 3600;
+		$data['date_format'] = get_option( 'date_format' );
+		$data['time_format'] = get_option( 'time_format' );
+
 		if( $deleted )
 			$data['message'] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted ), number_format_i18n( $deleted ) );
 
