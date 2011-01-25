@@ -48,6 +48,7 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 	class Mute_screamer {
 		const INTRUSIONS_TABLE 			= 'mscr_intrusions';
 		const VERSION		 			= '0.59';
+		const DB_VERSION				= 2;
 		private static $instance 		= NULL;
 		private $email 					= '';
 		private $email_notifications 	= '';
@@ -88,10 +89,14 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 		 * @return	void
 		 */
 		private function init() {
+			self::db_table( self::INTRUSIONS_TABLE );
 			$this->init_options();
 
 			// Are we in the WP Admin?
 			if( is_admin() ) {
+				if( $this->db_version < self::DB_VERSION )
+					$this->upgrade();
+
 				require_once 'mscr/Update.php';
 				require_once 'mscr_admin.php';
 				new Mscr_admin();
@@ -274,10 +279,11 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 		 * @return	void
 		 */
 		public function set_option( $key = '', $val = '' ) {
-			$options = get_option( 'mscr_options' );
-			if( ! isset( $options[$key] ))
+			// Bail if the key to be set does not exist in defaults
+			if( ! array_key_exists( $key, self::default_options() ) )
 				return;
 
+			$options = get_option( 'mscr_options' );
 			$options[$key] = $val;
 			update_option( 'mscr_options', $options );
 			$this->$key = $val;
@@ -291,6 +297,7 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 		 */
 		private function init_options() {
 			$options = get_option( 'mscr_options' );
+			$options['db_version'] = isset( $options['db_version'] ) ? $options['db_version'] : 0;
 			$default_options = self::default_options();
 
 			foreach( $default_options as $key => $val ) {
@@ -332,7 +339,7 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 			);
 
 			return array(
-				'db_version' => 1,
+				'db_version' => self::DB_VERSION,
 				'email_threshold' => 20,
 				'email_notifications' => FALSE,
 				'email' => get_option('admin_email'),
@@ -346,6 +353,23 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 			);
 		}
 
+		/**
+		 * Upgrade database
+		 *
+		 * @return void
+		 */
+		private function upgrade() {
+			global $wpdb;
+
+			// Prefix intrusions table
+			if( $this->db_version < 2 ) {
+				$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->mscr_intrusions . "`" );
+				$wpdb->query( "ALTER TABLE ".self::INTRUSIONS_TABLE." RENAME TO {$wpdb->mscr_intrusions}" );
+			}
+
+			// Update db version
+			$this->set_option( 'db_version', self::DB_VERSION );
+		}
 
 		/**
 		 * Setup options, database table on activation
@@ -354,13 +378,14 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 		 */
 		public static function activate() {
 			global $wpdb;
+			self::db_table( self::INTRUSIONS_TABLE );
 
 			// Default options
 			$options = self::default_options();
 
 			// Attack attempts database table
 			$wpdb->query("
-				CREATE TABLE IF NOT EXISTS `" . self::INTRUSIONS_TABLE . "` (
+				CREATE TABLE IF NOT EXISTS `" . $wpdb->mscr_intrusions . "` (
 				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 				  `name` varchar(128) NOT NULL,
 				  `value` text NOT NULL,
@@ -403,12 +428,27 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 		 */
 		public static function uninstall() {
 			global $wpdb;
+			self::db_table( self::INTRUSIONS_TABLE );
 
 			// Remove Mute Screamer options
 			delete_option( 'mscr_options' );
 
 			// Remove intrusions table
-			$wpdb->query( "DROP TABLE IF EXISTS `" . self::INTRUSIONS_TABLE . "`" );
+			$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->mscr_intrusions . "`" );
+		}
+
+		/**
+		 * Add database table references to wpdb
+		 *
+		 * @param string
+		 * @return void
+		 */
+		private static function db_table( $table_name ) {
+			global $wpdb;
+
+			$table = $wpdb->prefix.$table_name;
+			if( ! isset( $wpdb->$table_name ) )
+				$wpdb->$table_name = $table;
 		}
 	}
 

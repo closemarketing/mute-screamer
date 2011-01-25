@@ -81,7 +81,7 @@ class Mscr_admin {
 						if( !current_user_can('activate_plugins') )
 							wp_die( __('You are not allowed to delete this item.') );
 
-						$sql = $wpdb->prepare( "DELETE FROM ".Mute_screamer::INTRUSIONS_TABLE." WHERE id = %d", $intrusion_id );
+						$sql = $wpdb->prepare( "DELETE FROM ".$wpdb->mscr_intrusions." WHERE id = %d", $intrusion_id );
 						$result = $wpdb->query( $sql );
 
 						if( ! $result) {
@@ -222,9 +222,9 @@ class Mscr_admin {
 		if($search) {
 			$search_title = sprintf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', $search );
 			$token = '%'.$search.'%';
-			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . Mute_screamer::INTRUSIONS_TABLE . " WHERE (name LIKE %s OR page LIKE %s OR tags LIKE %s OR ip LIKE %s OR impact LIKE %s) ORDER BY created DESC LIMIT %d, %d", $token, $token, $token, $token, $token, $offset, $limit );
+			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . $wpdb->mscr_intrusions . " WHERE (name LIKE %s OR page LIKE %s OR tags LIKE %s OR ip LIKE %s OR impact LIKE %s) ORDER BY created DESC LIMIT %d, %d", $token, $token, $token, $token, $token, $offset, $limit );
 		} else {
-			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . Mute_screamer::INTRUSIONS_TABLE . " ORDER BY created DESC LIMIT %d, %d", $offset, $limit );
+			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . $wpdb->mscr_intrusions . " ORDER BY created DESC LIMIT %d, %d", $offset, $limit );
 		}
 
 		$intrusions = $wpdb->get_results($sql);

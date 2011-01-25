@@ -57,7 +57,7 @@ class mscr_log_database implements IDS_Log_Interface {
 			$data['origin'] = $_SERVER['SERVER_ADDR'];
 			$data['created'] = date( 'Y-m-d H:i:s', current_time('timestamp') );
 
-			if( FALSE === $wpdb->insert( Mute_screamer::INTRUSIONS_TABLE, $data ) ) {
+			if( FALSE === $wpdb->insert( $wpdb->mscr_intrusions, $data ) ) {
 				return FALSE;
 			}
 		}
