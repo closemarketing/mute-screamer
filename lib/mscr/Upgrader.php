@@ -43,7 +43,7 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 
 			// Only check to see if the Dir exists upon creation failure. Less I/O this way.
 			if ( ! $wp_filesystem->mkdir($upgrade_folder, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($upgrade_folder) ) {
-				show_message( new WP_Error('mkdir_failed', __('Could not create directory.'), $upgrade_folder) );
+				show_message( new WP_Error('mkdir_failed', __('Could not create directory.', 'mute-screamer'), $upgrade_folder) );
 				$this->maintenance_mode( false );
 				return false;
 			}
@@ -57,14 +57,14 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 
 			// Save files into upgrade folder, copy into place
 			foreach( $files as $key => $val ) {
-				show_message( "Copying {$key} into place..." );
+				show_message( sprintf( __("Copying %s into place...", 'mute-screamer'), $key ) );
 				$new_file = $upgrade_folder . $key;
 				$wp_filesystem->put_contents( $new_file, $val['body'], FS_CHMOD_FILE );
 
 				// Copy files into place
 				if ( ! $wp_filesystem->copy( $new_file, $mscr_folder . $key, true ) ) {
 					$wp_filesystem->delete($upgrade_folder, true);
-					show_message( new WP_Error('copy_failed', __('Could not copy files.')) );
+					show_message( new WP_Error('copy_failed', __('Could not copy files.', 'mute-screamer')) );
 					$this->maintenance_mode( false );
 					return false;
 				}
@@ -76,8 +76,8 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 
 			$this->maintenance_mode( false );
 
-			show_message( __('Mute Screamer updated successfully') );
-			show_message( '<a target="_parent" href="' . esc_url( admin_url() ) . '">' . __('Go to Dashboard') . '</a>' );
+			show_message( __('Mute Screamer updated successfully', 'mute-screamer') );
+			show_message( '<a target="_parent" href="' . esc_url( admin_url() ) . '">' . __('Go to Dashboard', 'mute-screamer') . '</a>' );
 			return true;
 		}
 

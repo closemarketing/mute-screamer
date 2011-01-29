@@ -235,8 +235,8 @@ class MSCR_Update {
 	 */
 	public function list_mscr_updates() {
 		if( empty( $this->updates['updates'] ) ) {
-			echo '<h3>' . __( 'Mute Screamer' ) . '</h3>';
-			echo '<p>' . __( 'Is up to date.' ) . '</p>';
+			echo '<h3>' . __( 'Mute Screamer', 'mute-screamer' ) . '</h3>';
+			echo '<p>' . __( 'Is up to date.', 'mute-screamer' ) . '</p>';
 			return;
 		}
 
@@ -251,7 +251,7 @@ class MSCR_Update {
 		$diff_files = array();
 
 		if ( ! current_user_can('update_plugins') )
-			wp_die(__('You do not have sufficient permissions to update Mute Screamer for this site.'));
+			wp_die(__('You do not have sufficient permissions to update Mute Screamer for this site.', 'mute-screamer'));
 
 		check_admin_referer('upgrade-core');
 
@@ -266,11 +266,11 @@ class MSCR_Update {
 			$local = MSCR_PATH.'/lib/IDS/'.$file;
 
 			if( ! file_exists( $local ) ) {
-				wp_die( new WP_Error( 'mscr_upgrade_file_missing', esc_html($file).' does not exist.' ) );
+				wp_die( new WP_Error( 'mscr_upgrade_file_missing', sprintf( __( '%s does not exist.', 'mute-screamer' ), esc_html($file) ) ) );
 			}
 
 			if( ! @is_readable( $local ) ) {
-				wp_die( new WP_Error( 'mscr_upgrade_file_read_error', 'Can not read file '.esc_html($file).'.' ) );
+				wp_die( new WP_Error( 'mscr_upgrade_file_read_error', sprintf( __( 'Can not read file %s.', 'mute-screamer' ), esc_html($file) ) ) );
 			}
 
 			$local = file_get_contents( $local );
@@ -279,7 +279,7 @@ class MSCR_Update {
 			$remote = $this->remote_get( $this->updates['updates'][$file]->revision_file_url );
 
 			if( $remote['body'] == '' )
-				wp_die( new WP_Error( 'mscr_upgrade_error', 'Could not connect to phpids.org, please try again later.' ) );
+				wp_die( new WP_Error( 'mscr_upgrade_error', __( 'Could not connect to phpids.org, please try again later.', 'mute-screamer' ) ) );
 
 			$remote = $remote['body'];
 
@@ -296,7 +296,7 @@ class MSCR_Update {
 		$url = 'update.php?action=mscr_upgrade_run&files=' . urlencode(implode(',', $files));
 		$url = wp_nonce_url($url, 'bulk-update-mscr');
 
-		$this->admin_header( __('Update Mute Screamer') );
+		$this->admin_header( __( 'Update Mute Screamer', 'mute-screamer' ) );
 
 		$data['url'] = $url;
 		$data['diff_files'] = $diff_files;
@@ -324,18 +324,18 @@ class MSCR_Update {
 	 */
 	public function do_upgrade() {
 		if ( ! current_user_can( 'update_plugins' ) )
-			wp_die( __( 'You do not have sufficient permissions to update Mute Screamer for this site.' ) );
+			wp_die( __( 'You do not have sufficient permissions to update Mute Screamer for this site.', 'mute-screamer' ) );
 
 		check_admin_referer( 'mscr-upgrade-diff' );
 
 
 		$url = MSCR_Utils::post( 'url' );
 
-		$this->admin_header( __('Update Mute Screamer') );
+		$this->admin_header( __( 'Update Mute Screamer', 'mute-screamer' ) );
 
 		echo '<div class="wrap">';
 		screen_icon('plugins');
-		echo '<h2>' . esc_html__('Update Mute Screamer') . '</h2>';
+		echo '<h2>' . __( 'Update Mute Screamer', 'mute-screamer' ) . '</h2>';
 		echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 		echo '</div>';
 	}
@@ -352,14 +352,14 @@ class MSCR_Update {
 		$files = explode( ',', $files );
 
 		if ( ! current_user_can( 'update_plugins' ) )
-			wp_die( __( 'You do not have sufficient permissions to update Mute Screamer for this site.' ) );
+			wp_die( __( 'You do not have sufficient permissions to update Mute Screamer for this site.', 'mute-screamer' ) );
 
 		check_admin_referer( 'bulk-update-mscr' );
 
 		// Valid files to upgrade?
 		foreach( $files as $key => $val ) {
 			if( ! in_array( $val, $upgrade_files ) )
-				wp_die( __( esc_html($val)." can't be upgraded." ) );
+				wp_die( sprintf( __( "%s can't be upgraded.", 'mute-screamer' ), esc_html($val) ) );
 
 			// Fetch file contents from cache
 			$files[$val] = $this->remote_get( $this->updates['updates'][$val]->revision_file_url );

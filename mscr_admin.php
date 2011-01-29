@@ -79,13 +79,13 @@ class Mscr_admin {
 					$deleted = 0;
 					foreach( (array) $intrusion_ids as $intrusion_id ) {
 						if( !current_user_can('activate_plugins') )
-							wp_die( __('You are not allowed to delete this item.') );
+							wp_die( __( 'You are not allowed to delete this item.', 'mute-screamer' ) );
 
 						$sql = $wpdb->prepare( "DELETE FROM ".$wpdb->mscr_intrusions." WHERE id = %d", $intrusion_id );
 						$result = $wpdb->query( $sql );
 
 						if( ! $result) {
-							wp_die( __('Error in deleting...') );
+							wp_die( __( 'Error in deleting...', 'mute-screamer' ) );
 						}
 						$deleted++;
 					}
@@ -153,9 +153,9 @@ class Mscr_admin {
 	 */
 	public function admin_menu() {
 		$intrusion_count = (int) Mute_screamer::instance()->get_option( 'new_intrusions_count' );
-		$intrusions_menu_title = sprintf( __('Intrusions %s'), "<span class='update-plugins count-$intrusion_count' title='$intrusion_count'><span class='update-count'>" . number_format_i18n($intrusion_count) . "</span></span>" );
-		add_dashboard_page( __('Mute Screamer Intrusions'), $intrusions_menu_title, 'activate_plugins', 'mscr_intrusions', array($this, 'intrusions') );
-		add_options_page( __('Mute Screamer Configuration'), __('Mute Screamer'), 'activate_plugins', 'mscr_options', array($this, 'options') );
+		$intrusions_menu_title = sprintf( __( 'Intrusions %s', 'mute-screamer' ), "<span class='update-plugins count-$intrusion_count' title='$intrusion_count'><span class='update-count'>" . number_format_i18n($intrusion_count) . "</span></span>" );
+		add_dashboard_page( __( 'Mute Screamer Intrusions', 'mute-screamer' ), $intrusions_menu_title, 'activate_plugins', 'mscr_intrusions', array($this, 'intrusions') );
+		add_options_page( __( 'Mute Screamer Configuration', 'mute-screamer' ), __( 'Mute Screamer', 'mute-screamer' ), 'activate_plugins', 'mscr_options', array($this, 'options') );
 
 		// Modify the Dashboard menu updates count
 		$this->set_update_badge();
@@ -189,8 +189,8 @@ class Mscr_admin {
 				}
 
 				$update_count += (int) $existing_count;
-				$update_title = sprintf(_n('%d Update', '%d Updates', $update_count), $update_count);
-				$item[0] = sprintf( __('Updates %s'), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>");
+				$update_title = sprintf( _n( '%d Update', '%d Updates', $update_count, 'mute-screamer' ), $update_count );
+				$item[0] = sprintf( __( 'Updates %s', 'mute-screamer' ), "<span class='update-plugins count-$update_count' title='$update_title'><span class='update-count'>" . number_format_i18n($update_count) . "</span></span>");
 				break;
 			}
 		}
@@ -220,7 +220,7 @@ class Mscr_admin {
 		$search = isset( $_GET['intrusions_search'] ) ? esc_attr($_GET['intrusions_search']) : '';
 		$search_title = '';
 		if($search) {
-			$search_title = sprintf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', $search );
+			$search_title = sprintf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;', 'mute-screamer') . '</span>', $search );
 			$token = '%'.$search.'%';
 			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . $wpdb->mscr_intrusions . " WHERE (name LIKE %s OR page LIKE %s OR tags LIKE %s OR ip LIKE %s OR impact LIKE %s) ORDER BY created DESC LIMIT %d, %d", $token, $token, $token, $token, $token, $offset, $limit );
 		} else {
@@ -236,13 +236,13 @@ class Mscr_admin {
 
 		// Columns
 		$columns = array(
-			'name' => 'Name',
-			'value' => 'Value',
-			'page' => 'Page',
-			'tags' => 'Tags',
-			'ip' => 'IP',
-			'impact' => 'Impact',
-			'date' => 'Date'
+			'name' => __( 'Name', 'mute-screamer' ),
+			'value' => __( 'Value', 'mute-screamer' ),
+			'page' => __( 'Page', 'mute-screamer' ),
+			'tags' => __( 'Tags', 'mute-screamer' ),
+			'ip' => __( 'IP', 'mute-screamer' ),
+			'impact' => __( 'Impact', 'mute-screamer' ),
+			'date' => __( 'Date', 'mute-screamer' )
 		);
 		$columns = apply_filters('mscr_admin_intrusions_columns', $columns);
 
@@ -263,7 +263,7 @@ class Mscr_admin {
 		$data['time_format'] = get_option( 'time_format' );
 
 		if( $deleted )
-			$data['message'] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted ), number_format_i18n( $deleted ) );
+			$data['message'] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted, 'mute-screamer' ), number_format_i18n( $deleted ) );
 
 		MSCR_Utils::view('admin_intrusions', $data);
 	}

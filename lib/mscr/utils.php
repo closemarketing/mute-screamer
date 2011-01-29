@@ -44,7 +44,7 @@ class MSCR_Utils {
 
 			echo $output;
 		} else if( defined('WP_DEBUG') && WP_DEBUG == TRUE ) {
-			trigger_error('Unable to load the requested view.', E_USER_ERROR);
+			trigger_error(__('Unable to load the requested view.', 'mute-screamer'), E_USER_ERROR);
 		}
 	}
 
@@ -59,8 +59,8 @@ class MSCR_Utils {
 		$page_links = paginate_links( array(
 			'base' => add_query_arg( 'paged', '%#%' ),
 			'format' => '',
-			'prev_text' => __('&laquo;'),
-			'next_text' => __('&raquo;'),
+			'prev_text' => __('&laquo;', 'mute-screamer'),
+			'next_text' => __('&raquo;', 'mute-screamer'),
 			'total' => $total_pages,
 			'current' => $current_page
 		));
@@ -69,7 +69,7 @@ class MSCR_Utils {
 			return '';
 		}
 
-		$page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
+		$page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s', 'mute-screamer' ) . '</span>%s',
 			number_format_i18n( ( $current_page - 1 ) * $per_page + 1 ),
 			number_format_i18n( min( $current_page * $per_page, $count ) ),
 			number_format_i18n( $count ),
@@ -125,7 +125,7 @@ class MSCR_Utils {
 	 * Show admin notice if the uploads folder is not writable
 	 */
 	public static function writable_notice() {
-		echo "<div class='update-nag'>Mute Screamer requires that your uploads folder ".self::upload_path()." is writable.</div>";
+		echo "<div class='update-nag'>".sprintf( __( "Mute Screamer requires that your uploads folder %s is writable.", 'mute-screamer' ), self::upload_path() )."</div>";
 	}
 
 

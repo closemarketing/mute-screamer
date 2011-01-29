@@ -4,7 +4,7 @@ Plugin Name: Mute Screamer
 Plugin URI: http://wordpress.org/extend/plugins/mute-screamer/
 Description: <a href="http://phpids.org/">PHPIDS</a> for Wordpress.
 Author: ampt
-Version: 0.59
+Version: 0.63
 Author URI: http://notfornoone.com/
 */
 
@@ -47,7 +47,7 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 	 */
 	class Mute_screamer {
 		const INTRUSIONS_TABLE 			= 'mscr_intrusions';
-		const VERSION		 			= '0.59';
+		const VERSION		 			= '0.63';
 		const DB_VERSION				= 2;
 		private static $instance 		= NULL;
 		private $email 					= '';
@@ -91,6 +91,9 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 		private function init() {
 			self::db_table( self::INTRUSIONS_TABLE );
 			$this->init_options();
+
+			// Load textdomain
+			load_plugin_textdomain( 'mute-screamer', false, dirname( plugin_basename( __FILE__ ) ).'/languages' );
 
 			// Are we in the WP Admin?
 			if( is_admin() ) {
@@ -188,7 +191,7 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 			$data['ip_address'] = MSCR_Utils::ip_address();
 
 			$message = MSCR_Utils::view('alert_email', $data, TRUE);
-			$subject = sprintf(__('[%s] Mute Screamer IDS Alert'), $data['blogname']);
+			$subject = sprintf( __( '[%s] Mute Screamer IDS Alert', 'mute-screamer' ), $data['blogname'] );
 
 			wp_mail( $this->email, $subject, $message );
 		}

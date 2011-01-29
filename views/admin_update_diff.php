@@ -2,13 +2,13 @@
 
 <div id="mscr_diff" class="wrap">
 	<?php screen_icon('plugins'); ?>
-	<h2><?php _e( 'Update Mute Screamer' ); ?></h2>
-	<p><?php _e( 'Showing changes to be updated.' ); ?></p>
+	<h2><?php _e( 'Update Mute Screamer', 'mute-screamer' ); ?></h2>
+	<p><?php _e( 'Showing changes to be updated.', 'mute-screamer' ); ?></p>
 
 	<form action="update.php?action=mscr_upgrade" method="post">
 		<?php wp_nonce_field('mscr-upgrade-diff'); ?>
 		<input type="hidden" name="url" value="<?php echo $url; ?>" />
-		<p><input class="button-secondary" type="submit" value="Continue" /></p>
+		<p><input class="button-secondary" type="submit" value="<?php esc_attr_e('Continue', 'mute-screamer'); ?>" /></p>
 	</form>
 
 	<?php foreach( $diff_files as $file ) : ?>
@@ -22,7 +22,7 @@
 
 			<?php if( ! $file->diff ) : ?>
 
-			<tr><td colspan="2"><div class="updated"><p><?php _e( 'These revisions are identical.' ); ?></p></div></td></tr>
+			<tr><td colspan="2"><div class="updated"><p><?php _e( 'These revisions are identical.', 'mute-screamer' ); ?></p></div></td></tr>
 
 			<?php else : ?>
 

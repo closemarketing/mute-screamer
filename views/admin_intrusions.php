@@ -21,9 +21,9 @@
 	<form method="get" action="admin.php" class="search-form">
 		<input type="hidden" value="<?php echo $page;?>" name="page"/>
 		<p class="search-box">
-			<label for="s" class="screen-reader-text">Search Intrusions:</label>
+			<label for="s" class="screen-reader-text"><?php _e( 'Search Intrusions:', 'mute-screamer' ); ?></label>
 			<input type="text" value="<?php echo esc_attr($intrusions_search);?>" name="intrusions_search" id="mscr-intrusions-search-input"/>
-			<input type="submit" class="button" value="Search Intrusions"/>
+			<input type="submit" class="button" value="<?php _e( 'Search Intrusions:', 'mute-screamer' ); ?>"/>
 		</p>
 	</form>
 
@@ -32,8 +32,8 @@
 		<div class="tablenav">
 			<div class="alignleft actions">
 				<select name="action">
-					<option selected="selected" value="">Bulk Actions</option>
-					<option value="bulk_delete">Delete</option>
+					<option selected="selected" value=""><?php _e( 'Bulk Actions', 'mute-screamer' ); ?></option>
+					<option value="bulk_delete"><?php _e( 'Delete', 'mute-screamer' ); ?></option>
 				</select>
 				<input type="submit" class="button-secondary action" id="doaction" name="doaction" value="Apply"/>
 				<?php wp_nonce_field('mscr_action_intrusions_bulk'); ?>
@@ -124,8 +124,8 @@
 
 			<div class="alignleft actions">
 				<select name="action2">
-					<option selected="selected" value="">Bulk Actions</option>
-					<option value="bulk_delete">Delete</option>
+					<option selected="selected" value=""><?php _e( 'Bulk Actions', 'mute-screamer' ); ?></option>
+					<option value="bulk_delete"><?php _e( 'Delete', 'mute-screamer' ); ?></option>
 				</select>
 				<input type="submit" class="button-secondary action" id="doaction2" name="doaction2" value="Apply"/>
 			</div>
@@ -135,17 +135,17 @@
 
 	<?php elseif( ! $search_title ) : ?>
 
-	<p>How good is that, no intrusions.</p>
+	<p><?php _e( 'How good is that, no intrusions.', 'mute-screamer' ); ?></p>
 
 	<?php else : ?>
 
-	<p>No intrusions found.</p>
+	<p><?php _e( 'No intrusions found.', 'mute-screamer' ); ?></p>
 
 	<?php endif; ?>
 
 </div>
 <script type='text/javascript'>
 jQuery(function(){
-	jQuery('.submitdelete').click(function(){return confirm('Delete\nAre you sure?')});
+	jQuery('.submitdelete').click(function(){return confirm(<?php _e( "Delete\nAre you sure?", 'mute-screamer' ); ?>)});
 });
 </script>

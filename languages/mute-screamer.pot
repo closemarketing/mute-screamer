@@ -1,0 +1,416 @@
+# Copyright (C) 2010 Mute Screamer
+# This file is distributed under the same license as the Mute Screamer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Mute Screamer 0.63\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
+"POT-Creation-Date: 2011-01-30 00:34:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: lib/mscr/Update.php:238 mscr_admin.php:158 views/admin_update.php:3
+msgid "Mute Screamer"
+msgstr ""
+
+#: lib/mscr/Update.php:239
+msgid "Is up to date."
+msgstr ""
+
+#: lib/mscr/Update.php:254 lib/mscr/Update.php:327 lib/mscr/Update.php:355
+msgid "You do not have sufficient permissions to update Mute Screamer for this site."
+msgstr ""
+
+#: lib/mscr/Update.php:269
+msgid "%s does not exist."
+msgstr ""
+
+#: lib/mscr/Update.php:273
+msgid "Can not read file %s."
+msgstr ""
+
+#: lib/mscr/Update.php:282
+msgid "Could not connect to phpids.org, please try again later."
+msgstr ""
+
+#: lib/mscr/Update.php:299 lib/mscr/Update.php:334 lib/mscr/Update.php:338
+#: views/admin_update.php:7 views/admin_update.php:34
+#: views/admin_update_diff.php:5
+msgid "Update Mute Screamer"
+msgstr ""
+
+#: lib/mscr/Update.php:362
+msgid "%s can't be upgraded."
+msgstr ""
+
+#: lib/mscr/Upgrader.php:46
+msgid "Could not create directory."
+msgstr ""
+
+#: lib/mscr/Upgrader.php:60
+msgid "Copying %s into place..."
+msgstr ""
+
+#: lib/mscr/Upgrader.php:67
+msgid "Could not copy files."
+msgstr ""
+
+#: lib/mscr/Upgrader.php:79
+msgid "Mute Screamer updated successfully"
+msgstr ""
+
+#: lib/mscr/Upgrader.php:80
+msgid "Go to Dashboard"
+msgstr ""
+
+#: lib/mscr/utils.php:47
+msgid "Unable to load the requested view."
+msgstr ""
+
+#: lib/mscr/utils.php:62
+msgid "&laquo;"
+msgstr ""
+
+#: lib/mscr/utils.php:63
+msgid "&raquo;"
+msgstr ""
+
+#: lib/mscr/utils.php:72
+msgid "Displaying %s&#8211;%s of %s"
+msgstr ""
+
+#: lib/mscr/utils.php:128
+msgid "Mute Screamer requires that your uploads folder %s is writable."
+msgstr ""
+
+#: mscr_admin.php:82
+msgid "You are not allowed to delete this item."
+msgstr ""
+
+#: mscr_admin.php:88
+msgid "Error in deleting..."
+msgstr ""
+
+#: mscr_admin.php:156
+msgid "Intrusions %s"
+msgstr ""
+
+#: mscr_admin.php:157
+msgid "Mute Screamer Intrusions"
+msgstr ""
+
+#: mscr_admin.php:158
+msgid "Mute Screamer Configuration"
+msgstr ""
+
+#: mscr_admin.php:192
+msgid "%d Update"
+msgid_plural "%d Updates"
+msgstr[0] ""
+msgstr[1] ""
+
+#: mscr_admin.php:193
+msgid "Updates %s"
+msgstr ""
+
+#: mscr_admin.php:223
+msgid "Search results for &#8220;%s&#8221;"
+msgstr ""
+
+#: mscr_admin.php:239
+msgid "Name"
+msgstr ""
+
+#: mscr_admin.php:240
+msgid "Value"
+msgstr ""
+
+#: mscr_admin.php:241
+msgid "Page"
+msgstr ""
+
+#: mscr_admin.php:242
+msgid "Tags"
+msgstr ""
+
+#: mscr_admin.php:243
+msgid "IP"
+msgstr ""
+
+#: mscr_admin.php:244
+msgid "Impact"
+msgstr ""
+
+#: mscr_admin.php:245
+msgid "Date"
+msgstr ""
+
+#: mscr_admin.php:266
+msgid "Item permanently deleted."
+msgid_plural "%s items permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: mute-screamer.php:194
+msgid "[%s] Mute Screamer IDS Alert"
+msgstr ""
+
+#: templates/500.php:12
+msgid "An Error Was Encountered"
+msgstr ""
+
+#: templates/500.php:14
+msgid "Apologies, there was an error with the page you requested. Perhaps searching will help."
+msgstr ""
+
+#: views/admin_intrusions.php:24 views/admin_intrusions.php:26
+msgid "Search Intrusions:"
+msgstr ""
+
+#: views/admin_intrusions.php:35 views/admin_intrusions.php:127
+msgid "Bulk Actions"
+msgstr ""
+
+#: views/admin_intrusions.php:36 views/admin_intrusions.php:128
+msgid "Delete"
+msgstr ""
+
+#: views/admin_intrusions.php:138
+msgid "How good is that, no intrusions."
+msgstr ""
+
+#: views/admin_intrusions.php:142
+msgid "No intrusions found."
+msgstr ""
+
+#: views/admin_intrusions.php:149
+msgid ""
+"Delete\n"
+"Are you sure?"
+msgstr ""
+
+#: views/admin_intrusions_screen_options.php:3
+msgid "Show on screen"
+msgstr ""
+
+#: views/admin_intrusions_screen_options.php:6
+msgid "Intrusions"
+msgstr ""
+
+#: views/admin_intrusions_screen_options.php:7
+msgid "Apply"
+msgstr ""
+
+#: views/admin_options.php:5
+msgid "Mute Screamer Settings"
+msgstr ""
+
+#: views/admin_options.php:10
+msgid "General Settings"
+msgstr ""
+
+#: views/admin_options.php:14 views/admin_options.php:17
+msgid "WordPress Admin"
+msgstr ""
+
+#: views/admin_options.php:20
+msgid "Enable Mute Screamer for the WordPress admin"
+msgstr ""
+
+#: views/admin_options.php:28
+msgid "Email"
+msgstr ""
+
+#: views/admin_options.php:32
+msgid "E-mail address"
+msgstr ""
+
+#: views/admin_options.php:35
+msgid "This address is used to send intrusion alerts."
+msgstr ""
+
+#: views/admin_options.php:40 views/admin_options.php:43
+msgid "E-mail Notifications"
+msgstr ""
+
+#: views/admin_options.php:46
+msgid "Send alert emails"
+msgstr ""
+
+#: views/admin_options.php:53
+msgid "E-mail threshold"
+msgstr ""
+
+#: views/admin_options.php:56
+msgid "Minimum impact to send an alert email."
+msgstr ""
+
+#: views/admin_options.php:62
+msgid "Warning Page"
+msgstr ""
+
+#: views/admin_options.php:63
+msgid "To setup a warning page you will need to create a template named 500.php for your theme."
+msgstr ""
+
+#: views/admin_options.php:64
+msgid "You can find an example 500.php template based on <a href=\"http://wordpress.org/extend/themes/twentyten\">TwentyTen</a> in %s/mute-screamer/templates/500.php"
+msgstr ""
+
+#: views/admin_options.php:65
+msgid "If a 500.php template can't be found then 404.php is used, and if that fails it will redirect to the homepage."
+msgstr ""
+
+#: views/admin_options.php:69 views/admin_options.php:72
+msgid "WordPress admin warning"
+msgstr ""
+
+#: views/admin_options.php:75
+msgid "Log user out of the WordPress admin"
+msgstr ""
+
+#: views/admin_options.php:82
+msgid "Warning threshold"
+msgstr ""
+
+#: views/admin_options.php:85
+msgid "Minimum impact to show warning page."
+msgstr ""
+
+#: views/admin_options.php:91
+msgid "Exceptions"
+msgstr ""
+
+#: views/admin_options.php:95 views/admin_options.php:98
+msgid "Exception fields"
+msgstr ""
+
+#: views/admin_options.php:100
+msgid "Define fields that will be excluded from PHPIDS. One field per line. We've already added some defaults."
+msgstr ""
+
+#: views/admin_options.php:101
+msgid "Example - exlude the POST field my_field: POST.my_field"
+msgstr ""
+
+#: views/admin_options.php:102
+msgid "Example - regular expression exclude: /.*foo/i"
+msgstr ""
+
+#: views/admin_options.php:110 views/admin_options.php:113
+msgid "HTML fields"
+msgstr ""
+
+#: views/admin_options.php:115
+msgid "Define fields that contain HTML and need preparation before hitting the PHPIDS rules."
+msgstr ""
+
+#: views/admin_options.php:116
+msgid "Note: Fields must contain valid HTML"
+msgstr ""
+
+#: views/admin_options.php:124 views/admin_options.php:127
+msgid "JSON fields"
+msgstr ""
+
+#: views/admin_options.php:129
+msgid "Define fields that contain JSON data and should be treated as such."
+msgstr ""
+
+#: views/admin_options.php:139
+msgid "Save Changes"
+msgstr ""
+
+#: views/admin_update.php:4
+msgid "The following files have new versions available. Check the ones you want to update and then click &#8220;Update Mute Screamer&#8221;."
+msgstr ""
+
+#: views/admin_update.php:12 views/admin_update.php:19
+msgid "Select All"
+msgstr ""
+
+#: views/admin_update.php:28
+msgid "Update to revision %1$s. <a href=\"%2$s\">Review changeset</a>."
+msgstr ""
+
+#: views/admin_update_diff.php:6
+msgid "Showing changes to be updated."
+msgstr ""
+
+#: views/admin_update_diff.php:11
+msgid "Continue"
+msgstr ""
+
+#: views/admin_update_diff.php:25
+msgid "These revisions are identical."
+msgstr ""
+
+#: views/alert_email.php:2
+msgid "Mute Screamer has detected an attack on your site %s"
+msgstr ""
+
+#: views/alert_email.php:4
+msgid "Total impact: %s"
+msgstr ""
+
+#: views/alert_email.php:6
+msgid "Affected tags: %s"
+msgstr ""
+
+#: views/alert_email.php:8
+msgid "Detected ip address: %s "
+msgstr ""
+
+#: views/alert_email.php:12
+msgid "Variable: %s"
+msgstr ""
+
+#: views/alert_email.php:14
+msgid "Value: %s"
+msgstr ""
+
+#: views/alert_email.php:16
+msgid "Impact: %s"
+msgstr ""
+
+#: views/alert_email.php:18
+msgid "Tags: %s"
+msgstr ""
+
+#: views/alert_email.php:23
+msgid "Centrifuge detection data"
+msgstr ""
+
+#: views/alert_email.php:25
+msgid "Threshold: %s"
+msgstr ""
+
+#: views/alert_email.php:27
+msgid "Ratio: %s"
+msgstr ""
+
+#: views/alert_email.php:31
+msgid "Converted: %s"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Mute Screamer"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://wordpress.org/extend/plugins/mute-screamer/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "<a href=\"http://phpids.org/\">PHPIDS</a> for Wordpress."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ampt"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://notfornoone.com/"
+msgstr ""
