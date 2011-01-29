@@ -419,6 +419,13 @@ if( ! class_exists( 'Mute_screamer' ) AND version_compare( PHP_VERSION, '5.2', '
 			// Do previous options exist? Merge them, this way we keep existing options
 			// and if an update adds new options they get added too.
 			$prev_options = get_option( 'mscr_options' );
+
+			// If we didn't previously have a db_version don't add one,
+			// we want the upgrade routine to handle this
+			if( ! isset( $prev_options['db_version'] ) ) {
+				unset( $options['db_version'] );
+			}
+
 			if( is_array($prev_options) ) {
 				$options = array_merge( $options, $prev_options );
 			}
