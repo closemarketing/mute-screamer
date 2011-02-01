@@ -1,7 +1,19 @@
 <?php  if ( ! defined('ABSPATH') ) exit;
 
 class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
+
+	/**
+	 * Number of context lines before
+	 *
+	 * @var int
+	 */
 	public $_leading_context_lines  = 3;
+
+	/**
+	 * Number of context lines after
+	 *
+	 * @var int
+	 */
 	public $_trailing_context_lines = 3;
 
 	/**

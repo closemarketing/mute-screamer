@@ -22,8 +22,8 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 		/**
 		 * Handle the upgrade
 		 *
-		 * @param	array the files to upgrade
-		 * @return	bool true on success, false on failure
+		 * @param array the files to upgrade
+		 * @return bool true on success, false on failure
 		 */
 		public function upgrade( $files = array() ) {
 			global $wp_filesystem;
@@ -39,7 +39,7 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 			$this->maintenance_mode( true );
 
 			$upgrade_folder = $wp_filesystem->wp_content_dir() . 'upgrade/';
-			$mscr_folder = $wp_filesystem->wp_plugins_dir() . 'mute-screamer/lib/IDS/';
+			$mscr_folder = $wp_filesystem->wp_plugins_dir() . 'mute-screamer/libraries/IDS/';
 
 			// Only check to see if the Dir exists upon creation failure. Less I/O this way.
 			if ( ! $wp_filesystem->mkdir($upgrade_folder, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($upgrade_folder) ) {
@@ -81,6 +81,11 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 			return true;
 		}
 
+		/**
+		 * Flush output to browser
+		 *
+		 * @return void
+		 */
 		private function flush_output() {
 			wp_ob_end_flush_all();
 			flush();

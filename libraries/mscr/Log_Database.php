@@ -1,4 +1,4 @@
-<?php  if ( !defined('ABSPATH') ) exit;
+<?php  if ( ! defined('ABSPATH') ) exit;
 /*
  * Mute Screamer
  *
@@ -12,7 +12,8 @@ require_once 'IDS/Log/Interface.php';
  *
  * Log reports using the wpdb class
  */
-class mscr_log_database implements IDS_Log_Interface {
+class MSCR_Log_Database implements IDS_Log_Interface {
+
     /**
      * Holds current remote address
      *
@@ -20,16 +21,14 @@ class mscr_log_database implements IDS_Log_Interface {
      */
     private $ip = '0.0.0.0';
 
-
 	/**
 	 * Constructor
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	public function __construct() {
 		$this->ip = MSCR_Utils::ip_address();
 	}
-
 
 	/**
 	* Inserts detected attacks into the database
@@ -57,11 +56,11 @@ class mscr_log_database implements IDS_Log_Interface {
 			$data['origin'] = $_SERVER['SERVER_ADDR'];
 			$data['created'] = date( 'Y-m-d H:i:s', time() );
 
-			if( FALSE === $wpdb->insert( $wpdb->mscr_intrusions, $data ) ) {
-				return FALSE;
+			if( false === $wpdb->insert( $wpdb->mscr_intrusions, $data ) ) {
+				return false;
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 }

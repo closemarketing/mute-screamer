@@ -3,7 +3,7 @@
 /**
  * Mute Screamer admin class
  */
-class Mscr_admin {
+class MSCR_Admin {
 	/**
 	 * Constructor
 	 */
@@ -30,7 +30,7 @@ class Mscr_admin {
 	/**
 	 * Admin init
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	public function admin_init() {
 		// Are we on Mute Screamer's intrusions page?
@@ -40,12 +40,12 @@ class Mscr_admin {
 
 			// Reset new instrusions badge for admin menu
 			// Must be called before register_setting, becuase it updates options
-			Mute_screamer::instance()->set_option( 'new_intrusions_count', 0 );
+			Mute_Screamer::instance()->set_option( 'new_intrusions_count', 0 );
 			return;
 		}
 
 		// Add admin CSS
-		wp_enqueue_style( 'mscr_styles', WP_PLUGIN_URL . '/mute-screamer/css/mscr.css', array(), Mute_screamer::VERSION );
+		wp_enqueue_style( 'mscr_styles', WP_PLUGIN_URL . '/mute-screamer/css/mscr.css', array(), Mute_Screamer::VERSION );
 
 		// Once a setting is registered adding/updating options
 		// will run options_validate, which we may not want in all cases
@@ -56,7 +56,7 @@ class Mscr_admin {
 	/**
 	 * Perform an action based on the request
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	private function do_action() {
 		global $wpdb;
@@ -108,9 +108,9 @@ class Mscr_admin {
 	/**
 	 * Add custom screen options to a plugin page
 	 *
-	 * @param	string
-	 * @param	object
-	 * @return	string
+	 * @param string
+	 * @param object
+	 * @return string
 	 */
 	public function screen_settings( $action, $screen_object ) {
 		global $current_user;
@@ -119,7 +119,7 @@ class Mscr_admin {
 			$per_page = MSCR_Utils::mscr_intrusions_per_page();
 
 			$data['per_page'] = $per_page;
-			$action = MSCR_Utils::view('admin_intrusions_screen_options', $data, TRUE);
+			$action = MSCR_Utils::view('admin_intrusions_screen_options', $data, true);
 		}
 
 		return $action;
@@ -129,14 +129,14 @@ class Mscr_admin {
 	/**
 	 * Update the current user's screen options
 	 *
-	 * @return	mixed
+	 * @return mixed
 	 */
 	public function set_screen_option( $flag, $option, $value ) {
 		switch( $option ) {
 			case 'mscr_intrusions_per_page':
 				$value = absint($value);
 				if( $value < 1 ) {
-					return FALSE;
+					return false;
 				}
 
 				return $value;
@@ -149,10 +149,10 @@ class Mscr_admin {
 	/**
 	 * Add admin menu items
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	public function admin_menu() {
-		$intrusion_count = (int) Mute_screamer::instance()->get_option( 'new_intrusions_count' );
+		$intrusion_count = (int) Mute_Screamer::instance()->get_option( 'new_intrusions_count' );
 		$intrusions_menu_title = sprintf( __( 'Intrusions %s', 'mute-screamer' ), "<span class='update-plugins count-$intrusion_count' title='$intrusion_count'><span class='update-count'>" . number_format_i18n($intrusion_count) . "</span></span>" );
 		add_dashboard_page( __( 'Mute Screamer Intrusions', 'mute-screamer' ), $intrusions_menu_title, 'activate_plugins', 'mscr_intrusions', array($this, 'intrusions') );
 		add_options_page( __( 'Mute Screamer Configuration', 'mute-screamer' ), __( 'Mute Screamer', 'mute-screamer' ), 'activate_plugins', 'mscr_options', array($this, 'options') );
@@ -165,13 +165,13 @@ class Mscr_admin {
 	 * Change the updates badge in the Dashboard menu
 	 * if there are updates available for Mute Screamer
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	private function set_update_badge() {
 		global $submenu;
 		$updates = get_site_transient( 'mscr_update' );
 
-		if( $updates === FALSE OR empty( $updates['updates'] ) )
+		if( $updates === false OR empty( $updates['updates'] ) )
 			return;
 
 		if( ! isset( $submenu['index.php'] ) )
@@ -184,7 +184,7 @@ class Mscr_admin {
 		foreach( $submenu['index.php'] as &$item ) {
 			if( isset( $item[2] ) && $item[2] == 'update-core.php' ) {
 				// Is there already an update badge? Get existing update count
-				if( strpos( $item[0], '<span' ) !== FALSE ) {
+				if( strpos( $item[0], '<span' ) !== false ) {
 					$existing_count = preg_replace('/.+?<span\b[^>]*><span\b[^>]*>(\d+)<\/span><\/span>/', '$1', $item[0]);
 				}
 
@@ -199,7 +199,7 @@ class Mscr_admin {
 	/**
 	 * Display PHPIDS Intrusions
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	public function intrusions()
 	{
@@ -249,7 +249,7 @@ class Mscr_admin {
 		// Was something deleted?
 		$deleted = isset($_GET['deleted']) ? (int) $_GET['deleted'] : 0;
 
-		$data['message'] = FALSE;
+		$data['message'] = false;
 		$data['intrusions'] = $intrusions;
 		$data['style'] = '';
 		$data['columns'] = $columns;
@@ -272,7 +272,7 @@ class Mscr_admin {
 	/**
 	 * Validate options
 	 *
-	 * @return	array
+	 * @return array
 	 */
 	public function options_validate( $input = array() ) {
 		$options = get_option( 'mscr_options' );
@@ -326,7 +326,7 @@ class Mscr_admin {
 	/**
 	 * Display options page
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	public function options() {
 		$options = get_option( 'mscr_options' );

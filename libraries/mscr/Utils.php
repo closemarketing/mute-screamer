@@ -4,15 +4,15 @@
  * Mute Screamer utils class
  */
 class MSCR_Utils {
-	public static $ip = FALSE;
+	public static $ip = false;
 
 	/**
 	 * Load a template file
 	 *
-	 * @return	void/string
+	 * @return void|string
 	 */
-	public static function view( $view, $vars = array(), $return = FALSE ) {
-		$found = FALSE;
+	public static function view( $view, $vars = array(), $return = false ) {
+		$found = false;
 
 		// Look in Mute Screamer views and the current Wordpress theme directories
 		for( $i = 1; $i < 3; $i++ ) {
@@ -21,19 +21,19 @@ class MSCR_Utils {
 
 			// Does the file exist?
 			if( file_exists($view_path) ) {
-				$found = TRUE;
+				$found = true;
 				break;
 			}
 		}
 
-		if( $found === TRUE ) {
+		if( $found === true ) {
 			extract($vars);
 			ob_start();
 
 			include($view_path);
 
 			// Return the data if requested
-			if( $return === TRUE ) {
+			if( $return === true ) {
 				$buffer = ob_get_contents();
 				@ob_end_clean();
 				return $buffer;
@@ -43,7 +43,7 @@ class MSCR_Utils {
 			@ob_end_clean();
 
 			echo $output;
-		} else if( defined('WP_DEBUG') && WP_DEBUG == TRUE ) {
+		} else if( defined('WP_DEBUG') && WP_DEBUG == true ) {
 			trigger_error(__('Unable to load the requested view.', 'mute-screamer'), E_USER_ERROR);
 		}
 	}
@@ -52,7 +52,7 @@ class MSCR_Utils {
 	/**
 	 * Create pagination links
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public static function pagination($current_page = 1, $total_pages = 0, $per_page = 0, $count = 0)
 	{
@@ -83,7 +83,7 @@ class MSCR_Utils {
 	/**
 	 * Get intrusions per page option
 	 *
-	 * @return	integer
+	 * @return integer
 	 */
 	public static function mscr_intrusions_per_page() {
 		$per_page = (int) get_user_option('mscr_intrusions_per_page');
@@ -100,7 +100,7 @@ class MSCR_Utils {
 	/**
 	 * Get the current upload path
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public static function upload_path() {
 		$upload_path = get_option( 'upload_path' );
@@ -132,7 +132,7 @@ class MSCR_Utils {
 	/**
 	 * Fetch ip address
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public static function ip_address() {
 		$ip = '0.0.0.0';
@@ -147,7 +147,7 @@ class MSCR_Utils {
 			foreach( explode(',', $_SERVER[$key]) as $val ) {
 				$ip = trim($val);
 
-				if( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== FALSE ) {
+				if( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false ) {
 					self::$ip = $ip;
 					return $ip;
 				}
@@ -162,9 +162,9 @@ class MSCR_Utils {
 	 * Text diff. This is the same as wp_text_diff, the only
 	 * difference is we use a custom text diff render class.
 	 *
-	 * @param	string the left file to compare
-	 * @param	string the right file to compare
-	 * @return	string Rendered table of diff files
+	 * @param string the left file to compare
+	 * @param string the right file to compare
+	 * @return string Rendered table of diff files
 	 */
 	public static function text_diff( $left_string, $right_string, $args = null ) {
 		$defaults = array( 'title' => '', 'title_left' => '', 'title_right' => '' );
@@ -214,8 +214,8 @@ class MSCR_Utils {
 	/**
 	 * Fetch item from the GET array
 	 *
-	 * @param	string
-	 * @return	string|bool
+	 * @param string
+	 * @return string|bool
 	 */
 	public static function get( $index = '' ) {
 		return self::_fetch_from_array( $_GET, $index );
@@ -224,8 +224,8 @@ class MSCR_Utils {
 	/**
 	 * Fetch item from the POST array
 	 *
-	 * @param	string
-	 * @return	string|bool
+	 * @param string
+	 * @return string|bool
 	 */
 	public static function post( $index = '' ) {
 		return self::_fetch_from_array( $_POST, $index );
@@ -234,8 +234,8 @@ class MSCR_Utils {
 	/**
 	 * Fetch item from the SERVER array
 	 *
-	 * @param	string
-	 * @return	string|bool
+	 * @param string
+	 * @return string|bool
 	 */
 	public static function server( $index = '' ) {
 		return self::_fetch_from_array( $_SERVER, $index );
@@ -244,9 +244,9 @@ class MSCR_Utils {
 	/**
 	 * Fetch items from global arrays
 	 *
-	 * @param	array
-	 * @param	string
-	 * @return	string|bool
+	 * @param array
+	 * @param string
+	 * @return string|bool
 	 */
 	private static function _fetch_from_array( $array, $index = '' ) {
 		if( ! isset( $array[$index] ) )

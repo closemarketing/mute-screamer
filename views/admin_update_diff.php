@@ -14,7 +14,7 @@
 	<?php foreach( $diff_files as $file ) : ?>
 	<div class="mscr_diff_file" style="">
 		<div class="meta">
-			<?php echo str_replace( ABSPATH, '', MSCR_PATH.'/lib/IDS/' ).$file->name; ?>
+			<?php echo str_replace( ABSPATH, '', MSCR_PATH.'/libraries/IDS/' ).$file->name; ?>
 		</div>
 
 		<div class="data">

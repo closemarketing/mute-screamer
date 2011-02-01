@@ -7,15 +7,39 @@
  * and Converter.php
  */
 class MSCR_Update {
-	public static $instance = NULL;
+
+	/**
+	 * An instance of this class
+	 *
+	 * @var object
+	 */
+	public static $instance = null;
+
+	/**
+	 * Update cache
+	 *
+	 * @var array
+	 */
 	private $updates = array();
+
+	/**
+	 * The file to check for a new version of
+	 *
+	 * @var string
+	 */
 	private $file = '';
+
+	/**
+	 * Update check interval
+	 *
+	 * @var int
+	 */
 	private $timeout = 86400;
 
 	/**
 	 * Constructor
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	protected function __construct() {
 		$this->updates = get_site_transient( 'mscr_update' );
@@ -24,7 +48,7 @@ class MSCR_Update {
 	/**
 	 * Get the MSCR Update instance
 	 *
-	 * @return	object
+	 * @return object
 	 */
 	public static function instance() {
 		if( ! self::$instance )
@@ -40,24 +64,24 @@ class MSCR_Update {
 	 * 3. does the sha1 match the revision version of the file from rss?
 	 * 4. display update notice, with link to changeset
 	 *
-	 * @return	bool
+	 * @return bool
 	 */
 	public function update_check() {
 		// TODO: Make this more efficient/responsive so it doesn't
 		// TODO: look like Wordpress is really slow
 
-		if( !$this->can_update() )
-			return FALSE;
+		if( ! $this->can_update() )
+			return false;
 
 		// Is it time to check for updates?
-		if( $this->updates !== FALSE )
-			return FALSE;
+		if( $this->updates !== false )
+			return false;
 
 		// Initialise the update cache
 		$this->updates['updates'] = array();
 
 		// Suppress libxml parsing errors
-		$libxml_use_errors = libxml_use_internal_errors( TRUE );
+		$libxml_use_errors = libxml_use_internal_errors( true );
 
 		foreach( array( 'default_filter.xml', 'Converter.php' ) as $file ) {
 			$this->file = $file;
@@ -72,7 +96,7 @@ class MSCR_Update {
 			$responses = $this->updates['updates'][$file]->responses;
 			if( $responses['sha1'] == '' OR $responses['rss'] == '' ) {
 				$this->abort();
-				return FALSE;
+				return false;
 			}
 
 			// Does the sha1 differ?
@@ -94,7 +118,7 @@ class MSCR_Update {
 			// Did we parse the revision number correctly?
 			if( ! ctype_digit( $details->revision ) ) {
 				$this->abort();
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -106,7 +130,6 @@ class MSCR_Update {
 
 		// TODO: Extra validation step
 		// TODO: Check revision_file_url sha1 and compare to remote sha1
-		// TODO: If the sha1's are the same then we can run the update
 
 		set_site_transient( 'mscr_update', $this->updates, $this->timeout );
 	}
@@ -115,13 +138,13 @@ class MSCR_Update {
 	/**
 	 * Is it a good time to check for updates?
 	 *
-	 * @return	bool
+	 * @return bool
 	 */
 	private function can_update() {
 		// Don't check for updates on wp-login.php, this happens when you request
 		// an admin page but are not logged in and then redirected to wp-login.php
-		if( FALSE === wp_validate_auth_cookie() )
-			return FALSE;
+		if( false === wp_validate_auth_cookie() )
+			return false;
 
 		// Don't check for updates during the update process
 		$actions = array(
@@ -130,15 +153,15 @@ class MSCR_Update {
 			'mscr_upgrade_run'
 		);
 		if( in_array( MSCR_Utils::get( 'action' ), $actions ) )
-			return FALSE;
+			return false;
 
-		return TRUE;
+		return true;
 	}
 
 	/**
 	 * Fetch the remote sha1 and cache the result
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	private function sha1_fetch() {
 		// Fetch remote sha1
@@ -151,7 +174,7 @@ class MSCR_Update {
 	/**
 	 * Fetch the latest rss revision and cache the result
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	private function rss_fetch() {
 		$url = "https://trac.php-ids.org/index.fcgi/log/trunk/lib/IDS/{$this->file}?limit=1&format=rss";
@@ -162,30 +185,31 @@ class MSCR_Update {
 	/**
 	 * Check the sha1 to see if we need to update
 	 *
-	 * @return	bool	true if the sha1's are different
+	 * @return bool true if the sha1's are different
 	 */
 	private function sha1_check() {
 		// Get the current sha1
-		$local_file = MSCR_PATH."/lib/IDS/{$this->file}";
+		$local_file = MSCR_PATH."/libraries/IDS/{$this->file}";
 
 		if( ! file_exists( $local_file ) )
-			return FALSE;
+			return false;
 
 		$local_sha1 = sha1_file( $local_file );
 		$remote_sha1 = $this->updates['updates'][$this->file]->responses['sha1'];
 
 		if( $local_sha1 == $remote_sha1 )
-			return FALSE;
+			return false;
 
-		return TRUE;
+		return true;
 	}
 
 	/**
 	 * A wrapper function to wp_remote_get. On error return
 	 * an empty body so we can fail gracefully.
 	 *
-	 * @param	string
-	 * @return	array
+	 * @param string
+	 * @param array
+	 * @return array
 	 */
 	private function remote_get( $url = '', $options = array() ) {
 		$cache = get_site_transient( 'mscr_requests_cache' );
@@ -197,7 +221,7 @@ class MSCR_Update {
 
 		// Default options
 		if( empty( $options ) ) {
-			$options = array( 'sslverify' => FALSE );
+			$options = array( 'sslverify' => false );
 		}
 
 		$response = wp_remote_get( $url, $options );
@@ -220,7 +244,7 @@ class MSCR_Update {
 	/**
 	 * Abort the update process.
 	 *
-	 * @return	void
+	 * @return void
 	 */
 	private function abort() {
 		// Set error flag and try again when the transient expires next
@@ -232,6 +256,8 @@ class MSCR_Update {
 
 	/**
 	 * Display update notices on the update page
+	 *
+	 * @return void
 	 */
 	public function list_mscr_updates() {
 		if( empty( $this->updates['updates'] ) ) {
@@ -246,6 +272,8 @@ class MSCR_Update {
 
 	/**
 	 * Display diff of files to be upgraded
+	 *
+	 * @return void
 	 */
 	public function do_upgrade_diff() {
 		$diff_files = array();
@@ -263,7 +291,7 @@ class MSCR_Update {
 				continue;
 
 			// Get local file
-			$local = MSCR_PATH.'/lib/IDS/'.$file;
+			$local = MSCR_PATH.'/libraries/IDS/'.$file;
 
 			if( ! file_exists( $local ) ) {
 				wp_die( new WP_Error( 'mscr_upgrade_file_missing', sprintf( __( '%s does not exist.', 'mute-screamer' ), esc_html($file) ) ) );
@@ -309,7 +337,7 @@ class MSCR_Update {
 	 * in /wp-admin/update.php which does not set this up
 	 * for us.
 	 *
-	 * @param string title
+	 * @param string
 	 * @return void
 	 */
 	private function admin_header( $title ) {
@@ -321,6 +349,8 @@ class MSCR_Update {
 
 	/**
 	 * Display upgrade page, setup the iframe to run the upgrade
+	 *
+	 * @return void
 	 */
 	public function do_upgrade() {
 		if ( ! current_user_can( 'update_plugins' ) )
@@ -342,6 +372,8 @@ class MSCR_Update {
 
 	/**
 	 * This is in an iframe
+	 *
+	 * @return void
 	 */
 	public function do_upgrade_run() {
 		$upgrade_files = array(
