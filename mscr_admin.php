@@ -158,7 +158,7 @@ class MSCR_Admin {
 
 
 	/**
-	 * Add custom screen options to a plugin page
+	 * Add custom screen options & help to a plugin page
 	 *
 	 * @param string
 	 * @param object
@@ -168,10 +168,19 @@ class MSCR_Admin {
 		global $current_user;
 
 		if( $screen_object->id == 'dashboard_page_mscr_intrusions' ) {
+			// Add screen options to the intrusions list page
 			$per_page = MSCR_Utils::mscr_intrusions_per_page();
-
 			$data['per_page'] = $per_page;
 			$action = MSCR_Utils::view('admin_intrusions_screen_options', $data, true);
+
+			// Add help to the intrusions list page
+			add_contextual_help( $screen_object->id,
+				'<p>' . __( 'Hovering over a row in the intrusions list will display action links that allow you to manage the intrusion. You can perform the following actions:', 'mute-screamer' ) . '</p>' .
+				'<ul>' .
+				'<li>' . __( 'Exclude automatically adds the item to the Exception fields list.', 'mute-screamer' ) . '</li>' .
+				'<li>' . __( 'Delete permanently deletes the intrusion.', 'mute-screamer' ) . '</li>' .
+				'</ul>'
+			);
 		}
 
 		return $action;
