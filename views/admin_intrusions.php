@@ -79,7 +79,15 @@
 								<td class="<?php echo $key; ?> column-<?php echo $key; ?>">
 									<?php switch($key) :
 										case 'name':
-											echo $intrusion->name;
+											$exclude_link = wp_nonce_url( admin_url( 'index.php?page=mscr_intrusions&action=exclude&intrusion='.$intrusion->id ), 'mscr_action_exclude_intrusion' );
+											$delete_link = wp_nonce_url( admin_url( 'index.php?page=mscr_intrusions&action=delete&intrusion='.$intrusion->id ), 'mscr_action_delete_intrusion' );
+?>
+											<strong><a href="<?php echo $exclude_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Exclude &#8220;%s&#8221;' ), $intrusion->name ) ); ?>"><?php echo $intrusion->name; ?></a></strong>
+											<div class="row-actions">
+												<span class="exclude"><a title="<?php echo esc_attr( __( 'Add this item to the exception fields list', 'mute-screamer' ) ); ?>" href="<?php echo $exclude_link; ?>"><?php _e( 'Exclude', 'mute-screamer' ); ?></a> | </span>
+												<span class="delete"><a title="<?php echo esc_attr( __( 'Delete this item', 'mute-screamer' ) ); ?>" class="delete submitdelete" href="<?php echo $delete_link; ?>"><?php _e( 'Delete', 'mute-screamer' ); ?></a></span>
+											</div>
+<?php
 											break;
 
 										case 'value':
@@ -146,6 +154,8 @@
 </div>
 <script type='text/javascript'>
 jQuery(function(){
-	jQuery('.submitdelete').click(function(){return confirm(<?php _e( "Delete\nAre you sure?", 'mute-screamer' ); ?>)});
+	jQuery('.submitdelete').click(function() {
+		return confirm(<?php _e( '"You are about to permanently delete this item.\n  \'Cancel\' to stop, \'OK\' to delete."', 'mute-screamer' ); ?>);
+	});
 });
 </script>

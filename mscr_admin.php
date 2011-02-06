@@ -1,4 +1,4 @@
-<?php  if ( !defined('ABSPATH') ) exit;
+<?php  if ( ! defined('ABSPATH') ) exit;
 
 /**
  * Mute Screamer admin class
@@ -60,11 +60,11 @@ class MSCR_Admin {
 	 */
 	private function do_action() {
 		global $wpdb;
+		$sendback = remove_query_arg( array('intrusions' ), wp_get_referer() );
 
 		// Handle bulk actions
 		if ( isset( $_GET['doaction'] ) || isset( $_GET['doaction2'] ) ) {
 			check_admin_referer('mscr_action_intrusions_bulk');
-			$sendback = remove_query_arg( array('intrusions' ), wp_get_referer() );
 
 			if ( ( $_GET['action'] != '' || $_GET['action2'] != '' ) && ( isset($_GET['page']) && isset($_GET['intrusions']) ) ) {
 				$intrusion_ids = $_GET['intrusions'];
@@ -102,6 +102,58 @@ class MSCR_Admin {
 			wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 			exit;
 		}
+
+		// Handle other actions
+		$action = MSCR_Utils::get( 'action' );
+		$id = (int) MSCR_Utils::get( 'intrusion' );
+
+		if( ! $action )
+			return;
+
+		switch( $action ) {
+			case 'exclude':
+				check_admin_referer( 'mscr_action_exclude_intrusion' );
+				if( ! current_user_can( 'activate_plugins' ) )
+					wp_die( __( 'You are not allowed to exclude this item.', 'mute-screamer' ) );
+
+				// Get the intrusion field to exclude
+				$sql = $wpdb->prepare( "SELECT name FROM {$wpdb->mscr_intrusions} WHERE id = %d", $id );
+				$result = $wpdb->get_row( $sql );
+
+				if( ! $result) {
+					wp_die( __( 'Error in excluding...', 'mute-screamer' ) );
+				}
+
+				$mscr = Mute_Screamer::instance();
+				$exceptions = $mscr->get_option( 'exception_fields' );
+
+				// Only add the field once
+				if( ! in_array( $result->name, $exceptions ) ) {
+					$exceptions[] = $result->name;
+				}
+
+				$mscr->set_option( 'exception_fields', $exceptions );
+				$sendback = add_query_arg( 'excluded', $id, $sendback );
+				break;
+
+			case 'delete':
+				check_admin_referer( 'mscr_action_delete_intrusion' );
+				if( ! current_user_can( 'activate_plugins' ) )
+					wp_die( __( 'You are not allowed to delete this item.', 'mute-screamer' ) );
+
+				$sql = $wpdb->prepare( "DELETE FROM ".$wpdb->mscr_intrusions." WHERE id = %d", $id );
+				$result = $wpdb->query( $sql );
+
+				if( ! $result) {
+					wp_die( __( 'Error in deleting...', 'mute-screamer' ) );
+				}
+
+				$sendback = add_query_arg( 'deleted', 1, $sendback );
+				break;
+		}
+
+		wp_redirect( $sendback );
+		exit;
 	}
 
 
@@ -201,8 +253,7 @@ class MSCR_Admin {
 	 *
 	 * @return void
 	 */
-	public function intrusions()
-	{
+	public function intrusions() {
 		global $wpdb;
 
 		// Current page number, items per page
@@ -249,6 +300,9 @@ class MSCR_Admin {
 		// Was something deleted?
 		$deleted = isset($_GET['deleted']) ? (int) $_GET['deleted'] : 0;
 
+		// Was something excluded?
+		$excluded = isset($_GET['excluded']) ? (int) $_GET['excluded'] : 0;
+
 		$data['message'] = false;
 		$data['intrusions'] = $intrusions;
 		$data['style'] = '';
@@ -265,7 +319,10 @@ class MSCR_Admin {
 		if( $deleted )
 			$data['message'] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted, 'mute-screamer' ), number_format_i18n( $deleted ) );
 
-		MSCR_Utils::view('admin_intrusions', $data);
+		if( $excluded )
+			$data['message'] = __( 'Item added to the exceptions list.', 'mute-screamer' );
+
+		MSCR_Utils::view( 'admin_intrusions', $data );
 	}
 
 
