@@ -215,7 +215,7 @@ class MSCR_Utils {
 	 * Fetch item from the GET array
 	 *
 	 * @param string
-	 * @return string|bool
+	 * @return mixed
 	 */
 	public static function get( $index = '' ) {
 		return self::_fetch_from_array( $_GET, $index );
@@ -225,7 +225,7 @@ class MSCR_Utils {
 	 * Fetch item from the POST array
 	 *
 	 * @param string
-	 * @return string|bool
+	 * @return mixed
 	 */
 	public static function post( $index = '' ) {
 		return self::_fetch_from_array( $_POST, $index );
@@ -235,7 +235,7 @@ class MSCR_Utils {
 	 * Fetch item from the SERVER array
 	 *
 	 * @param string
-	 * @return string|bool
+	 * @return mixed
 	 */
 	public static function server( $index = '' ) {
 		return self::_fetch_from_array( $_SERVER, $index );
@@ -246,7 +246,7 @@ class MSCR_Utils {
 	 *
 	 * @param array
 	 * @param string
-	 * @return string|bool
+	 * @return mixed
 	 */
 	private static function _fetch_from_array( $array, $index = '' ) {
 		if( ! isset( $array[$index] ) )

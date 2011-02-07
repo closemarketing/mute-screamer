@@ -189,6 +189,17 @@ class Mute_Screamer {
 		// Mark fields that have JSON data
 		$config['General']['json'] = $this->json_fields ? $this->json_fields : false;
 
+		// Email logging
+		$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+		$subject = sprintf( __( '[%s] Mute Screamer IDS Alert', 'mute-screamer' ), $blogname );
+		$config['Logging']['recipients'] = $this->email;
+		$config['Logging']['subject'] = $subject;
+		$config['Logging']['header'] = '';
+		$config['Logging']['envelope'] = '';
+		$config['Logging']['safemode'] = true;
+		$config['Logging']['urlencode'] = true;
+		$config['Logging']['allowed_rate'] = 15;
+
 		$ids = IDS_Init::init();
 		$ids->setConfig( $config, true );
 
@@ -217,38 +228,38 @@ class Mute_Screamer {
 		$ids = new IDS_Monitor($request, $init);
 		$this->result = $ids->run();
 
-		if( !$this->result->isEmpty() ) {
+		if( ! $this->result->isEmpty() ) {
 			$this->update_intrusion_count();
 			$compositeLog = new IDS_Log_Composite();
 			$compositeLog->addLogger( new MSCR_Log_Database() );
-			$compositeLog->execute($this->result);
 
-			if( $this->email_notifications ) {
-				$this->email();
+			if( $this->send_alert_email() ) {
+				require_once 'mscr/Log_Email.php';
+				$compositeLog->addLogger( MSCR_Log_Email::getInstance( $init, 'MSCR_Log_Email' ) );
 			}
 
+			$compositeLog->execute($this->result);
 			$this->warning_page();
 		}
 	}
 
 	/**
-	 * Send an alert email if the impact is over the email threshold
+	 * We are sending alert emails if email notifications
+	 * are turned on and the result impact is greater than the
+	 * email threshold.
 	 *
-	 * @return void
+	 * @return boolean
 	 */
-	private function email() {
-		if( $this->result->getImpact() < $this->email_threshold ) {
-			return;
+	private function send_alert_email() {
+		if( ! $this->email_notifications ) {
+			return false;
 		}
 
-		$data['blogname'] = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-		$data['result'] = $this->result;
-		$data['ip_address'] = MSCR_Utils::ip_address();
+		if( $this->result->getImpact() < $this->email_threshold ) {
+			return false;
+		}
 
-		$message = MSCR_Utils::view('alert_email', $data, true);
-		$subject = sprintf( __( '[%s] Mute Screamer IDS Alert', 'mute-screamer' ), $data['blogname'] );
-
-		wp_mail( $this->email, $subject, $message );
+		return true;
 	}
 
 	/**
