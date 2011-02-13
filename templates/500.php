@@ -3,6 +3,11 @@
  * The template for displaying 500 error pages (Server Error).
  */
 
+// Change the page title for a 500 error
+if( is_callable( 'MSCR_Utils::filter_wp_title' ) ) {
+	add_filter( 'wp_title', 'MSCR_Utils::filter_wp_title', 10, 3 );
+}
+
 get_header(); ?>
 
 	<div id="container">
