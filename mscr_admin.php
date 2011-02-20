@@ -12,6 +12,7 @@ class MSCR_Admin {
 		add_action( 'admin_menu', array($this, 'admin_menu') );
 		add_filter( 'screen_settings', array($this, 'screen_settings'), 10, 2 );
 		add_filter( 'set-screen-option', array($this, 'set_screen_option'), 10, 3 );
+		add_filter( 'plugin_action_links_mute-screamer/mute-screamer.php', array( $this, 'plugin_action_links' ) );
 
 		// Run update routines
 		$update = MSCR_Update::instance();
@@ -251,6 +252,23 @@ class MSCR_Admin {
 			}
 		}
 	}
+
+	/**
+	 * Add link to settings on the plugins page
+	 *
+	 * @param array
+	 * @return array
+	 */
+	public function plugin_action_links( $actions ) {
+		$mscr_actions['settings'] = '<a href="'.admin_url( 'options-general.php?page=mscr_options' ).'">Settings</a>';
+
+		foreach( $actions as $key => $val ) {
+			$mscr_actions[$key] = $val;
+		}
+
+		return $mscr_actions;
+	}
+	
 
 	/**
 	 * Display PHPIDS Intrusions
