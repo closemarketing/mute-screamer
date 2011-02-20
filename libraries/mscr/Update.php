@@ -113,7 +113,7 @@ class MSCR_Update {
 			$details->revision = preg_replace('/Revision (\d+).+/si', '$1', $rss->channel->item->title);
 			$details->date = (string) $rss->channel->item->pubDate;
 			$details->revision_url = (string) $rss->channel->item->guid;
-			$details->revision_file_url = "https://trac.php-ids.org/index.fcgi/export/{$details->revision}/trunk/lib/IDS/{$this->file}";
+			$details->revision_file_url = "https://trac.phpids.org/index.fcgi/export/{$details->revision}/trunk/lib/IDS/{$this->file}";
 
 			// Did we parse the revision number correctly?
 			if( ! ctype_digit( $details->revision ) ) {
@@ -165,7 +165,7 @@ class MSCR_Update {
 	 */
 	private function sha1_fetch() {
 		// Fetch remote sha1
-		$url = 'https://php-ids.org/hash.php?f='.$this->file;
+		$url = 'https://phpids.org/hash.php?f='.$this->file;
 		$response = $this->remote_get( $url );
 		$this->updates['updates'][$this->file] = new stdClass;
 		$this->updates['updates'][$this->file]->responses['sha1'] = $response['body'];
@@ -177,7 +177,7 @@ class MSCR_Update {
 	 * @return void
 	 */
 	private function rss_fetch() {
-		$url = "https://trac.php-ids.org/index.fcgi/log/trunk/lib/IDS/{$this->file}?limit=1&format=rss";
+		$url = "https://trac.phpids.org/index.fcgi/log/trunk/lib/IDS/{$this->file}?limit=1&format=rss";
 		$response = $this->remote_get( $url );
 		$this->updates['updates'][$this->file]->responses['rss'] = $response['body'];
 	}
