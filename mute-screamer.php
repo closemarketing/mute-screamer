@@ -52,6 +52,7 @@ class Mute_Screamer {
 	const INTRUSIONS_TABLE	= 'mscr_intrusions';
 	const VERSION			= '0.63';
 	const DB_VERSION		= 2;
+	const POST_TYPE			= 'mscr_ban';
 
 	/**
 	 * An instance of this class
@@ -110,11 +111,67 @@ class Mute_Screamer {
 	private $new_intrusions_count = 0;
 
 	/**
+	 * Enable PHPIDS in the WordPress admin
+	 *
+	 * @var int
+	 */
+	private $enable_admin = 1;
+
+	/**
+	 * Enable PHPIDS in the WordPress admin
+	 *
+	 * @var int
+	 */
+	private $warning_threshold = 40;
+
+	/**
+	 * Enable PHPIDS in the WordPress admin
+	 *
+	 * @var int
+	 */
+	private $warning_wp_admin = 0;
+
+	/**
+	 * Enable PHPIDS in the WordPress admin
+	 *
+	 * @var int
+	 */
+	private $ban_enabled = 0;
+
+	/**
+	 * Enable PHPIDS in the WordPress admin
+	 *
+	 * @var int
+	 */
+	private $ban_threshold = 70;
+
+	/**
+	 * Enable PHPIDS in the WordPress admin
+	 *
+	 * @var int
+	 */
+	private $attack_repeat_limit = 5;
+
+	/**
+	 * Time in seconds a user is banned for.
+	 *
+	 * @var int
+	 */
+	private $ban_time = 300;
+
+	/**
 	 * PHPIDS result
 	 *
 	 * @var object
 	 */
 	private $result = null;
+
+	/**
+	 * Is the current request a banned request?
+	 *
+	 * @var boolean
+	 */
+	public $is_ban = false;
 
 	/**
 	 * Constructor
@@ -150,6 +207,18 @@ class Mute_Screamer {
 
 		// Load textdomain
 		load_plugin_textdomain( 'mute-screamer', false, dirname( plugin_basename( __FILE__ ) ).'/languages' );
+
+		// Add ban post type, to track banned users
+		$args = array(
+			'public' => true
+		);
+		register_post_type( self::POST_TYPE, $args );
+
+		// Remove expired user bans
+		$this->delete_expired_bans();
+
+		// Is this a banned user?
+		$this->banned_user();
 
 		// Are we in the WP Admin?
 		if( is_admin() ) {
@@ -228,19 +297,27 @@ class Mute_Screamer {
 		$ids = new IDS_Monitor($request, $init);
 		$this->result = $ids->run();
 
-		if( ! $this->result->isEmpty() ) {
-			$this->update_intrusion_count();
-			$compositeLog = new IDS_Log_Composite();
-			$compositeLog->addLogger( new MSCR_Log_Database() );
-
-			if( $this->send_alert_email() ) {
-				require_once 'mscr/Log_Email.php';
-				$compositeLog->addLogger( MSCR_Log_Email::getInstance( $init, 'MSCR_Log_Email' ) );
-			}
-
-			$compositeLog->execute($this->result);
-			$this->warning_page();
+		// Nothing more to do
+		if( $this->result->isEmpty() ) {
+			return;
 		}
+
+		// Update new intrusion count, log the event
+		$this->update_intrusion_count();
+		$compositeLog = new IDS_Log_Composite();
+		$compositeLog->addLogger( new MSCR_Log_Database() );
+
+		// Send alert email
+		if( $this->send_alert_email() ) {
+			require_once 'mscr/Log_Email.php';
+			$compositeLog->addLogger( MSCR_Log_Email::getInstance( $init, 'MSCR_Log_Email' ) );
+		}
+
+		$compositeLog->execute($this->result);
+		$this->ban_user();
+
+		// Warning page runs last to allow for ban processing
+		$this->warning_page();
 	}
 
 	/**
@@ -291,6 +368,8 @@ class Mute_Screamer {
 	 * @return void
 	 */
 	public function load_template( $template = '' ) {
+		global $wp_query;
+
 		$templates[] = "500.php";
 		$templates[] = "404.php";
 		$templates[] = "index.php";
@@ -314,6 +393,89 @@ class Mute_Screamer {
 
 		load_template( $template );
 		exit;
+	}
+
+	/**
+	 * Ban user if the impact is over the ban threshold,
+	 * if it is under the ban threshold record the attack
+	 * for the repeat attack limit.
+	 *
+	 * @return void
+	 */
+	function ban_user() {
+		$data = array();
+
+		// If the attack is under the ban threshold mark this
+		// post as a repeat attack
+		if( $this->result->getImpact() < $this->ban_threshold ) {
+			$data['post_excerpt'] = 'repeat_attack';
+		}
+
+		$data['post_type'] = self::POST_TYPE;
+		$data['post_status'] = 'publish';
+		$data['post_content'] = MSCR_Utils::ip_address();
+		$data['post_title'] = MSCR_Utils::server( 'HTTP_USER_AGENT' );
+		wp_insert_post( $data );
+	}
+
+	/**
+	 * Remove user bans that have expired.
+	 *
+	 * @return void
+	 */
+	function delete_expired_bans() {
+		global $wpdb;
+
+		$date = date( 'Y-m-d H:i:s', time() - $this->ban_time );
+		$sql = $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE post_type = '".self::POST_TYPE."' AND post_date_gmt < '%s'", $date );
+		$wpdb->query( $sql );
+	}
+
+	/**
+	 * Number of attacks the user has made
+	 *
+	 * @return integer
+	 */
+	function attack_count() {
+		global $wpdb;
+
+		$sql = $wpdb->prepare( "SELECT COUNT(*) AS count FROM {$wpdb->posts} WHERE post_content = '%s' AND post_excerpt = 'repeat_attack'", MSCR_Utils::ip_address() );
+		$result = $wpdb->get_row( $sql );
+		return (int) $result->count;
+	}
+
+	/**
+	 * Display an error page for banned users
+	 *
+	 * @return void
+	 */
+	function banned_user() {
+		global $wpdb;
+
+		// Is banning enabled?
+		if( ! $this->ban_enabled ) {
+			return;
+		}
+
+		$sql = $wpdb->prepare( "SELECT post_type, post_content, post_title, post_excerpt FROM {$wpdb->posts} WHERE post_type = '".self::POST_TYPE."' AND post_content = '%s' AND post_excerpt <> 'repeat_attack'", MSCR_Utils::ip_address() );
+		$result = $wpdb->get_row( $sql );
+
+		// If there is no result and the user is under the repeat limit, we're good
+		if( ! $result AND $this->attack_count() < $this->attack_repeat_limit ) {
+			return;
+		}
+
+		// This is a ban request
+		$this->is_ban = true;
+
+		// Admin notice
+		if( is_admin() ) {
+			$message = apply_filters( 'mscr_admin_ban_message', __( 'Site is unavailable, try again later.', 'mute-screamer' ) );
+			wp_die( $message );
+		}
+
+		// Load warning template
+		add_action( 'template_redirect', array( $this, 'load_template' ) );
 	}
 
 	/**
@@ -410,7 +572,11 @@ class Mute_Screamer {
 			'new_intrusions_count' => 0,
 			'enable_admin' => 1,
 			'warning_threshold' => 40,
-			'warning_wp_admin' => 0
+			'warning_wp_admin' => 0,
+			'ban_enabled' => 0,
+			'ban_threshold' => 70,
+			'attack_repeat_limit' => 5,
+			'ban_time' => 300
 		);
 	}
 
@@ -502,6 +668,7 @@ class Mute_Screamer {
 	public static function deactivate() {
 		global $wpdb;
 		$wpdb->query( "DELETE FROM `{$wpdb->usermeta}` WHERE meta_key = 'mscr_intrusions_per_page'" );
+		$wpdb->query( "DELETE FROM `{$wpdb->posts}` WHERE post_type = '".self::POST_TYPE."'" );
 	}
 
 	/**

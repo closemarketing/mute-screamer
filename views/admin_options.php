@@ -88,6 +88,48 @@
 			</tbody>
 		</table>
 
+		<h3><?php _e( 'User Banning', 'mute-screamer' ); ?></h3>
+		<p><?php _e( 'Users can be banned for attacks over a certain threshold or for a number of repeated attacks.', 'mute-screamer' ); ?></p>
+		<table class="form-table">
+			<tbody>
+				<tr valign="top">
+					<th scope="row"><?php _e( 'Enable banning', 'mute-screamer' ); ?></th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span><?php _e( 'Enable banning', 'mute-screamer' ); ?></span></legend>
+							<label for="mscr_ban_enabled">
+								<input type="checkbox" value="1" id="mscr_ban_enabled" name="mscr_options[ban_enabled]" <?php checked('1', $ban_enabled); ?> />
+							</label>
+						</fieldset>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row"><label for="mscr_ban_time"><?php _e( 'Ban time', 'mute-screamer' ); ?></label></th>
+					<td>
+						<input type="text" class="small-text" value="<?php echo $ban_time; ?>" id="mscr_ban_time" name="mscr_options[ban_time]" />
+						<span class="description"><?php _e( 'Number of seconds a user will be banned.', 'mute-screamer' ); ?></span>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row"><label for="mscr_ban_threshold"><?php _e( 'Ban threshold', 'mute-screamer' ); ?></label></th>
+					<td>
+						<input type="text" class="small-text" value="<?php echo $ban_threshold; ?>" id="mscr_ban_threshold" name="mscr_options[ban_threshold]" />
+						<span class="description"><?php _e( 'Minimum impact to ban a user.', 'mute-screamer' ); ?></span>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row"><label for="mscr_attack_repeat_limit"><?php _e( 'Attack repeat limit', 'mute-screamer' ); ?></label></th>
+					<td>
+						<input type="text" class="small-text" value="<?php echo $attack_repeat_limit; ?>" id="mscr_attack_repeat_limit" name="mscr_options[attack_repeat_limit]" />
+						<span class="description"><?php _e( 'Number of repeated attacks before a user is banned (repeat attacks can be under the ban threshold).', 'mute-screamer' ); ?></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
 		<h3><?php _e( 'Exceptions', 'mute-screamer' ); ?></h3>
 		<table class="form-table">
 			<tbody>

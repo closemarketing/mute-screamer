@@ -397,6 +397,12 @@ class MSCR_Admin {
 		$options['email_notifications'] = isset($input['email_notifications']) ? 1 : 0;
 		$options['enable_admin'] = isset($input['enable_admin']) ? 1 : 0;
 
+		// Banning
+		$options['ban_enabled'] = isset($input['ban_enabled']) ? 1 : 0;
+		$options['ban_threshold'] = absint( $input['ban_threshold'] );
+		$options['attack_repeat_limit'] = absint( $input['attack_repeat_limit'] );
+		$options['ban_time'] = absint( $input['ban_time'] );
+
 		return $options;
 	}
 
@@ -407,6 +413,8 @@ class MSCR_Admin {
 	 */
 	public function options() {
 		$options = get_option( 'mscr_options' );
+
+		// Prep exception data
 		$options['exception_fields'] = implode("\r\n", $options['exception_fields']);
 		$options['html_fields'] = implode("\r\n", $options['html_fields']);
 		$options['json_fields'] = implode("\r\n", $options['json_fields']);
