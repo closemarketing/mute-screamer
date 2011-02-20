@@ -26,7 +26,6 @@ class MSCR_Admin {
 		add_action( 'update-custom_mscr_upgrade_run', array( $update, 'do_upgrade_run' ) );
 	}
 
-
 	/**
 	 * Admin init
 	 *
@@ -51,7 +50,6 @@ class MSCR_Admin {
 		// will run options_validate, which we may not want in all cases
 		register_setting( 'mscr_options', 'mscr_options', array($this, 'options_validate') );
 	}
-
 
 	/**
 	 * Perform an action based on the request
@@ -156,7 +154,6 @@ class MSCR_Admin {
 		exit;
 	}
 
-
 	/**
 	 * Add custom screen options & help to a plugin page
 	 *
@@ -186,7 +183,6 @@ class MSCR_Admin {
 		return $action;
 	}
 
-
 	/**
 	 * Update the current user's screen options
 	 *
@@ -205,7 +201,6 @@ class MSCR_Admin {
 
 		return $flag;
 	}
-
 
 	/**
 	 * Add admin menu items
@@ -334,7 +329,6 @@ class MSCR_Admin {
 		MSCR_Utils::view( 'admin_intrusions', $data );
 	}
 
-
 	/**
 	 * Validate options
 	 *
@@ -387,7 +381,6 @@ class MSCR_Admin {
 
 		return $options;
 	}
-
 
 	/**
 	 * Display options page
