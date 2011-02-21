@@ -31,7 +31,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="mscr_email"><?php _e( 'E-mail address', 'mute-screamer' ); ?></label></th>
 					<td>
-						<input type="text" class="regular-text" value="<?php echo $email; ?>" id="mscr_email" name="mscr_options[email]" />
+						<input type="text" class="regular-text" value="<?php echo esc_attr( $email ); ?>" id="mscr_email" name="mscr_options[email]" />
 						<span class="description"><?php _e( 'This address is used to send intrusion alerts.', 'mute-screamer' ); ?></span>
 					</td>
 				</tr>
@@ -52,7 +52,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="mscr_email_threshold"><?php _e( 'E-mail threshold', 'mute-screamer' ); ?></label></th>
 					<td>
-						<input type="text" class="small-text" value="<?php echo $email_threshold; ?>" id="mscr_email_threshold" name="mscr_options[email_threshold]" />
+						<input type="text" class="small-text" value="<?php echo esc_attr( $email_threshold ); ?>" id="mscr_email_threshold" name="mscr_options[email_threshold]" />
 						<span class="description"><?php _e( 'Minimum impact to send an alert email.', 'mute-screamer' ); ?></span>
 					</td>
 				</tr>
@@ -81,7 +81,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="mscr_warning_threshold"><?php _e( 'Warning threshold', 'mute-screamer' ); ?></label></th>
 					<td>
-						<input type="text" class="small-text" value="<?php echo $warning_threshold; ?>" id="mscr_warning_threshold" name="mscr_options[warning_threshold]" />
+						<input type="text" class="small-text" value="<?php echo esc_attr( $warning_threshold ); ?>" id="mscr_warning_threshold" name="mscr_options[warning_threshold]" />
 						<span class="description"><?php _e( 'Minimum impact to show warning page.', 'mute-screamer' ); ?></span>
 					</td>
 				</tr>
@@ -107,7 +107,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="mscr_ban_time"><?php _e( 'Ban time', 'mute-screamer' ); ?></label></th>
 					<td>
-						<input type="text" class="small-text" value="<?php echo $ban_time; ?>" id="mscr_ban_time" name="mscr_options[ban_time]" />
+						<input type="text" class="small-text" value="<?php echo esc_attr( $ban_time ); ?>" id="mscr_ban_time" name="mscr_options[ban_time]" />
 						<span class="description"><?php _e( 'Number of seconds a user will be banned.', 'mute-screamer' ); ?></span>
 					</td>
 				</tr>
@@ -115,7 +115,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="mscr_ban_threshold"><?php _e( 'Ban threshold', 'mute-screamer' ); ?></label></th>
 					<td>
-						<input type="text" class="small-text" value="<?php echo $ban_threshold; ?>" id="mscr_ban_threshold" name="mscr_options[ban_threshold]" />
+						<input type="text" class="small-text" value="<?php echo esc_attr( $ban_threshold ); ?>" id="mscr_ban_threshold" name="mscr_options[ban_threshold]" />
 						<span class="description"><?php _e( 'Minimum impact to ban a user.', 'mute-screamer' ); ?></span>
 					</td>
 				</tr>
@@ -123,7 +123,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="mscr_attack_repeat_limit"><?php _e( 'Attack repeat limit', 'mute-screamer' ); ?></label></th>
 					<td>
-						<input type="text" class="small-text" value="<?php echo $attack_repeat_limit; ?>" id="mscr_attack_repeat_limit" name="mscr_options[attack_repeat_limit]" />
+						<input type="text" class="small-text" value="<?php echo esc_attr( $attack_repeat_limit ); ?>" id="mscr_attack_repeat_limit" name="mscr_options[attack_repeat_limit]" />
 						<span class="description"><?php _e( 'Number of repeated attacks before a user is banned (repeat attacks can be under the ban threshold).', 'mute-screamer' ); ?></span>
 					</td>
 				</tr>
@@ -143,7 +143,7 @@
 								<?php _e( 'Example - exlude the POST field my_field: POST.my_field', 'mute-screamer' ); ?><br />
 								<?php _e( 'Example - regular expression exclude: /.*foo/i', 'mute-screamer' ); ?>
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_exception_fields" cols="50" rows="5" name="mscr_options[exception_fields]"><?php echo $exception_fields; ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_exception_fields" cols="50" rows="5" name="mscr_options[exception_fields]"><?php echo esc_html( $exception_fields ); ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
@@ -157,7 +157,7 @@
 								<?php _e( 'Define fields that contain HTML and need preparation before hitting the PHPIDS rules.', 'mute-screamer' ); ?><br />
 								<?php _e( 'Note: Fields must contain valid HTML', 'mute-screamer' ); ?>
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_html_fields" cols="50" rows="5" name="mscr_options[html_fields]"><?php echo $html_fields; ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_html_fields" cols="50" rows="5" name="mscr_options[html_fields]"><?php echo esc_html( $html_fields ); ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
@@ -170,7 +170,7 @@
 							<p><label for="mscr_json_fields">
 								<?php _e( 'Define fields that contain JSON data and should be treated as such.', 'mute-screamer' ); ?>
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_json_fields" cols="50" rows="5" name="mscr_options[json_fields]"><?php echo $json_fields; ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_json_fields" cols="50" rows="5" name="mscr_options[json_fields]"><?php echo esc_html( $json_fields ); ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
