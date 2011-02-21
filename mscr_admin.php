@@ -413,6 +413,10 @@ class MSCR_Admin {
 	 */
 	public function options() {
 		$options = get_option( 'mscr_options' );
+		$default_options = Mute_Screamer::default_options();
+
+		// Make sure we have all the options, to prevent notices & warnings
+		$options = array_merge( $default_options, $options );
 
 		// Prep exception data
 		$options['exception_fields'] = implode("\r\n", $options['exception_fields']);
