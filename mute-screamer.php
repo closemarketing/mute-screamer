@@ -210,7 +210,7 @@ class Mute_Screamer {
 
 		// Add ban post type, to track banned users
 		$args = array(
-			'public' => true
+			'public' => false
 		);
 		register_post_type( self::POST_TYPE, $args );
 
