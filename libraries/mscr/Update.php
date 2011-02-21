@@ -330,6 +330,7 @@ class MSCR_Update {
 		$data['diff_files'] = $diff_files;
 
 		MSCR_Utils::view( 'admin_update_diff', $data );
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 	}
 
 	/**
@@ -358,16 +359,17 @@ class MSCR_Update {
 
 		check_admin_referer( 'mscr-upgrade-diff' );
 
-
 		$url = MSCR_Utils::post( 'url' );
-
 		$this->admin_header( __( 'Update Mute Screamer', 'mute-screamer' ) );
 
+		// The $url below will invoke do_upgrade_run
 		echo '<div class="wrap">';
 		screen_icon('plugins');
 		echo '<h2>' . __( 'Update Mute Screamer', 'mute-screamer' ) . '</h2>';
 		echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 		echo '</div>';
+
+		include(ABSPATH . 'wp-admin/admin-footer.php');
 	}
 
 	/**
