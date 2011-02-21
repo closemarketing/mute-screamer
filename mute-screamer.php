@@ -50,7 +50,7 @@ require_once 'IDS/Log/Composite.php';
 class Mute_Screamer {
 
 	const INTRUSIONS_TABLE	= 'mscr_intrusions';
-	const VERSION			= '0.63';
+	const VERSION			= '1.0.0-beta';
 	const DB_VERSION		= 2;
 	const POST_TYPE			= 'mscr_ban';
 
