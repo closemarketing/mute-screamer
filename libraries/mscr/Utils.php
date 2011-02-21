@@ -264,4 +264,14 @@ class MSCR_Utils {
 	public static function filter_wp_title( $title, $sep, $seplocation ) {
 		return 'An Error Was Encountered '.$sep;
 	}
+
+	/**
+	 * Is this a ban request?
+	 *
+	 * @return boolean
+	 */
+	public static function is_ban() {
+		return Mute_Screamer::instance()->is_ban;
+	}
+	
 }
