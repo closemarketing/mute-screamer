@@ -415,7 +415,7 @@ class Mute_Screamer {
 	 *
 	 * @return void
 	 */
-	function ban_user() {
+	private function ban_user() {
 		$data = array();
 
 		// If the attack is under the ban threshold mark this
@@ -436,7 +436,7 @@ class Mute_Screamer {
 	 *
 	 * @return void
 	 */
-	function delete_expired_bans() {
+	private function delete_expired_bans() {
 		global $wpdb;
 
 		$date = date( 'Y-m-d H:i:s', time() - $this->ban_time );
@@ -449,7 +449,7 @@ class Mute_Screamer {
 	 *
 	 * @return integer
 	 */
-	function attack_count() {
+	private function attack_count() {
 		global $wpdb;
 
 		$sql = $wpdb->prepare( "SELECT COUNT(*) AS count FROM {$wpdb->posts} WHERE post_content = '%s' AND post_excerpt = 'repeat_attack'", MSCR_Utils::ip_address() );
@@ -462,7 +462,7 @@ class Mute_Screamer {
 	 *
 	 * @return void
 	 */
-	function banned_user() {
+	private function banned_user() {
 		global $wpdb;
 
 		// Is banning enabled?
