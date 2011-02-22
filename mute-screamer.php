@@ -386,7 +386,7 @@ class Mute_Screamer {
 		} else if( '500.php' == basename($template) ) {
 			status_header( 500 );
 			nocache_headers();
-		} else {
+		} else if( ! is_front_page() ) {
 			wp_redirect( get_bloginfo('url') );
 			exit;
 		}
