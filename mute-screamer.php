@@ -381,6 +381,7 @@ class Mute_Screamer {
 			exit;
 
 		if( '404.php' == basename($template) ) {
+			$wp_query->set_404();
 			status_header( 404 );
 			nocache_headers();
 		} else if( '500.php' == basename($template) ) {
