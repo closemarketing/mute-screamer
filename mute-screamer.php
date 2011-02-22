@@ -194,6 +194,11 @@ class Mute_Screamer {
 		self::$instance = $this;
 		$this->init();
 		$this->run();
+
+		// Process wp-login.php requests
+		if( MSCR_Utils::is_wp_login() ) {
+			do_action( 'mscr_wp_login' );
+		}
 	}
 
 	/**
@@ -359,6 +364,9 @@ class Mute_Screamer {
 
 		// Load custom error page
 		add_action( 'template_redirect', array($this, 'load_template') );
+
+		// Catch wp-login.php requests
+		add_action( 'mscr_wp_login', array($this, 'load_template') );
 	}
 
 	/**
@@ -369,6 +377,10 @@ class Mute_Screamer {
 	 */
 	public function load_template( $template = '' ) {
 		global $wp_query;
+
+		if( did_action( 'mscr_wp_login' ) ) {
+			$this->admin_message();
+		}
 
 		$templates[] = "500.php";
 		$templates[] = "404.php";
@@ -471,12 +483,33 @@ class Mute_Screamer {
 
 		// Admin notice
 		if( is_admin() ) {
-			$message = apply_filters( 'mscr_admin_ban_message', __( 'Site is unavailable, try again later.', 'mute-screamer' ) );
-			wp_die( $message );
+			$this->admin_message();
 		}
 
 		// Load warning template
 		add_action( 'template_redirect', array( $this, 'load_template' ) );
+
+		// Catch wp-login.php requests
+		add_action( 'mscr_wp_login', array($this, 'load_template') );
+	}
+
+	/**
+	 * Display admin warning message for a ban in the wp-admin
+	 * and for warning on the wp-login page.
+	 *
+	 * @return void
+	 */
+	private function admin_message() {
+		$filter = 'mscr_admin_warn_message';
+		$mscr_admin_warn_message = __( 'An Error Was Encountered.', 'mute-screamer' );
+
+		if( $this->is_ban ) {
+			$filter = 'mscr_admin_ban_message';
+			$mscr_admin_ban_message = __( 'Site is unavailable, try again later.', 'mute-screamer' );
+		}
+
+		$message = apply_filters( $filter, $$filter );
+		wp_die( $message );
 	}
 
 	/**

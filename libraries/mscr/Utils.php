@@ -273,5 +273,13 @@ class MSCR_Utils {
 	public static function is_ban() {
 		return Mute_Screamer::instance()->is_ban;
 	}
-	
+
+	/**
+	 * Is the current page wp-login.php?
+	 *
+	 * @return boolean
+	 */
+	public static function is_wp_login() {
+		return ( strpos( $_SERVER['REQUEST_URI'], '/wp-login.php' ) === 0 );
+	}
 }
