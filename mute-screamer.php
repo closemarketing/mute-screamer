@@ -501,14 +501,14 @@ class Mute_Screamer {
 	 */
 	private function admin_message() {
 		$filter = 'mscr_admin_warn_message';
-		$mscr_admin_warn_message = __( 'An Error Was Encountered.', 'mute-screamer' );
+		$message = __( 'An Error Was Encountered.', 'mute-screamer' );
 
 		if( $this->is_ban ) {
 			$filter = 'mscr_admin_ban_message';
-			$mscr_admin_ban_message = __( 'Site is unavailable, try again later.', 'mute-screamer' );
+			$message = __( 'Site is unavailable, try again later.', 'mute-screamer' );
 		}
 
-		$message = apply_filters( $filter, $$filter );
+		$message = apply_filters( $filter, $message );
 		wp_die( $message );
 	}
 
