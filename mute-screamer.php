@@ -559,6 +559,9 @@ class Mute_Screamer {
 		$options['db_version'] = isset( $options['db_version'] ) ? $options['db_version'] : 0;
 		$default_options = self::default_options();
 
+		// Fallback to default options if the options don't exist in
+		// the database (kind of like a soft upgrade).
+		// Automatic plugin updates don't call register_activation_hook.
 		foreach( $default_options as $key => $val ) {
 			$this->$key = isset( $options[$key] ) ? $options[$key] : $val;
 		}
