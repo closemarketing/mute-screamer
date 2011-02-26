@@ -381,6 +381,10 @@ class MSCR_Admin {
 				case 'exception_fields':
 				case 'html_fields':
 				case 'json_fields':
+					if( ! is_string( $options[$key] ) ) {
+						continue;
+					}
+
 					$options[$key] = str_replace( array( "\r\n", "\n", "\r" ), "\n", $options[$key] );
 					$options[$key] = explode( "\n", $options[$key] );
 
