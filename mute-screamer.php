@@ -665,8 +665,8 @@ class Mute_Screamer {
 		$options = self::default_options();
 
 		// Attack attempts database table
-		$wpdb->query("
-			CREATE TABLE IF NOT EXISTS `" . $wpdb->mscr_intrusions . "` (
+		$wpdb->query(
+			"CREATE TABLE IF NOT EXISTS `" . $wpdb->mscr_intrusions . "` (
 			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 			  `name` varchar(128) NOT NULL,
 			  `value` text NOT NULL,
