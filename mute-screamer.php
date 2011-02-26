@@ -207,8 +207,11 @@ class Mute_Screamer {
 	 * @return void
 	 */
 	private function init() {
-		self::db_table( self::INTRUSIONS_TABLE );
+		self::db_table();
 		$this->init_options();
+
+		// Update db table reference when switching blogs
+		add_action( 'switch_blog', 'Mute_Screamer::db_table' );
 
 		// Load textdomain
 		load_plugin_textdomain( 'mute-screamer', false, dirname( plugin_basename( __FILE__ ) ).'/languages' );
@@ -659,7 +662,7 @@ class Mute_Screamer {
 	 */
 	public static function activate() {
 		global $wpdb;
-		self::db_table( self::INTRUSIONS_TABLE );
+		self::db_table();
 
 		// Default options
 		$options = self::default_options();
@@ -715,7 +718,7 @@ class Mute_Screamer {
 	 */
 	public static function uninstall() {
 		global $wpdb;
-		self::db_table( self::INTRUSIONS_TABLE );
+		self::db_table();
 
 		// Remove Mute Screamer options
 		delete_option( 'mscr_options' );
@@ -730,12 +733,12 @@ class Mute_Screamer {
 	 * @param string
 	 * @return void
 	 */
-	private static function db_table( $table_name ) {
+	public static function db_table() {
 		global $wpdb;
 
-		$table = $wpdb->prefix.$table_name;
-		if( ! isset( $wpdb->$table_name ) )
-			$wpdb->$table_name = $table;
+		$table_name = self::INTRUSIONS_TABLE;
+		$table = $wpdb->get_blog_prefix().$table_name;
+		$wpdb->$table_name = $table;
 	}
 }
 
