@@ -47,14 +47,9 @@ class MSCR_Admin {
 		// Add admin CSS
 		wp_enqueue_style( 'mscr_styles', WP_PLUGIN_URL . '/mute-screamer/css/mscr.css', array(), Mute_Screamer::VERSION );
 
-		// Only register setting for admin_menu, otherwise when adding a
-		// new site via the network admin the options will be validated on
-		// plugin activation which breaks the upgrade routine.
-		if( did_action( 'admin_menu' ) ) {
-			// Once a setting is registered updating options
-			// will run options_validate on every call to update_option
-			register_setting( 'mscr_options', 'mscr_options', array($this, 'options_validate') );
-		}
+		// Once a setting is registered updating options
+		// will run options_validate on every call to update_option
+		register_setting( 'mscr_options', 'mscr_options', array($this, 'options_validate') );
 	}
 
 	/**
