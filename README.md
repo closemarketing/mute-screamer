@@ -1,18 +1,18 @@
 # Mute Screamer #
 
-[PHPIDS](http://phpids.org/) for [Wordpress](http://wordpress.org/).
+[PHPIDS](http://phpids.org/) for [WordPress](http://wordpress.org/).
 
 ## Minimum Requirements ##
 
 * PHP 5.2
-* Wordpress 3.0
+* WordPress 3.0
 
 ## Installation ##
 
 Use automatic installer or:
 
 1. Copy the mute-screamer folder into /wp-content/plugins
-2. Activate Mute Screamer via the plugins page in the Wordpress admin
+2. Activate Mute Screamer via the plugins page in the WordPress admin
 3. Checkout WP-Admin -> Settings -> Mute Screamer to configure
 
 ## Features ##
