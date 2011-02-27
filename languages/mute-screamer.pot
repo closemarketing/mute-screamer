@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mute Screamer 1.0.0-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-02-27 03:23:18+00:00\n"
+"POT-Creation-Date: 2011-02-27 04:36:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,38 +46,38 @@ msgstr ""
 msgid "Origin: %s \n"
 msgstr ""
 
-#: libraries/mscr/Update.php:264 mscr_admin.php:215 views/admin_update.php:3
+#: libraries/mscr/Update.php:275 mscr_admin.php:215 views/admin_update.php:3
 msgid "Mute Screamer"
 msgstr ""
 
-#: libraries/mscr/Update.php:265
+#: libraries/mscr/Update.php:276
 msgid "Is up to date."
 msgstr ""
 
-#: libraries/mscr/Update.php:282 libraries/mscr/Update.php:358
-#: libraries/mscr/Update.php:389
+#: libraries/mscr/Update.php:293 libraries/mscr/Update.php:369
+#: libraries/mscr/Update.php:400
 msgid "You do not have sufficient permissions to update Mute Screamer for this site."
 msgstr ""
 
-#: libraries/mscr/Update.php:297
+#: libraries/mscr/Update.php:308
 msgid "%s does not exist."
 msgstr ""
 
-#: libraries/mscr/Update.php:301
+#: libraries/mscr/Update.php:312
 msgid "Can not read file %s."
 msgstr ""
 
-#: libraries/mscr/Update.php:310
+#: libraries/mscr/Update.php:321
 msgid "Could not connect to phpids.org, please try again later."
 msgstr ""
 
-#: libraries/mscr/Update.php:327 libraries/mscr/Update.php:363
-#: libraries/mscr/Update.php:368 views/admin_update.php:7
+#: libraries/mscr/Update.php:338 libraries/mscr/Update.php:374
+#: libraries/mscr/Update.php:379 views/admin_update.php:7
 #: views/admin_update.php:34 views/admin_update_diff.php:5
 msgid "Update Mute Screamer"
 msgstr ""
 
-#: libraries/mscr/Update.php:396
+#: libraries/mscr/Update.php:407
 msgid "%s can't be upgraded."
 msgstr ""
 
