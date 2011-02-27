@@ -4,6 +4,11 @@
  * Mute Screamer utils class
  */
 class MSCR_Utils {
+	/**
+	 * Client ip address
+	 *
+	 * @var string
+	 */
 	public static $ip = false;
 
 	/**
@@ -48,7 +53,6 @@ class MSCR_Utils {
 		}
 	}
 
-
 	/**
 	 * Create pagination links
 	 *
@@ -79,7 +83,6 @@ class MSCR_Utils {
 		return "<div class='tablenav-pages'>{$page_links_text}</div>";
 	}
 
-
 	/**
 	 * Get intrusions per page option
 	 *
@@ -96,7 +99,6 @@ class MSCR_Utils {
 		return $per_page;
 	}
 
-
 	/**
 	 * Get the current site's upload path
 	 *
@@ -107,14 +109,14 @@ class MSCR_Utils {
 		return $upload_dir['basedir'];
 	}
 
-
 	/**
 	 * Show admin notice if the uploads folder is not writable
+	 *
+	 * @return void
 	 */
 	public static function writable_notice() {
 		echo "<div class='update-nag'>".sprintf( __( "Mute Screamer requires that your uploads folder %s is writable.", 'mute-screamer' ), self::upload_path() )."</div>";
 	}
-
 
 	/**
 	 * Fetch ip address
