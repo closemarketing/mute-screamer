@@ -191,6 +191,11 @@ class Mute_Screamer {
 			return;
 		}
 
+		if( is_multisite() ) {
+			add_action( 'network_admin_notices', 'MSCR_Utils::ms_notice' );
+			return;
+		}
+
 		self::$instance = $this;
 		$this->init();
 		$this->run();
@@ -661,6 +666,10 @@ class Mute_Screamer {
 	 * @return void
 	 */
 	public static function activate() {
+		if( is_multisite() ) {
+			return;
+		}
+
 		global $wpdb;
 		self::db_table();
 

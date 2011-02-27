@@ -119,6 +119,16 @@ class MSCR_Utils {
 	}
 
 	/**
+	 * Show admin notice for multisite install
+	 *
+	 * @return void
+	 */
+	public static function ms_notice() {
+		echo "<div class='update-nag'>".sprintf( __( "Mute Screamer multisite install currently not supported.", 'mute-screamer' ), self::upload_path() )."</div>";
+	}
+
+
+	/**
 	 * Fetch ip address
 	 *
 	 * @return string
