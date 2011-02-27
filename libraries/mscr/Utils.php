@@ -279,6 +279,6 @@ class MSCR_Utils {
 	 * @return boolean
 	 */
 	public static function is_wp_login() {
-		return ( strpos( $_SERVER['REQUEST_URI'], '/wp-login.php' ) === 0 );
+		return ( strpos( $_SERVER['REQUEST_URI'], 'wp-login.php' ) !== false );
 	}
 }
