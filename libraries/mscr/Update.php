@@ -146,11 +146,22 @@ class MSCR_Update {
 		if( false === wp_validate_auth_cookie() )
 			return false;
 
-		// Don't check for updates during the update process
+		// Don't run on plugin activation/deactivation, request will seem slow
+		foreach( array( 'activate', 'deactivate', 'activate-multi', 'deactivate-multi' ) as $key ) {
+			if( array_key_exists( $key, $_REQUEST ) ) {
+				return false;
+			}
+		}
+
+		// Don't check for updates on the following actions
 		$actions = array(
 			'mscr_upgrade_diff',
 			'mscr_upgrade',
-			'mscr_upgrade_run'
+			'mscr_upgrade_run',
+			'activate',
+			'deactivate',
+			'activate-selected',
+			'deactivate-selected'
 		);
 		if( in_array( MSCR_Utils::get( 'action' ), $actions ) )
 			return false;
