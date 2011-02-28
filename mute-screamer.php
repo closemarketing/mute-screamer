@@ -41,6 +41,7 @@ set_include_path( get_include_path() . PATH_SEPARATOR . MSCR_PATH . '/libraries'
 
 require_once 'mscr/Utils.php';
 require_once 'mscr/Log_Database.php';
+require_once 'mscr/functions.php';
 require_once 'IDS/Init.php';
 require_once 'IDS/Log/Composite.php';
 

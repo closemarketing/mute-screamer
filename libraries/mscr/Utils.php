@@ -255,16 +255,6 @@ class MSCR_Utils {
 	}
 
 	/**
-	 * WP Title filter, when setting status 500 header change
-	 * the page title to reflect this
-	 *
-	 * @return string
-	 */
-	public static function filter_wp_title( $title, $sep, $seplocation ) {
-		return 'An Error Was Encountered '.$sep;
-	}
-
-	/**
 	 * Is this a ban request?
 	 *
 	 * @return boolean
