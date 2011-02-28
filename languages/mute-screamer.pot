@@ -4,13 +4,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mute Screamer 1.0.0-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-02-27 04:36:21+00:00\n"
+"POT-Creation-Date: 2011-02-28 08:32:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: libraries/mscr/functions.php:30
+msgid "Error %s "
+msgstr ""
+
+#: libraries/mscr/functions.php:32
+msgid "An Error Was Encountered %s "
+msgstr ""
 
 #: libraries/mscr/Log_Email.php:27
 msgid ""
@@ -217,16 +225,16 @@ msgstr[1] ""
 msgid "Item added to the exceptions list."
 msgstr ""
 
-#: mute-screamer.php:276
+#: mute-screamer.php:277
 msgid "[%s] Mute Screamer IDS Alert"
 msgstr ""
 
-#: mute-screamer.php:512
-msgid "An Error Was Encountered."
+#: mute-screamer.php:513
+msgid "There was an error with the page you requested."
 msgstr ""
 
-#: mute-screamer.php:516
-msgid "Site is unavailable, try again later."
+#: mute-screamer.php:517
+msgid "There was a problem processing your request."
 msgstr ""
 
 #: views/admin_intrusions.php:24 views/admin_intrusions.php:26
