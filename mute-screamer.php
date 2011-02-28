@@ -509,11 +509,11 @@ class Mute_Screamer {
 	 */
 	private function admin_message() {
 		$filter = 'mscr_admin_warn_message';
-		$message = __( 'An Error Was Encountered.', 'mute-screamer' );
+		$message = __( 'There was an error with the page you requested.', 'mute-screamer' );
 
 		if( $this->is_ban ) {
 			$filter = 'mscr_admin_ban_message';
-			$message = __( 'Site is unavailable, try again later.', 'mute-screamer' );
+			$message = sprintf( __( 'There was a problem processing your request.', 'mute-screamer' ), get_bloginfo( 'name' ) );
 		}
 
 		$message = apply_filters( $filter, $message );

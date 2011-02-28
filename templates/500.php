@@ -10,13 +10,13 @@ if( is_callable( 'MSCR_Utils::filter_wp_title' ) ) {
 
 // Warning message
 $mscr_error_title = __( 'An Error Was Encountered', 'twentyten' );
-$mscr_error_message = __( 'Apologies, there was an error with the page you requested. Perhaps searching will help.', 'twentyten' );
+$mscr_error_message = __( 'There was an error with the page you requested.', 'twentyten' );
 
 // Is this a ban request?
 if( is_callable( 'MSCR_Utils::is_ban' ) AND MSCR_Utils::is_ban() ) {
 	// Ban message
 	$mscr_error_title = sprintf( __( '%s Unavailable', 'twentyten' ), get_bloginfo( 'name' ) );
-	$mscr_error_message = __( 'There was an error with the page you requested. Try again later.', 'twentyten' );
+	$mscr_error_message = __( 'There was a problem processing your request.', 'twentyten' );
 }
 
 get_header(); ?>
