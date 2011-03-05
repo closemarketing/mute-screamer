@@ -290,10 +290,10 @@ class MSCR_Admin {
 		$offset = ( $offset < 0 ) ? 0 : $offset;
 
 		// Get results
-		$search = isset( $_GET['intrusions_search'] ) ? esc_attr($_GET['intrusions_search']) : '';
+		$search = isset( $_GET['intrusions_search'] ) ? stripslashes($_GET['intrusions_search']) : '';
 		$search_title = '';
 		if($search) {
-			$search_title = sprintf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;', 'mute-screamer') . '</span>', $search );
+			$search_title = sprintf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;', 'mute-screamer') . '</span>', esc_html( $search ) );
 			$token = '%'.$search.'%';
 			$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM " . $wpdb->mscr_intrusions . " WHERE (name LIKE %s OR page LIKE %s OR tags LIKE %s OR ip LIKE %s OR impact LIKE %s) ORDER BY created DESC LIMIT %d, %d", $token, $token, $token, $token, $token, $offset, $limit );
 		} else {
