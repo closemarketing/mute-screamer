@@ -99,15 +99,15 @@
 											break;
 
 										case 'tags':
-											echo $intrusion->tags;
+											echo esc_html($intrusion->tags);
 											break;
 
 										case 'ip':
-											echo $intrusion->ip;
+											echo esc_html($intrusion->ip);
 											break;
 
 										case 'impact':
-											echo $intrusion->impact;
+											echo esc_html($intrusion->impact);
 											break;
 
 										case 'date':
