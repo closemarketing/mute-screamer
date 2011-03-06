@@ -143,7 +143,7 @@
 								<?php _e( 'Example - exlude the POST field my_field: POST.my_field', 'mute-screamer' ); ?><br />
 								<?php _e( 'Example - regular expression exclude: /.*foo/i', 'mute-screamer' ); ?>
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_exception_fields" cols="50" rows="5" name="mscr_options[exception_fields]"><?php echo esc_html( $exception_fields ); ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_exception_fields" cols="50" rows="5" name="mscr_options[exception_fields]"><?php echo esc_textarea( $exception_fields ); ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
@@ -157,7 +157,7 @@
 								<?php _e( 'Define fields that contain HTML and need preparation before hitting the PHPIDS rules.', 'mute-screamer' ); ?><br />
 								<?php _e( 'Note: Fields must contain valid HTML', 'mute-screamer' ); ?>
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_html_fields" cols="50" rows="5" name="mscr_options[html_fields]"><?php echo esc_html( $html_fields ); ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_html_fields" cols="50" rows="5" name="mscr_options[html_fields]"><?php echo esc_textarea( $html_fields ); ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
@@ -170,7 +170,7 @@
 							<p><label for="mscr_json_fields">
 								<?php _e( 'Define fields that contain JSON data and should be treated as such.', 'mute-screamer' ); ?>
 							</label></p>
-							<p><textarea class="large-text code" id="mscr_json_fields" cols="50" rows="5" name="mscr_options[json_fields]"><?php echo esc_html( $json_fields ); ?></textarea></p>
+							<p><textarea class="large-text code" id="mscr_json_fields" cols="50" rows="5" name="mscr_options[json_fields]"><?php echo esc_textarea( $json_fields ); ?></textarea></p>
 						</fieldset>
 					</td>
 				</tr>
