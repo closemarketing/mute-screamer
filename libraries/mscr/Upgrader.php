@@ -57,7 +57,7 @@ if( ! class_exists( 'MSCR_Upgrader' ) ) {
 
 			// Save files into upgrade folder, copy into place
 			foreach( $files as $key => $val ) {
-				show_message( sprintf( __("Copying %s into place...", 'mute-screamer'), $key ) );
+				show_message( sprintf( __("Copying %s into place...", 'mute-screamer'), esc_html( $key ) ) );
 				$new_file = $upgrade_folder . $key;
 				$wp_filesystem->put_contents( $new_file, $val['body'], FS_CHMOD_FILE );
 
