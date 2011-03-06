@@ -23,7 +23,7 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 	 * @return string
 	 */
 	function addedLine( $line ) {
-		return "<td class='diff-addedline'>+</td><td class='diff-addedline'>{$line}</td>";
+		return "<td class='diff-addedline first'>+</td><td class='diff-addedline'>{$line}</td>";
 	}
 
 	/**
@@ -33,7 +33,7 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 	 * @return string
 	 */
 	function deletedLine( $line ) {
-		return "<td class='diff-deletedline'>-</td><td class='diff-deletedline'>{$line}</td>";
+		return "<td class='diff-deletedline first'>-</td><td class='diff-deletedline'>{$line}</td>";
 	}
 
 	/**
@@ -43,7 +43,7 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 	 * @return string
 	 */
 	function contextLine( $line ) {
-		return "<td class='diff-context'> </td><td class='diff-context'>{$line}</td>";
+		return "<td class='diff-context first'> </td><td class='diff-context'>{$line}</td>";
 	}
 
 	/**

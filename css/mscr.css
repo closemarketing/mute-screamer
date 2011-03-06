@@ -7,7 +7,6 @@
 	-khtml-border-top-right-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
 	border-top-right-radius: 3px;
-
 	margin: 0 0 1em 0;
 	padding: 0; 
 	border: 1px solid #dfdfdf;
@@ -45,6 +44,10 @@
 #mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .diff-deletedline,
 #mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .diff-context {
 	width: 100%;
+}
+#mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .first {
+	width: auto;
+	padding: 0 1em 0 .5em;
 }
 #mscr_diff div.mscr_diff_file #revision-field-content td div.pre table.diff .start-block {
 	background: #e6eff2;
