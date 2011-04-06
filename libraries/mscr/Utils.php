@@ -106,6 +106,11 @@ class MSCR_Utils {
 	 */
 	public static function upload_path() {
 		$upload_dir = wp_upload_dir();
+
+		if( ! isset( $upload_dir['basedir'] ) ) {
+			return '';
+		}
+
 		return $upload_dir['basedir'];
 	}
 
