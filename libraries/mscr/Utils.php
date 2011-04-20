@@ -260,15 +260,6 @@ class MSCR_Utils {
 	}
 
 	/**
-	 * Is this a ban request?
-	 *
-	 * @return boolean
-	 */
-	public static function is_ban() {
-		return Mute_Screamer::instance()->is_ban;
-	}
-
-	/**
 	 * Is the current page wp-login.php?
 	 *
 	 * @return boolean

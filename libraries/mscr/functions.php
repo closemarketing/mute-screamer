@@ -12,7 +12,7 @@
  */
 if( ! function_exists( 'mscr_is_ban' ) ) {
 	function mscr_is_ban() {
-		return MSCR_Utils::is_ban();
+		return Mute_Screamer::instance()->is_ban;
 	}
 }
 
