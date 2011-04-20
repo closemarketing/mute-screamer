@@ -87,7 +87,7 @@ class MSCR_Update {
 			$this->file = $file;
 
 			// Fetch remote sha1
-			$this->sha1_fetch();
+			$this->sha1_remote();
 
 			// Fetch RSS for latest revision
 			$this->rss_fetch();
@@ -174,9 +174,8 @@ class MSCR_Update {
 	 *
 	 * @return void
 	 */
-	private function sha1_fetch() {
-		// Fetch remote sha1
-		$url = 'https://phpids.org/hash.php?f='.$this->file;
+	private function sha1_remote() {
+		$url = 'http://phpids.org/hash.php?f='.$this->file;
 		$response = $this->remote_get( $url );
 		$this->updates['updates'][$this->file] = new stdClass;
 		$this->updates['updates'][$this->file]->responses['sha1'] = $response['body'];
