@@ -4,7 +4,7 @@ Plugin Name: Mute Screamer
 Plugin URI: https://github.com/ampt/mute-screamer
 Description: <a href="http://phpids.org/">PHPIDS</a> for Wordpress.
 Author: ampt
-Version: 1.0.0
+Version: 1.0.1-beta
 Author URI: http://notfornoone.com/
 */
 
@@ -51,7 +51,7 @@ require_once 'IDS/Log/Composite.php';
 class Mute_Screamer {
 
 	const INTRUSIONS_TABLE	= 'mscr_intrusions';
-	const VERSION			= '1.0.0';
+	const VERSION			= '1.0.1-beta';
 	const DB_VERSION		= 2;
 	const POST_TYPE			= 'mscr_ban';
 
