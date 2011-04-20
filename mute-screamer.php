@@ -13,7 +13,7 @@ Author URI: http://notfornoone.com/
  *
  * PHPIDS for Wordpress
  *
- * Copyright (c) 2010 Luke Gallagher
+ * Copyright (c) 2011 Luke Gallagher
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
