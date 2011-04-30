@@ -123,6 +123,7 @@ class IDS_Converter
         $value = preg_replace('/(<\w+)\/+(\w+=?)/m', '$1/$2', $value);
         $value = preg_replace('/[^\\\:]\/\/(.*)$/m', '/**/$1', $value);
         $value = preg_replace('/([^\-&])#.*[\r\n\v\f]/m', '$1', $value);
+        $value = preg_replace('/[^&\-]#.*\n/m', ' ', $value);
 
         return $value;
     }
@@ -335,18 +336,12 @@ class IDS_Converter
         $value   = preg_replace($pattern, '"=0', $value);
         
         $value   = preg_replace('/\W+\s*like\s*[^\w\s]+/ims', '1" OR "1"', $value);
-        $value   = preg_replace('/null[,"\s]/ims', ',0', $value);
+        $value   = preg_replace('/null([,"\s])/ims', '0$1', $value);
         $value   = preg_replace('/\d+\./ims', ' 1', $value);
         $value   = preg_replace('/,null/ims', ',0', $value);
         $value   = preg_replace('/(?:between|mod)/ims', 'or', $value);
         $value   = preg_replace('/(?:and\s+\d+\.?\d*)/ims', '', $value);
         $value   = preg_replace('/(?:\s+and\s+)/ims', ' or ', $value);
-
-        $pattern = array('/[^\w,(]null|\\\n|true|false|utc_time|' .
-                         'localtime(?:stamp)?|current_\w+|binary|' .
-                         '(?:(?:ascii|soundex|find_in_set|' .
-                         'md5|r?like)[+\s]*\([^()]+\))|(?:-+\d)/ims');
-        $value   = preg_replace($pattern, 0, $value);
 
         $pattern = array('/(?:not\s+between)|(?:is\s+not)|(?:not\s+in)|' .
                          '(?:xor|<>|rlike(?:\s+binary)?)|' .
