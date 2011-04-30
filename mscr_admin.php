@@ -234,7 +234,7 @@ class MSCR_Admin {
 		if( ! isset( $submenu['index.php'] ) )
 			return;
 
-		$update_count = count( $updates );
+		$update_count = count( $updates['updates'] );
 		$existing_count = 0;
 
 		// Find the update-core submenu
