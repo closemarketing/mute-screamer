@@ -175,10 +175,10 @@ class MSCR_Utils {
 		$args = wp_parse_args( $args, $defaults );
 
 		if ( ! class_exists( 'WP_Text_Diff_Renderer_Table' ) )
-			require( ABSPATH . WPINC . '/wp-diff.php' );
+			require_once( ABSPATH . WPINC . '/wp-diff.php' );
 
 		if ( ! class_exists( 'MSCR_Text_Diff_Renderer_Table' ) )
-			require( 'mscr/Text_Diff_Render.php' );
+			require_once( 'mscr/Text_Diff_Render.php' );
 
 		$left_string  = normalize_whitespace($left_string);
 		$right_string = normalize_whitespace($right_string);
