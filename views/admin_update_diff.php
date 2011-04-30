@@ -22,7 +22,7 @@
 
 			<?php if( ! $file->diff ) : ?>
 
-			<tr><td colspan="2"><div class="updated"><p><?php _e( 'These revisions are identical.', 'mute-screamer' ); ?></p></div></td></tr>
+			<tr><td colspan="2"><div class="mscr-message"><p><?php _e( 'These revisions are identical.', 'mute-screamer' ); ?></p></div></td></tr>
 
 			<?php else : ?>
 

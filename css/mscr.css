@@ -53,3 +53,15 @@
 	background: #e6eff2;
 	color: #908787;
 }
+#mscr_diff .mscr-message {
+	margin: 5px 0 15px;
+	background-color: #ffffe0;
+	border-color: #e6db55;
+	border-radius: 3px 3px 3px 3px;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0 0.6em;	
+}
+#mscr_diff .mscr-message p {
+	margin-top: 1em;
+}
