@@ -427,6 +427,17 @@ class MSCR_Admin {
 		$options['html_fields'] = implode("\r\n", $options['html_fields']);
 		$options['json_fields'] = implode("\r\n", $options['json_fields']);
 
+		// Apply textarea escaping, backwards compat for WordPress 3.0
+		if( function_exists( 'esc_textarea' ) ) {
+			$options['exception_fields'] = esc_textarea( $options['exception_fields'] );
+			$options['html_fields'] = esc_textarea( $options['html_fields'] );
+			$options['json_fields'] = esc_textarea( $options['json_fields'] );
+		} else {
+			$options['exception_fields'] = esc_html( $options['exception_fields'] );
+			$options['html_fields'] = esc_html( $options['html_fields'] );
+			$options['json_fields'] = esc_html( $options['json_fields'] );
+		}
+
 		MSCR_Utils::view('admin_options', $options);
 	}
 }
