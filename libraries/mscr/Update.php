@@ -443,9 +443,19 @@ class MSCR_Update {
 
 		// All good? Clear the update array, reset transients
 		if( $res ) {
-			$this->updates['updates'] = array();
+			// Remove the files we updated from the update array
+			foreach( $files as $key => $file ) {
+				unset( $this->updates['updates'][$key] );
+			}
+
+			// Did we update everything?
+			// Only clear the update array and cache if there are no files left to update
+			if( empty( $this->updates['updates'] ) ) {
+				$this->updates['updates'] = array();
+				delete_site_transient( 'mscr_requests_cache' );
+			}
+
 			set_site_transient( 'mscr_update', $this->updates, $this->timeout );
-			delete_site_transient( 'mscr_requests_cache' );
 		}
 
 		iframe_footer();
