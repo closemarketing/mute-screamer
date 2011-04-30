@@ -197,6 +197,9 @@ class Mute_Screamer {
 			return;
 		}
 
+		// Display updates in admin bar, run after wp_admin_bar_updates_menu
+		add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
+
 		self::$instance = $this;
 		$this->init();
 		$this->run();
@@ -584,6 +587,54 @@ class Mute_Screamer {
 	private function update_intrusion_count() {
 		$new_count = $this->new_intrusions_count + count($this->result->getIterator());
 		$this->set_option( 'new_intrusions_count', $new_count );
+	}
+
+	/**
+	 * Display admin bar updates
+	 *
+	 * @return void
+	 */
+	public function action_admin_bar_menu()	{
+		global $wp_admin_bar;
+
+		$updates = get_site_transient( 'mscr_update' );
+		if( $updates === false OR empty( $updates['updates'] ) ) {
+			return;
+		}
+
+		$mscr_count = count( $updates['updates'] );
+		$mscr_title = sprintf( _n( '%d Mute Screamer Update', '%d Mute Screamer Updates', $mscr_count, 'mute-screamer' ), $mscr_count );
+
+		// Other WP updates, modify existing menu
+		if( isset( $wp_admin_bar->menu->updates ) ) {
+			// <span title='1 Plugin Update'>Updates <span id='ab-updates' class='update-count'>1</span></span>
+			$title = $wp_admin_bar->menu->updates['title'];
+
+			// Get the existing title attribute
+			preg_match( "/title='(.+?)'/", $title, $matches );
+			$link_title = isset( $matches[1] ) ? $matches[1] : '';
+
+			// Get the existing update count
+			preg_match( "/<span\b[^>]*>(\d+)<\/span>/", $title, $matches );
+			$update_count = isset( $matches[1] ) ? $matches[1] : 0;
+
+			$update_count += $mscr_count;
+
+			$link_title .= ', '.esc_attr( $mscr_title );
+
+			$update_title = "<span title='$link_title'>";
+			$update_title .= sprintf( __( 'Updates %s' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $update_count ) . '</span>' );
+			$update_title .= '</span>';
+
+			$wp_admin_bar->menu->updates['title'] = $update_title;
+			return;
+		}
+
+		// Add update menu
+		$update_title = "<span title='".esc_attr( $mscr_title )."'>";
+		$update_title .= sprintf( __('Updates %s'), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $mscr_count ) . '</span>' );
+		$update_title .= '</span>';
+		$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
 	}
 
 	/**
