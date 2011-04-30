@@ -89,6 +89,9 @@ class MSCR_Update {
 		$this->updates = array();
 		$this->updates['updates'] = array();
 
+		// Delete requests cache if any are hanging around
+		delete_site_transient( 'mscr_requests_cache' );
+
 		// Suppress libxml parsing errors
 		$libxml_use_errors = libxml_use_internal_errors( true );
 
