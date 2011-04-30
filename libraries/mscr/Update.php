@@ -292,7 +292,7 @@ class MSCR_Update {
 	public function list_mscr_updates() {
 		if( empty( $this->updates['updates'] ) ) {
 			echo '<h3>' . __( 'Mute Screamer', 'mute-screamer' ) . '</h3>';
-			echo '<p>' . __( 'Is up to date.', 'mute-screamer' ) . '</p>';
+			echo '<p>' . __( 'All files are up to date.', 'mute-screamer' ) . '</p>';
 			return;
 		}
 
