@@ -613,14 +613,13 @@ class Mute_Screamer {
 			// Get the existing title attribute
 			preg_match( "/title='(.+?)'/", $title, $matches );
 			$link_title = isset( $matches[1] ) ? $matches[1] : '';
+			$link_title .= ', '.esc_attr( $mscr_title );
 
 			// Get the existing update count
 			preg_match( "/<span\b[^>]*>(\d+)<\/span>/", $title, $matches );
 			$update_count = isset( $matches[1] ) ? $matches[1] : 0;
 
 			$update_count += $mscr_count;
-
-			$link_title .= ', '.esc_attr( $mscr_title );
 
 			$update_title = "<span title='$link_title'>";
 			$update_title .= sprintf( __( 'Updates %s', 'mute-screamer' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $update_count ) . '</span>' );
