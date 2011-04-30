@@ -623,7 +623,7 @@ class Mute_Screamer {
 			$link_title .= ', '.esc_attr( $mscr_title );
 
 			$update_title = "<span title='$link_title'>";
-			$update_title .= sprintf( __( 'Updates %s' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $update_count ) . '</span>' );
+			$update_title .= sprintf( __( 'Updates %s', 'mute-screamer' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $update_count ) . '</span>' );
 			$update_title .= '</span>';
 
 			$wp_admin_bar->menu->updates['title'] = $update_title;
@@ -632,7 +632,7 @@ class Mute_Screamer {
 
 		// Add update menu
 		$update_title = "<span title='".esc_attr( $mscr_title )."'>";
-		$update_title .= sprintf( __('Updates %s'), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $mscr_count ) . '</span>' );
+		$update_title .= sprintf( __('Updates %s', 'mute-screamer' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $mscr_count ) . '</span>' );
 		$update_title .= '</span>';
 		$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
 	}
