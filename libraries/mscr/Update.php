@@ -23,11 +23,18 @@ class MSCR_Update {
 	private $updates = array();
 
 	/**
-	 * The file to check for a new version of
+	 * The current file to check for a newer version
 	 *
 	 * @var string
 	 */
 	private $file = '';
+
+	/**
+	 * The files to check for updates
+	 *
+	 * @var array
+	 */
+	private $files = array( 'default_filter.xml', 'Converter.php' );
 
 	/**
 	 * Update check interval
@@ -59,10 +66,11 @@ class MSCR_Update {
 
 	/**
 	 * Check for updates to Converter.php and default_filter.xml
-	 * 1. does the sha1 differ from the local version?
-	 * 2. fetch the latest rss entry, get revision number, get file revision
-	 * 3. does the sha1 match the revision version of the file from rss?
-	 * 4. display update notice, with link to changeset
+	 *
+	 * 1. Fetch remote sha1 of each file
+	 * 2. Check if the sha1's are different
+	 * 3. Fetch the latest RSS
+	 * 4. Parse RSS data
 	 *
 	 * @return bool
 	 */
@@ -78,48 +86,51 @@ class MSCR_Update {
 			return false;
 
 		// Initialise the update cache
+		$this->updates = array();
 		$this->updates['updates'] = array();
 
 		// Suppress libxml parsing errors
 		$libxml_use_errors = libxml_use_internal_errors( true );
 
-		foreach( array( 'default_filter.xml', 'Converter.php' ) as $file ) {
+		foreach( $this->files as $file ) {
 			$this->file = $file;
 
-			// Fetch remote sha1
-			$this->sha1_remote();
+			// Fetch the remote sha1
+			$this->sha1_fetch();
 
-			// Fetch RSS for latest revision
-			$this->rss_fetch();
-
-			// Did any remote requests fail?
-			$responses = $this->updates['updates'][$file]->responses;
-			if( $responses['sha1'] == '' OR $responses['rss'] == '' ) {
-				$this->abort();
-				return false;
-			}
-
-			// Does the sha1 differ?
-			if( ! $this->sha1_check() ) {
+			// Is the sha1 different?
+			if( ! $this->sha1_compare() ) {
 				// File doesn't need updating remove from update array
 				unset( $this->updates['updates'][$file] );
 				continue;
 			}
+		}
 
+		// Are there any files to update?
+		if( empty( $this->updates['updates'] ) ) {
+			$this->abort();
+			return false;
+		}
+
+		// Fetch RSS for latest revision
+		$this->rss_fetch();
+
+		// Load up the RSS
+		$rss = simplexml_load_string( $this->updates['rss'] );
+
+		// Revision number
+		$id = (string) $rss->entry->id;
+		$x = explode( '/', $id );
+		$revision_number = end( $x );
+
+		// Add update information to each file
+		foreach( $this->files as $file ) {
 			// Simple XML elements can't be serialized so cast them to strings
-			$details = $this->updates['updates'][$this->file];
-			$rss = simplexml_load_string($details->responses['rss']);
-			$details->title = (string) $rss->channel->item->title;
-			$details->revision = preg_replace('/Revision (\d+).+/si', '$1', $rss->channel->item->title);
-			$details->date = (string) $rss->channel->item->pubDate;
-			$details->revision_url = (string) $rss->channel->item->guid;
-			$details->revision_file_url = "https://trac.phpids.org/index.fcgi/export/{$details->revision}/trunk/lib/IDS/{$this->file}";
-
-			// Did we parse the revision number correctly?
-			if( ! ctype_digit( $details->revision ) ) {
-				$this->abort();
-				return false;
-			}
+			$this->updates['updates'][$file]->title = (string) $rss->entry->title;
+			$this->updates['updates'][$file]->revision = $revision_number;
+			$this->updates['updates'][$file]->date = (string) $rss->entry->updated;
+			$this->updates['updates'][$file]->revision_url = (string) $rss->entry->link->attributes()->href;
+			$this->updates['updates'][$file]->revision_file_url = "http://dev.itratos.de/projects/php-ids/repository/revisions/{$revision_number}/raw/trunk/lib/IDS/{$file}";
 		}
 
 		// Clear libxml errors
@@ -127,9 +138,6 @@ class MSCR_Update {
 
 		// Restore libxml errors
 		libxml_use_internal_errors( $libxml_use_errors );
-
-		// TODO: Extra validation step
-		// TODO: Check revision_file_url sha1 and compare to remote sha1
 
 		set_site_transient( 'mscr_update', $this->updates, $this->timeout );
 	}
@@ -174,9 +182,15 @@ class MSCR_Update {
 	 *
 	 * @return void
 	 */
-	private function sha1_remote() {
+	private function sha1_fetch() {
 		$url = 'http://phpids.org/hash.php?f='.$this->file;
 		$response = $this->remote_get( $url );
+
+		// Did the request fail?
+		if( $response['body'] == '' ) {
+			$this->abort();
+		}
+
 		$this->updates['updates'][$this->file] = new stdClass;
 		$this->updates['updates'][$this->file]->responses['sha1'] = $response['body'];
 	}
@@ -187,17 +201,23 @@ class MSCR_Update {
 	 * @return void
 	 */
 	private function rss_fetch() {
-		$url = "https://trac.phpids.org/index.fcgi/log/trunk/lib/IDS/{$this->file}?limit=1&format=rss";
+		$url = "http://dev.itratos.de/projects/php-ids/activity.atom";
 		$response = $this->remote_get( $url );
-		$this->updates['updates'][$this->file]->responses['rss'] = $response['body'];
+
+		// Did the request fail?
+		if( $response['body'] == '' ) {
+			$this->abort();
+		}
+
+		$this->updates['rss'] = $response['body'];
 	}
 
 	/**
-	 * Check the sha1 to see if we need to update
+	 * Compare the sha1 of the local and remote files
 	 *
 	 * @return bool true if the sha1's are different
 	 */
-	private function sha1_check() {
+	private function sha1_compare() {
 		// Get the current sha1
 		$local_file = MSCR_PATH."/libraries/IDS/{$this->file}";
 
