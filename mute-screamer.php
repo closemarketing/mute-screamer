@@ -590,7 +590,7 @@ class Mute_Screamer {
 	}
 
 	/**
-	 * Display admin bar updates
+	 * Display admin bar updates for Wordpress 3.1 and later
 	 *
 	 * @return void
 	 */
