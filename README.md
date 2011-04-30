@@ -24,8 +24,8 @@ Use automatic installer or:
 * Log users out of WP Admin
 * Auto update default_filter.xml and Converter.php from phpids.org
 * Auto update will show a diff of changes to be applied
-* Ban user when attack is over the ban threshold
-* Ban user when attack exceeds the repeat attack limit
+* Ban client when attack is over the ban threshold
+* Ban client when attack exceeds the repeat attack limit
 * Display ban template and message
 
 ## Screen Shots ##
