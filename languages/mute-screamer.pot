@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mute Screamer 1.0.1-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-04-30 06:31:13+00:00\n"
+"POT-Creation-Date: 2011-05-02 11:42:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -54,38 +54,38 @@ msgstr ""
 msgid "Origin: %s \n"
 msgstr ""
 
-#: libraries/mscr/Update.php:294 mscr_admin.php:215 views/admin_update.php:3
+#: libraries/mscr/Update.php:297 mscr_admin.php:215 views/admin_update.php:3
 msgid "Mute Screamer"
 msgstr ""
 
-#: libraries/mscr/Update.php:295
+#: libraries/mscr/Update.php:298
 msgid "All files are up to date."
 msgstr ""
 
-#: libraries/mscr/Update.php:312 libraries/mscr/Update.php:388
-#: libraries/mscr/Update.php:419
+#: libraries/mscr/Update.php:315 libraries/mscr/Update.php:391
+#: libraries/mscr/Update.php:422
 msgid "You do not have sufficient permissions to update Mute Screamer for this site."
 msgstr ""
 
-#: libraries/mscr/Update.php:327
+#: libraries/mscr/Update.php:330
 msgid "%s does not exist."
 msgstr ""
 
-#: libraries/mscr/Update.php:331
+#: libraries/mscr/Update.php:334
 msgid "Can not read file %s."
 msgstr ""
 
-#: libraries/mscr/Update.php:340
+#: libraries/mscr/Update.php:343
 msgid "Could not connect to phpids.org, please try again later."
 msgstr ""
 
-#: libraries/mscr/Update.php:357 libraries/mscr/Update.php:393
-#: libraries/mscr/Update.php:398 views/admin_update.php:7
+#: libraries/mscr/Update.php:360 libraries/mscr/Update.php:396
+#: libraries/mscr/Update.php:401 views/admin_update.php:7
 #: views/admin_update.php:34 views/admin_update_diff.php:5
 msgid "Update Mute Screamer"
 msgstr ""
 
-#: libraries/mscr/Update.php:426
+#: libraries/mscr/Update.php:429
 msgid "%s can't be upgraded."
 msgstr ""
 
@@ -179,7 +179,7 @@ msgid_plural "%d Updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: mscr_admin.php:250
+#: mscr_admin.php:250 mute-screamer.php:625 mute-screamer.php:634
 msgid "Updates %s"
 msgstr ""
 
@@ -225,16 +225,30 @@ msgstr[1] ""
 msgid "Item added to the exceptions list."
 msgstr ""
 
-#: mute-screamer.php:277
+#: mute-screamer.php:280
 msgid "[%s] Mute Screamer IDS Alert"
 msgstr ""
 
-#: mute-screamer.php:513
+#: mute-screamer.php:516 templates/500.php:13
 msgid "There was an error with the page you requested."
 msgstr ""
 
-#: mute-screamer.php:517
+#: mute-screamer.php:520 templates/500.php:19
 msgid "There was a problem processing your request."
+msgstr ""
+
+#: mute-screamer.php:606
+msgid "%d Mute Screamer Update"
+msgid_plural "%d Mute Screamer Updates"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/500.php:12
+msgid "An Error Was Encountered"
+msgstr ""
+
+#: templates/500.php:18
+msgid "%s Unavailable"
 msgstr ""
 
 #: views/admin_intrusions.php:24 views/admin_intrusions.php:26
