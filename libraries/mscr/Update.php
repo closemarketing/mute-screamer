@@ -204,7 +204,7 @@ class MSCR_Update {
 	 * @return void
 	 */
 	private function rss_fetch() {
-		$url = "http://dev.itratos.de/projects/php-ids/activity.atom";
+		$url = "http://dev.itratos.de/projects/php-ids/repository/revisions/1/revisions/trunk/?format=atom";
 		$response = $this->remote_get( $url );
 
 		// Did the request fail?
