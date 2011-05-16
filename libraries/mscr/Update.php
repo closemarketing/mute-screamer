@@ -120,6 +120,22 @@ class MSCR_Update {
 
 		// Load up the RSS
 		$rss = simplexml_load_string( $this->updates['rss'] );
+		if( ! $rss ) {
+			$this->abort();
+			return false;
+		}
+
+		// Does the feed have what we are looking for?
+		if( ! isset( $rss->entry ) ) {
+			$this->abort();
+			return false;
+		}
+
+		// Make sure the elements we are going to use are set
+		if( ! isset( $rss->entry->id ) OR ! isset( $rss->entry->title ) OR ! isset( $rss->entry->updated ) OR ! isset( $rss->entry->link ) ) {
+			$this->abort();
+			return false;
+		}
 
 		// Revision number
 		$id = (string) $rss->entry->id;
