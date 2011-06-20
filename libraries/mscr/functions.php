@@ -33,3 +33,17 @@ if( ! function_exists( 'mscr_filter_wp_title' ) ) {
 		}
 	}
 }
+
+/**
+ * Add additional body classes for the 500.php template
+ *
+ * @param array
+ * @return void
+ */
+if( ! function_exists( 'mscr_body_class' ) ) {
+	function mscr_body_class( $classes ) {
+		$classes[] = 'error404';
+		$classes[] = 'error500';
+		return $classes;
+	}	
+}

@@ -60,9 +60,8 @@
 		</table>
 
 		<h3><?php _e( 'Warning Page', 'mute-screamer' ); ?></h3>
-		<p><?php _e( 'To setup a warning page you will need to create a template named 500.php for your theme.', 'mute-screamer' ); ?></p>
-		<p><?php printf( __( 'You can find an example 500.php template based on <a href="http://wordpress.org/extend/themes/twentyten">TwentyTen</a> in %s/mute-screamer/templates/500.php', 'mute-screamer' ), str_replace( ABSPATH, '', WP_PLUGIN_DIR ) ); ?></p>
-		<p><?php _e( "If a 500.php template can't be found then 404.php is used, and if that fails it will redirect to the homepage.", 'mute-screamer' ); ?></p>
+		<p><?php _e( "When a warning page is displayed Mute Screamer will look for a template file named 500.php in the current theme's directory. If a 500.php template is not available the 404.php template will be used. If, for some reason the 404.php template is not available the user will be redirected to the homepage.", 'mute-screamer' ); ?></p>
+		<p><?php printf( __( "Sample 500.php templates can be found in %s/mute-screamer/templates", 'mute-screamer' ), str_replace( ABSPATH, '', WP_PLUGIN_DIR ) ); ?></p>
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
