@@ -5,7 +5,7 @@
  *
  * Requirements: PHP5, SimpleXML
  *
- * Copyright (c) 2008 PHPIDS group (http://php-ids.org)
+ * Copyright (c) 2008 PHPIDS group (https://phpids.org)
  *
  * PHPIDS is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -267,8 +267,8 @@ class IDS_Converter
         }
         // normalize obfuscated protocol handlers
         $value = preg_replace(
-            '/(?:j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*)|(d\s*a\s*t\s*a\s*)/ms', 
-            'javascript', $value
+            '/(?:j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:)|(d\s*a\s*t\s*a\s*:)/ms', 
+            'javascript:', $value
         );
         
         return $value;
@@ -336,7 +336,7 @@ class IDS_Converter
             '(?:(?:^|\W)in[+\s]*\([\s\d"]+[^()]*\))/ims');
         $value   = preg_replace($pattern, '"=0', $value);
         
-        $value   = preg_replace('/\W+\s*like\s*[^\w\s]+/ims', '1" OR "1"', $value);
+        $value   = preg_replace('/[^\w\)]+\s*like\s*[^\w\s]+/ims', '1" OR "1"', $value);
         $value   = preg_replace('/null([,"\s])/ims', '0$1', $value);
         $value   = preg_replace('/\d+\./ims', ' 1', $value);
         $value   = preg_replace('/,null/ims', ',0', $value);
@@ -371,7 +371,7 @@ class IDS_Converter
             chr(0), chr(1), chr(2), chr(3), chr(4), chr(5),
             chr(6), chr(7), chr(8), chr(11), chr(12), chr(14),
             chr(15), chr(16), chr(17), chr(18), chr(19), chr(24), 
-            chr(25), chr(192), chr(193), chr(238), chr(255)
+            chr(25), chr(192), chr(193), chr(238), chr(255), '\\0'
         );
         
         $value = str_replace($search, '%00', $value);
