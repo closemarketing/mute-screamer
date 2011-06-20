@@ -393,7 +393,7 @@ class MSCR_Update {
 	private function admin_header( $title ) {
 		// Admin header requires these variables to be in scope
 		// TODO: Test for multisite variables that need to be in scope
-		global $hook_suffix, $pagenow, $is_iphone, $current_screen, $user_identity, $wp_locale;
+		global $hook_suffix, $pagenow, $is_iphone, $current_screen, $user_identity, $wp_locale, $wp_version;
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
 	}
 
