@@ -654,7 +654,13 @@ class Mute_Screamer {
 			'REQUEST.__utmz',
 			'COOKIE.__utmz',
 			'REQUEST.s_pers',
-			'COOKIE.s_pers'
+			'COOKIE.s_pers',
+			'REQUEST.user_pass',
+			'POST.user_pass',
+			'REQUEST.pass1',
+			'POST.pass1',
+			'REQUEST.pass2',
+			'POST.pass2',
 		);
 
 		return array(
