@@ -45,7 +45,7 @@ class MSCR_Admin {
 		}
 
 		// Add admin CSS
-		wp_enqueue_style( 'mscr_styles', WP_PLUGIN_URL . '/mute-screamer/css/mscr.css', array(), Mute_Screamer::VERSION );
+		wp_enqueue_style( 'mscr_styles', Mute_Screamer::plugin_url() . 'css/mscr.css', array(), Mute_Screamer::VERSION );
 
 		// Once a setting is registered updating options
 		// will run options_validate on every call to update_option

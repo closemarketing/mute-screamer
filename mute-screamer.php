@@ -806,6 +806,16 @@ class Mute_Screamer {
 		$table = $wpdb->get_blog_prefix().$table_name;
 		$wpdb->$table_name = $table;
 	}
+
+	/**
+	 * Get URL path to the plugin directory
+	 *
+	 * @return string
+	 */
+	public static function plugin_url()
+	{
+		return plugin_dir_url( __FILE__ );
+	}
 }
 
 // Register activation, deactivation and uninstall hooks,
