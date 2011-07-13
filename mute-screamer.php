@@ -77,7 +77,7 @@ class Mute_Screamer {
 	private $email_notifications = false;
 
 	/**
-	 * Email notifications flag
+	 * Email notifications threshold
 	 *
 	 * @var int
 	 */
@@ -119,35 +119,35 @@ class Mute_Screamer {
 	private $enable_admin = 1;
 
 	/**
-	 * Enable PHPIDS in the WordPress admin
+	 * Impact for a warning page to be shown
 	 *
 	 * @var int
 	 */
 	private $warning_threshold = 40;
 
 	/**
-	 * Enable PHPIDS in the WordPress admin
+	 * Log user out of WordPress admin as a warning
 	 *
 	 * @var int
 	 */
 	private $warning_wp_admin = 0;
 
 	/**
-	 * Enable PHPIDS in the WordPress admin
+	 * Ban clients
 	 *
 	 * @var int
 	 */
 	private $ban_enabled = 0;
 
 	/**
-	 * Enable PHPIDS in the WordPress admin
+	 * Impact for a ban to be applied
 	 *
 	 * @var int
 	 */
 	private $ban_threshold = 70;
 
 	/**
-	 * Enable PHPIDS in the WordPress admin
+	 * Attack repeat limit
 	 *
 	 * @var int
 	 */
