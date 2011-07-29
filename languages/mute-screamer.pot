@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mute Screamer 1.0.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-07-05 13:20:57+00:00\n"
+"POT-Creation-Date: 2011-07-29 11:55:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -179,7 +179,7 @@ msgid_plural "%d Updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: mscr_admin.php:250 mute-screamer.php:625 mute-screamer.php:634
+#: mscr_admin.php:250 mute-screamer.php:636 mute-screamer.php:645
 msgid "Updates %s"
 msgstr ""
 
@@ -225,19 +225,19 @@ msgstr[1] ""
 msgid "Item added to the exceptions list."
 msgstr ""
 
-#: mute-screamer.php:280
+#: mute-screamer.php:287
 msgid "[%s] Mute Screamer IDS Alert"
 msgstr ""
 
-#: mute-screamer.php:516 templates/twentyten/500.php:13
+#: mute-screamer.php:527 templates/twentyten/500.php:13
 msgid "There was an error with the page you requested."
 msgstr ""
 
-#: mute-screamer.php:520 templates/twentyten/500.php:19
+#: mute-screamer.php:531 templates/twentyten/500.php:19
 msgid "There was a problem processing your request."
 msgstr ""
 
-#: mute-screamer.php:606
+#: mute-screamer.php:617
 msgid "%d Mute Screamer Update"
 msgid_plural "%d Mute Screamer Updates"
 msgstr[0] ""
@@ -340,139 +340,147 @@ msgstr ""
 msgid "Enable Mute Screamer for the WordPress admin"
 msgstr ""
 
-#: views/admin_options.php:28
+#: views/admin_options.php:27 views/admin_options.php:30
+msgid "Intrusion Logs"
+msgstr ""
+
+#: views/admin_options.php:33
+msgid "Enable logging for intrusion attempts"
+msgstr ""
+
+#: views/admin_options.php:41
 msgid "Email"
 msgstr ""
 
-#: views/admin_options.php:32
+#: views/admin_options.php:45
 msgid "E-mail address"
 msgstr ""
 
-#: views/admin_options.php:35
+#: views/admin_options.php:48
 msgid "This address is used to send intrusion alerts."
 msgstr ""
 
-#: views/admin_options.php:40 views/admin_options.php:43
+#: views/admin_options.php:53 views/admin_options.php:56
 msgid "E-mail Notifications"
 msgstr ""
 
-#: views/admin_options.php:46
+#: views/admin_options.php:59
 msgid "Send alert emails"
 msgstr ""
 
-#: views/admin_options.php:53
+#: views/admin_options.php:66
 msgid "E-mail threshold"
 msgstr ""
 
-#: views/admin_options.php:56
+#: views/admin_options.php:69
 msgid "Minimum impact to send an alert email."
 msgstr ""
 
-#: views/admin_options.php:62
+#: views/admin_options.php:75
 msgid "Warning Page"
 msgstr ""
 
-#: views/admin_options.php:63
+#: views/admin_options.php:76
 msgid "When a warning page is displayed Mute Screamer will look for a template file named 500.php in the current theme's directory. If a 500.php template is not available the 404.php template will be used. If, for some reason the 404.php template is not available the user will be redirected to the homepage."
 msgstr ""
 
-#: views/admin_options.php:64
+#: views/admin_options.php:77
 msgid "Sample 500.php templates can be found in %s/mute-screamer/templates"
 msgstr ""
 
-#: views/admin_options.php:68 views/admin_options.php:71
+#: views/admin_options.php:81 views/admin_options.php:84
 msgid "WordPress admin warning"
 msgstr ""
 
-#: views/admin_options.php:74
+#: views/admin_options.php:87
 msgid "Log user out of the WordPress admin"
 msgstr ""
 
-#: views/admin_options.php:81
+#: views/admin_options.php:94
 msgid "Warning threshold"
 msgstr ""
 
-#: views/admin_options.php:84
+#: views/admin_options.php:97
 msgid "Minimum impact to show warning page."
 msgstr ""
 
-#: views/admin_options.php:90
+#: views/admin_options.php:103
 msgid "IP Banning"
 msgstr ""
 
-#: views/admin_options.php:91
+#: views/admin_options.php:104
 msgid "Clients can be banned for attacks over a certain threshold or for a number of repeated attacks."
 msgstr ""
 
-#: views/admin_options.php:95 views/admin_options.php:98
+#: views/admin_options.php:108 views/admin_options.php:111
 msgid "Enable banning"
 msgstr ""
 
-#: views/admin_options.php:107
+#: views/admin_options.php:120
 msgid "Ban time"
 msgstr ""
 
-#: views/admin_options.php:110
+#: views/admin_options.php:123
 msgid "Number of seconds a client will be banned."
 msgstr ""
 
-#: views/admin_options.php:115
+#: views/admin_options.php:128
 msgid "Ban threshold"
 msgstr ""
 
-#: views/admin_options.php:118
+#: views/admin_options.php:131
 msgid "Minimum impact to ban a client."
 msgstr ""
 
-#: views/admin_options.php:123
+#: views/admin_options.php:136
 msgid "Attack repeat limit"
 msgstr ""
 
-#: views/admin_options.php:126
+#: views/admin_options.php:139
 msgid "Number of repeated attacks before a client is banned (repeat attacks can be under the ban threshold)."
 msgstr ""
 
-#: views/admin_options.php:132
+#: views/admin_options.php:145
 msgid "Exceptions"
 msgstr ""
 
-#: views/admin_options.php:136 views/admin_options.php:139
+#: views/admin_options.php:149 views/admin_options.php:152
 msgid "Exception fields"
 msgstr ""
 
-#: views/admin_options.php:141
+#: views/admin_options.php:154
 msgid "Define fields that will be excluded from PHPIDS. One field per line. We've already added some defaults."
 msgstr ""
 
-#: views/admin_options.php:142
+#: views/admin_options.php:155
 msgid "Example - exlude the POST field my_field: POST.my_field"
 msgstr ""
 
-#: views/admin_options.php:143
+#: views/admin_options.php:156
 msgid "Example - regular expression exclude: /.*foo/i"
 msgstr ""
 
-#: views/admin_options.php:151 views/admin_options.php:154
+#: views/admin_options.php:164 views/admin_options.php:167
 msgid "HTML fields"
 msgstr ""
 
-#: views/admin_options.php:156
+#: views/admin_options.php:169
 msgid "Define fields that contain HTML and need preparation before hitting the PHPIDS rules."
 msgstr ""
 
-#: views/admin_options.php:157
+#: views/admin_options.php:170
 msgid "Note: Fields must contain valid HTML"
 msgstr ""
 
-#: views/admin_options.php:165 views/admin_options.php:168
+#: views/admin_options.php:178 views/admin_options.php:181
 msgid "JSON fields"
 msgstr ""
 
-#: views/admin_options.php:170
+#: views/admin_options.php:183
 msgid "Define fields that contain JSON data and should be treated as such."
 msgstr ""
 
-#: views/admin_options.php:180
+#: views/admin_options.php:193
 msgid "Save Changes"
 msgstr ""
 

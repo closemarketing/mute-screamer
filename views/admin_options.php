@@ -22,6 +22,19 @@
 						</fieldset>
 					</td>
 				</tr>
+
+				<tr valign="top">
+					<th scope="row"><?php _e( 'Intrusion Logs', 'mute-screamer' ); ?></th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span><?php _e( 'Intrusion Logs', 'mute-screamer' ); ?></span></legend>
+							<label for="mscr_enable_intrusion_logs">
+								<input type="checkbox" value="1" id="mscr_enable_intrusion_logs" name="mscr_options[enable_intrusion_logs]" <?php checked('1', $enable_intrusion_logs); ?> />
+								<?php _e( 'Enable logging for intrusion attempts', 'mute-screamer' ); ?>
+							</label>
+						</fieldset>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 

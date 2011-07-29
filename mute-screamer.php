@@ -161,6 +161,13 @@ class Mute_Screamer {
 	private $ban_time = 300;
 
 	/**
+	 * Enable logging of intrusion attempts
+	 *
+	 * @var int
+	 */
+	private $enable_intrusion_logs = 1;
+
+	/**
 	 * PHPIDS result
 	 *
 	 * @var object
@@ -319,10 +326,15 @@ class Mute_Screamer {
 			return;
 		}
 
-		// Update new intrusion count, log the event
-		$this->update_intrusion_count();
 		$compositeLog = new IDS_Log_Composite();
-		$compositeLog->addLogger( new MSCR_Log_Database() );
+
+		// Are we logging the attempt?
+		if( $this->enable_intrusion_logs ) {
+			$compositeLog->addLogger( new MSCR_Log_Database() );
+
+			// Update new intrusion count, log the event
+			$this->update_intrusion_count();
+		}
 
 		// Send alert email
 		if( $this->send_alert_email() ) {
@@ -678,7 +690,8 @@ class Mute_Screamer {
 			'ban_enabled' => 0,
 			'ban_threshold' => 70,
 			'attack_repeat_limit' => 5,
-			'ban_time' => 300
+			'ban_time' => 300,
+			'enable_intrusion_logs' => 1
 		);
 	}
 

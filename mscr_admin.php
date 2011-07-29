@@ -400,6 +400,7 @@ class MSCR_Admin {
 		// Checkboxes
 		$options['email_notifications'] = isset($input['email_notifications']) ? 1 : 0;
 		$options['enable_admin'] = isset($input['enable_admin']) ? 1 : 0;
+		$options['enable_intrusion_logs'] = isset($input['enable_intrusion_logs']) ? 1 : 0;
 
 		// Banning
 		$options['ban_enabled'] = isset($input['ban_enabled']) ? 1 : 0;
