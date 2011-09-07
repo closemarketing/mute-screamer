@@ -825,8 +825,7 @@ class Mute_Screamer {
 	 *
 	 * @return string
 	 */
-	public static function plugin_url()
-	{
+	public static function plugin_url() {
 		return plugin_dir_url( __FILE__ );
 	}
 }
