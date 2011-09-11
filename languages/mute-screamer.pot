@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Mute Screamer package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Mute Screamer 1.0.3\n"
+"Project-Id-Version: Mute Screamer 1.0.4-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-07-29 11:55:10+00:00\n"
+"POT-Creation-Date: 2011-09-11 03:58:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -179,7 +179,7 @@ msgid_plural "%d Updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: mscr_admin.php:250 mute-screamer.php:636 mute-screamer.php:645
+#: mscr_admin.php:250 mute-screamer.php:637 mute-screamer.php:646
 msgid "Updates %s"
 msgstr ""
 
@@ -229,15 +229,15 @@ msgstr ""
 msgid "[%s] Mute Screamer IDS Alert"
 msgstr ""
 
-#: mute-screamer.php:527 templates/twentyten/500.php:13
+#: mute-screamer.php:528 templates/twentyten/500.php:13
 msgid "There was an error with the page you requested."
 msgstr ""
 
-#: mute-screamer.php:531 templates/twentyten/500.php:19
+#: mute-screamer.php:532 templates/twentyten/500.php:19
 msgid "There was a problem processing your request."
 msgstr ""
 
-#: mute-screamer.php:617
+#: mute-screamer.php:618
 msgid "%d Mute Screamer Update"
 msgid_plural "%d Mute Screamer Updates"
 msgstr[0] ""
