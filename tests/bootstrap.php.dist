@@ -1,0 +1,17 @@
+<?php
+// Load WordPress test environment
+// https://github.com/nb/wordpress-tests
+//
+// To run the tests:
+// 
+// 1. Rename this file to bootstrap.php
+// 2. clone https://github.com/nb/wordpress-tests
+// 3. update the $path below to wordpress-tests/init.php
+
+$path = '/path/to/wordpress-tests/init.php';
+
+if( file_exists( $path ) ) {
+	require_once $path;
+} else {
+	exit( "Couldn't find path to wordpress-tests/init.php\n" );
+}
