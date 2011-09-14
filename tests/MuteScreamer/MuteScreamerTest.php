@@ -30,4 +30,9 @@ class MuteScreamerTest extends WP_UnitTestCase {
 		$this->mute_screamer->set_option('ban_time', 1000);
 		$this->assertEquals(1000, $this->mute_screamer->get_option('ban_time'), '->set_option sets whitelisted option');
 	}
+
+	public function testDBTable() {
+		$this->mute_screamer->db_table();
+		$this->assertEquals('wp_mscr_intrusions', $GLOBALS['wpdb']->mscr_intrusions);
+	}
 }
