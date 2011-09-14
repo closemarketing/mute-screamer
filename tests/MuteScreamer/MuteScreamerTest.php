@@ -35,4 +35,10 @@ class MuteScreamerTest extends WP_UnitTestCase {
 		$this->mute_screamer->db_table();
 		$this->assertEquals('wp_mscr_intrusions', $GLOBALS['wpdb']->mscr_intrusions);
 	}
+
+	public function testPluinURL() {
+		$file = ABSPATH . '/wp-content/plugins/mute-screamer/mute-screamer.php';
+		$expected = WP_PLUGIN_URL . '/mute-screamer/';
+		$this->assertEquals($expected, plugin_dir_url($file));
+	}
 }
