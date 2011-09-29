@@ -529,7 +529,7 @@ class Mute_Screamer {
 
 		if( $this->is_ban ) {
 			$filter = 'mscr_admin_ban_message';
-			$message = sprintf( __( 'There was a problem processing your request.', 'mute-screamer' ), get_bloginfo( 'name' ) );
+			$message = __( 'There was a problem processing your request.', 'mute-screamer' );
 		}
 
 		$message = apply_filters( $filter, $message );
