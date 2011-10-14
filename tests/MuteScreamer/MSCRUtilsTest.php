@@ -13,6 +13,10 @@ class MSCRUtilsTest extends WP_UnitTestCase {
 		$this->assertEquals(20, MSCR_Utils::mscr_intrusions_per_page(), '->mscr_intrusions_per_page default is 20');
 	}
 
+	public function testIPAddress() {
+		$this->assertEquals('0.0.0.0', MSCR_Utils::ip_address(), '->ip_address returns ip address');
+	}
+
 	public function testGet() {
 		$_GET = array();
 
