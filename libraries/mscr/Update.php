@@ -158,7 +158,7 @@ class MSCR_Update {
 		// Restore libxml errors
 		libxml_use_internal_errors( $libxml_use_errors );
 
-		set_site_transient( 'mscr_update', $this->updates, $this->timeout );
+		return set_site_transient( 'mscr_update', $this->updates, $this->timeout );
 	}
 
 
