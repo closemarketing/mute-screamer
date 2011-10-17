@@ -11,7 +11,11 @@ class MuteScreamerTest extends WP_UnitTestCase {
 	}
 
 	public function testInitIDS() {
-		$this->assertInstanceOf('IDS_Init', $this->mute_screamer->init_ids());
+        $r = new ReflectionObject($this->mute_screamer);
+        $m = $r->getMethod('init_ids');
+        $m->setAccessible(true);
+
+		$this->assertInstanceOf('IDS_Init', $m->invoke($this->mute_screamer), '->init_ids() returns Init_IDS instance');
 	}
 
 	public function testInstance() {
