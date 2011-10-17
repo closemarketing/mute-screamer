@@ -260,7 +260,7 @@ class Mute_Screamer {
 	 *
 	 * @return object
 	 */
-	public function init_ids() {
+	private function init_ids() {
 		$config['General']['filter_type'] = 'xml';
 		$config['General']['base_path'] = MSCR_PATH . '/libraries/IDS/';
 		$config['General']['use_base_path'] = false;
