@@ -18,6 +18,26 @@ class MuteScreamerTest extends WP_UnitTestCase {
 		$this->assertInstanceOf('IDS_Init', $m->invoke($this->mute_screamer), '->init_ids() returns Init_IDS instance');
 	}
 
+	public function testSendAlertEmail() {
+		$r = new ReflectionObject($this->mute_screamer);
+		$m = $r->getMethod('send_alert_email');
+		$m->setAccessible(true);
+
+		$this->mute_screamer->set_option('email_notifications', false);
+
+		$this->assertFalse($m->invoke($this->mute_screamer), '->send_alert_email() returns false when email notifications are disabled');
+
+		$this->mute_screamer->set_option('email_notifications', true);
+		$this->mute_screamer->set_option('email_threshold', 1);
+
+		$this->assertFalse($m->invoke($this->mute_screamer), '->send_alert_email() returns false when email notifications are enabled and result impact is less than email threshold');
+
+		$this->mute_screamer->set_option('email_notifications', true);
+		$this->mute_screamer->set_option('email_threshold', -1);
+
+		$this->assertTrue($m->invoke($this->mute_screamer), '->send_alert_email() returns true when email notifications are enabled and result impact is greater than email threshold');
+	}
+
 	public function testInstance() {
 		$this->assertInstanceOf('Mute_Screamer', Mute_Screamer::instance());
 	}
