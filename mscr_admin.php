@@ -77,7 +77,7 @@ class MSCR_Admin {
 				case 'bulk_delete':
 					$deleted = 0;
 					foreach( (array) $intrusion_ids as $intrusion_id ) {
-						if( !current_user_can('activate_plugins') )
+						if( ! current_user_can( 'activate_plugins' ) )
 							wp_die( __( 'You are not allowed to delete this item.', 'mute-screamer' ) );
 
 						$sql = $wpdb->prepare( "DELETE FROM ".$wpdb->mscr_intrusions." WHERE id = %d", $intrusion_id );
@@ -90,14 +90,44 @@ class MSCR_Admin {
 					}
 					$sendback = add_query_arg( 'deleted', $deleted, $sendback );
 					break;
+
+				case 'bulk_exclude':
+					$excluded = 0;
+					foreach( (array) $intrusion_ids as $intrusion_id ) {
+						if( ! current_user_can( 'activate_plugins' ) ) {
+							wp_die( __( 'You are not allowed to exclude this item.', 'mute-screamer' ) );
+						}
+
+						// Get the intrusion field to exclude
+						$sql = $wpdb->prepare( "SELECT name FROM {$wpdb->mscr_intrusions} WHERE id = %d", $intrusion_id );
+						$result = $wpdb->get_row( $sql );
+
+						if( ! $result) {
+							wp_die( __( 'Error in excluding...', 'mute-screamer' ) );
+						}
+
+						$mscr = Mute_Screamer::instance();
+						$exceptions = $mscr->get_option( 'exception_fields' );
+
+						// Only add the field once
+						if( ! in_array( $result->name, $exceptions ) ) {
+							$exceptions[] = $result->name;
+						}
+
+						$mscr->set_option( 'exception_fields', $exceptions );
+						$excluded++;
+					}
+					$sendback = add_query_arg( 'excluded', $excluded, $sendback );
+					break;
 			}
 
-			if( isset($_GET['action']) )
+			if( isset($_GET['action']) ) {
 				$sendback = remove_query_arg( array('action', 'action2', 'intrusions'), $sendback );
+			}
 
 			wp_redirect($sendback);
 			exit;
-		} elseif( ! empty($_GET['_wp_http_referer']) ) {
+		} else if( ! empty($_GET['_wp_http_referer']) ) {
 			wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 			exit;
 		}
@@ -342,7 +372,7 @@ class MSCR_Admin {
 			$data['message'] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted, 'mute-screamer' ), number_format_i18n( $deleted ) );
 
 		if( $excluded )
-			$data['message'] = __( 'Item added to the exceptions list.', 'mute-screamer' );
+			$data['message'] = sprintf( _n( 'Item added to the exceptions list.', '%s items added to the exceptions list.', $excluded, 'mute-screamer' ), number_format_i18n( $excluded ) );
 
 		MSCR_Utils::view( 'admin_intrusions', $data );
 	}

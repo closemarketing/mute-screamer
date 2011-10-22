@@ -34,6 +34,7 @@
 				<select name="action">
 					<option selected="selected" value=""><?php _e( 'Bulk Actions', 'mute-screamer' ); ?></option>
 					<option value="bulk_delete"><?php _e( 'Delete', 'mute-screamer' ); ?></option>
+					<option value="bulk_exclude"><?php _e( 'Exclude', 'mute-screamer' ); ?></option>
 				</select>
 				<input type="submit" class="button-secondary action" id="doaction" name="doaction" value="Apply"/>
 				<?php wp_nonce_field('mscr_action_intrusions_bulk'); ?>
@@ -134,6 +135,7 @@
 				<select name="action2">
 					<option selected="selected" value=""><?php _e( 'Bulk Actions', 'mute-screamer' ); ?></option>
 					<option value="bulk_delete"><?php _e( 'Delete', 'mute-screamer' ); ?></option>
+					<option value="bulk_exclude"><?php _e( 'Exclude', 'mute-screamer' ); ?></option>
 				</select>
 				<input type="submit" class="button-secondary action" id="doaction2" name="doaction2" value="Apply"/>
 			</div>
