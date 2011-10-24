@@ -193,8 +193,6 @@ class MSCR_Admin {
 	 * @return string
 	 */
 	public function screen_settings( $action, $screen_object ) {
-		global $current_user;
-
 		if( $screen_object->id == 'dashboard_page_mscr_intrusions' ) {
 			// Add screen options to the intrusions list page
 			$per_page = MSCR_Utils::mscr_intrusions_per_page();
