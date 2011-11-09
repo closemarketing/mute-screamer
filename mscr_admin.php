@@ -13,6 +13,7 @@ class MSCR_Admin {
 		add_filter( 'screen_settings', array($this, 'screen_settings'), 10, 2 );
 		add_filter( 'set-screen-option', array($this, 'set_screen_option'), 10, 3 );
 		add_filter( 'plugin_action_links_mute-screamer/mute-screamer.php', array( $this, 'plugin_action_links' ) );
+		add_action( 'load-dashboard_page_mscr_intrusions', array( $this, 'dashboard_page_mscr_intrusions' ) );
 
 		// Run update routines
 		$update = MSCR_Update::instance();
@@ -25,6 +26,22 @@ class MSCR_Admin {
 		add_action( 'update-custom_mscr_upgrade_diff', array( $update, 'do_upgrade_diff' ) );
 		add_action( 'update-custom_mscr_upgrade', array( $update, 'do_upgrade' ) );
 		add_action( 'update-custom_mscr_upgrade_run', array( $update, 'do_upgrade_run' ) );
+	}
+
+	/**
+	 * Intrusions page load action
+	 *
+	 * @return void
+	 */
+	public function dashboard_page_mscr_intrusions() {
+		// Add help to the intrusions list page
+		add_contextual_help( get_current_screen(),
+			'<p>' . __( 'Hovering over a row in the intrusions list will display action links that allow you to manage the intrusion. You can perform the following actions:', 'mute-screamer' ) . '</p>' .
+			'<ul>' .
+			'<li>' . __( 'Exclude automatically adds the item to the Exception fields list.', 'mute-screamer' ) . '</li>' .
+			'<li>' . __( 'Delete permanently deletes the intrusion.', 'mute-screamer' ) . '</li>' .
+			'</ul>'
+		);
 	}
 
 	/**
@@ -198,15 +215,6 @@ class MSCR_Admin {
 			$per_page = MSCR_Utils::mscr_intrusions_per_page();
 			$data['per_page'] = $per_page;
 			$action = MSCR_Utils::view('admin_intrusions_screen_options', $data, true);
-
-			// Add help to the intrusions list page
-			add_contextual_help( $screen_object->id,
-				'<p>' . __( 'Hovering over a row in the intrusions list will display action links that allow you to manage the intrusion. You can perform the following actions:', 'mute-screamer' ) . '</p>' .
-				'<ul>' .
-				'<li>' . __( 'Exclude automatically adds the item to the Exception fields list.', 'mute-screamer' ) . '</li>' .
-				'<li>' . __( 'Delete permanently deletes the intrusion.', 'mute-screamer' ) . '</li>' .
-				'</ul>'
-			);
 		}
 
 		return $action;
