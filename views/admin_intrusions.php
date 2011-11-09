@@ -21,7 +21,7 @@
 	<form method="get" action="admin.php" class="search-form">
 		<input type="hidden" value="<?php echo $page;?>" name="page"/>
 		<p class="search-box">
-			<label for="s" class="screen-reader-text"><?php _e( 'Search Intrusions:', 'mute-screamer' ); ?></label>
+			<label for="s" class="screen-reader-text"><?php _e( 'Search Intrusions', 'mute-screamer' ); ?></label>
 			<input type="text" value="<?php echo esc_attr($intrusions_search);?>" name="intrusions_search" id="mscr-intrusions-search-input"/>
 			<input type="submit" class="button" value="<?php _e( 'Search Intrusions', 'mute-screamer' ); ?>"/>
 		</p>
