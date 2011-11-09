@@ -37,14 +37,21 @@ class MSCR_Admin {
 		// WordPress 3.1 and later
 		if( function_exists( 'get_current_screen' ) ) {
 			// Add help to the intrusions list page
-			add_contextual_help( get_current_screen(),
-				'<p>' . __( 'Hovering over a row in the intrusions list will display action links that allow you to manage the intrusion. You can perform the following actions:', 'mute-screamer' ) . '</p>' .
-				'<ul>' .
-				'<li>' . __( 'Exclude automatically adds the item to the Exception fields list.', 'mute-screamer' ) . '</li>' .
-				'<li>' . __( 'Delete permanently deletes the intrusion.', 'mute-screamer' ) . '</li>' .
-				'</ul>'
-			);
+			add_contextual_help( get_current_screen(), $this->get_contextual_help() );
 		}
+	}
+
+	/**
+	 * Get contextual help for the intrusions page
+	 *
+	 * @return string
+	 */
+	public function get_contextual_help() {
+		return '<p>' . __( 'Hovering over a row in the intrusions list will display action links that allow you to manage the intrusion. You can perform the following actions:', 'mute-screamer' ) . '</p>' .
+			'<ul>' .
+			'<li>' . __( 'Exclude automatically adds the item to the Exception fields list.', 'mute-screamer' ) . '</li>' .
+			'<li>' . __( 'Delete permanently deletes the intrusion.', 'mute-screamer' ) . '</li>' .
+			'</ul>';
 	}
 
 	/**
@@ -225,13 +232,7 @@ class MSCR_Admin {
 			}
 
 			// Legacy support for contextual help on the intrusions page for WordPress 3.0
-			add_contextual_help( $screen_object->id,
-				'<p>' . __( 'Hovering over a row in the intrusions list will display action links that allow you to manage the intrusion. You can perform the following actions:', 'mute-screamer' ) . '</p>' .
-				'<ul>' .
-				'<li>' . __( 'Exclude automatically adds the item to the Exception fields list.', 'mute-screamer' ) . '</li>' .
-				'<li>' . __( 'Delete permanently deletes the intrusion.', 'mute-screamer' ) . '</li>' .
-				'</ul>'
-			);
+			add_contextual_help( $screen_object->id, $this->get_contextual_help() );
 		}
 
 		return $action;
