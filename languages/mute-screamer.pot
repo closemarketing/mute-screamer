@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mute Screamer 1.0.4-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-11-09 20:55:23+00:00\n"
+"POT-Creation-Date: 2011-11-17 22:00:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -179,7 +179,8 @@ msgid_plural "%d Updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: mscr_admin.php:304 mute-screamer.php:637 mute-screamer.php:646
+#: mscr_admin.php:304 mute-screamer.php:644 mute-screamer.php:653
+#: mute-screamer.php:679
 msgid "Updates %s"
 msgstr ""
 

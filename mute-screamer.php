@@ -602,7 +602,7 @@ class Mute_Screamer {
 	}
 
 	/**
-	 * Display admin bar updates for Wordpress 3.1 and later
+	 * Modify admin bar update count when there are Mute Screamer updates available
 	 *
 	 * @return void
 	 */
@@ -617,6 +617,13 @@ class Mute_Screamer {
 		$mscr_count = count( $updates['updates'] );
 		$mscr_title = sprintf( _n( '%d Mute Screamer Update', '%d Mute Screamer Updates', $mscr_count, 'mute-screamer' ), $mscr_count );
 
+		// WordPress 3.3
+		if( function_exists( 'wp_allowed_protocols' ) ) {
+			$this->wp_admin_bar_updates_menu( $wp_admin_bar, $mscr_count, $mscr_title );
+			return;
+		}
+
+		// WordPress 3.1, 3.2
 		// Other WP updates, modify existing menu
 		if( isset( $wp_admin_bar->menu->updates ) ) {
 			// <span title='1 Plugin Update'>Updates <span id='ab-updates' class='update-count'>1</span></span>
@@ -645,6 +652,33 @@ class Mute_Screamer {
 		$update_title = "<span title='".esc_attr( $mscr_title )."'>";
 		$update_title .= sprintf( __('Updates %s', 'mute-screamer' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $mscr_count ) . '</span>' );
 		$update_title .= '</span>';
+		$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
+	}
+
+	/**
+	 * Display admin bar updates for WordPress 3.3
+	 *
+	 * @param WP_Admin_Bar instance
+	 * @param integer $count
+	 * @param string $title
+	 * @return void
+	 */
+	function wp_admin_bar_updates_menu( $wp_admin_bar, $count = 0, $title = '' ) {
+		if ( ! $count OR ! $title )
+			return;
+
+		$update_data = wp_get_update_data();
+
+		if ( ! $update_data['counts']['total'] )
+			return;
+
+		$update_data['counts']['total'] += $count;
+		$update_data['title'] .= ", {$title}";
+
+		$update_title = "<span title='{$update_data['title']}'>";
+		$update_title .= sprintf( __('Updates %s'), "<span id='ab-updates' class='update-count'>" . number_format_i18n($update_data['counts']['total']) . '</span>' );
+		$update_title .= '</span>';
+
 		$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
 	}
 
