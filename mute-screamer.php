@@ -725,7 +725,8 @@ class Mute_Screamer {
 			'ban_threshold' => 70,
 			'attack_repeat_limit' => 5,
 			'ban_time' => 300,
-			'enable_intrusion_logs' => 1
+			'enable_intrusion_logs' => 1,
+			'enable_automatic_updates' => 1
 		);
 	}
 

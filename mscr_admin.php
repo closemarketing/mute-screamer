@@ -16,16 +16,18 @@ class MSCR_Admin {
 		add_action( 'load-dashboard_page_mscr_intrusions', array( $this, 'dashboard_page_mscr_intrusions' ) );
 
 		// Run update routines
-		$update = MSCR_Update::instance();
-		$update->update_check();
+		if ( Mute_Screamer::instance()->get_option( 'enable_automatic_updates' ) ) {
+			$update = MSCR_Update::instance();
+			$update->update_check();
 
-		// Display Mute Screamer updates in the Wordpress update admin page
-		add_action( 'core_upgrade_preamble', array( $update, 'list_mscr_updates' ) );
+			// Display Mute Screamer updates in the Wordpress update admin page
+			add_action( 'core_upgrade_preamble', array( $update, 'list_mscr_updates' ) );
 
-		// Update Mute Screamer actions
-		add_action( 'update-custom_mscr_upgrade_diff', array( $update, 'do_upgrade_diff' ) );
-		add_action( 'update-custom_mscr_upgrade', array( $update, 'do_upgrade' ) );
-		add_action( 'update-custom_mscr_upgrade_run', array( $update, 'do_upgrade_run' ) );
+			// Update Mute Screamer actions
+			add_action( 'update-custom_mscr_upgrade_diff', array( $update, 'do_upgrade_diff' ) );
+			add_action( 'update-custom_mscr_upgrade', array( $update, 'do_upgrade' ) );
+			add_action( 'update-custom_mscr_upgrade_run', array( $update, 'do_upgrade_run' ) );
+		}
 	}
 
 	/**
@@ -455,6 +457,12 @@ class MSCR_Admin {
 		$options['email_notifications'] = isset($input['email_notifications']) ? 1 : 0;
 		$options['enable_admin'] = isset($input['enable_admin']) ? 1 : 0;
 		$options['enable_intrusion_logs'] = isset($input['enable_intrusion_logs']) ? 1 : 0;
+		$options['enable_automatic_updates'] = isset($input['enable_automatic_updates']) ? 1 : 0;
+
+		// Clear the update cache
+		if ( 0 == $options['enable_automatic_updates'] ) {
+			delete_site_transient( 'mscr_update' );
+		}
 
 		// Banning
 		$options['ban_enabled'] = isset($input['ban_enabled']) ? 1 : 0;

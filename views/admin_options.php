@@ -35,6 +35,19 @@
 						</fieldset>
 					</td>
 				</tr>
+
+				<tr valign="top">
+					<th scope="row"><?php _e( 'Automatic Updates', 'mute-screamer' ); ?></th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text"><span><?php _e( 'Automatic Updates', 'mute-screamer' ); ?></span></legend>
+							<label for="mscr_enable_automatic_updates">
+								<input type="checkbox" value="1" id="mscr_enable_automatic_updates" name="mscr_options[enable_automatic_updates]" <?php checked('1', $enable_automatic_updates); ?> />
+								<?php _e( 'Enable automatic updates for default_filter.xml and Converter.php', 'mute-screamer' ); ?>
+							</label>
+						</fieldset>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 
