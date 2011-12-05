@@ -36,8 +36,17 @@ class MSCR_Admin {
 	 * @return void
 	 */
 	public function dashboard_page_mscr_intrusions() {
+		// WordPress 3.3
+		if ( function_exists( 'wp_suspend_cache_addition' ) ) {
+			$args = array(
+				'title' => 'Help',
+				'id' => 'mscr_help',
+				'content' => $this->get_contextual_help()
+			);
+			get_current_screen()->add_help_tab( $args );
+		}
 		// WordPress 3.1 and later
-		if( function_exists( 'get_current_screen' ) ) {
+		else if ( function_exists( 'get_current_screen' ) ) {
 			// Add help to the intrusions list page
 			add_contextual_help( get_current_screen(), $this->get_contextual_help() );
 		}
