@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mute Screamer 1.0.4-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-11-17 22:35:23+00:00\n"
+"POT-Creation-Date: 2011-12-06 02:07:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -54,7 +54,8 @@ msgstr ""
 msgid "Origin: %s \n"
 msgstr ""
 
-#: libraries/mscr/Update.php:313 mscr_admin.php:271 views/admin_update.php:3
+#. Plugin Name of the plugin/theme
+#: libraries/mscr/Update.php:313 mscr_admin.php:280 views/admin_update.php:3
 msgid "Mute Screamer"
 msgstr ""
 
@@ -133,96 +134,96 @@ msgstr ""
 msgid "Mute Screamer multisite install currently not supported."
 msgstr ""
 
-#: mscr_admin.php:52
+#: mscr_admin.php:61
 msgid "Hovering over a row in the intrusions list will display action links that allow you to manage the intrusion. You can perform the following actions:"
 msgstr ""
 
-#: mscr_admin.php:54
+#: mscr_admin.php:63
 msgid "Exclude automatically adds the item to the Exception fields list."
 msgstr ""
 
-#: mscr_admin.php:55
+#: mscr_admin.php:64
 msgid "Delete permanently deletes the intrusion."
 msgstr ""
 
-#: mscr_admin.php:110 mscr_admin.php:200
+#: mscr_admin.php:119 mscr_admin.php:209
 msgid "You are not allowed to delete this item."
 msgstr ""
 
-#: mscr_admin.php:116 mscr_admin.php:206
+#: mscr_admin.php:125 mscr_admin.php:215
 msgid "Error in deleting..."
 msgstr ""
 
-#: mscr_admin.php:127 mscr_admin.php:175
+#: mscr_admin.php:136 mscr_admin.php:184
 msgid "You are not allowed to exclude this item."
 msgstr ""
 
-#: mscr_admin.php:135 mscr_admin.php:182
+#: mscr_admin.php:144 mscr_admin.php:191
 msgid "Error in excluding..."
 msgstr ""
 
-#: mscr_admin.php:269
+#: mscr_admin.php:278
 msgid "Intrusions %s"
 msgstr ""
 
-#: mscr_admin.php:270
+#: mscr_admin.php:279
 msgid "Mute Screamer Intrusions"
 msgstr ""
 
-#: mscr_admin.php:271
+#: mscr_admin.php:280
 msgid "Mute Screamer Configuration"
 msgstr ""
 
-#: mscr_admin.php:305
+#: mscr_admin.php:314
 msgid "%d Update"
 msgid_plural "%d Updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: mscr_admin.php:306 mute-screamer.php:644 mute-screamer.php:653
+#: mscr_admin.php:315 mute-screamer.php:644 mute-screamer.php:653
 #: mute-screamer.php:679
 msgid "Updates %s"
 msgstr ""
 
-#: mscr_admin.php:352
+#: mscr_admin.php:361
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
-#: mscr_admin.php:368
+#: mscr_admin.php:377
 msgid "Name"
 msgstr ""
 
-#: mscr_admin.php:369
+#: mscr_admin.php:378
 msgid "Value"
 msgstr ""
 
-#: mscr_admin.php:370
+#: mscr_admin.php:379
 msgid "Page"
 msgstr ""
 
-#: mscr_admin.php:371
+#: mscr_admin.php:380
 msgid "Tags"
 msgstr ""
 
-#: mscr_admin.php:372
+#: mscr_admin.php:381
 msgid "IP"
 msgstr ""
 
-#: mscr_admin.php:373
+#: mscr_admin.php:382
 msgid "Impact"
 msgstr ""
 
-#: mscr_admin.php:374
+#: mscr_admin.php:383
 msgid "Date"
 msgstr ""
 
-#: mscr_admin.php:398
+#: mscr_admin.php:407
 msgid "Item permanently deleted."
 msgid_plural "%s items permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: mscr_admin.php:401
+#: mscr_admin.php:410
 msgid "Item added to the exceptions list."
 msgid_plural "%s items added to the exceptions list."
 msgstr[0] ""
@@ -518,9 +519,6 @@ msgstr ""
 
 #: views/admin_update_diff.php:25
 msgid "These revisions are identical."
-msgstr ""
-#. Plugin Name of the plugin/theme
-msgid "Mute Screamer"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
