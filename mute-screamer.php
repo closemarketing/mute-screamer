@@ -679,7 +679,11 @@ class Mute_Screamer {
 		$update_title .= sprintf( __('Updates %s'), "<span id='ab-updates' class='update-count'>" . number_format_i18n($update_data['counts']['total']) . '</span>' );
 		$update_title .= '</span>';
 
-		$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
+		// Modify existing update menu
+		$update_node = $wp_admin_bar->get_node( 'updates' );
+		$update_node->title = $update_title;
+
+		$wp_admin_bar->add_menu( $update_node );
 	}
 
 	/**
