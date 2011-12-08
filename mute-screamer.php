@@ -1,4 +1,4 @@
-<?php  if ( ! defined('ABSPATH') ) exit;
+<?php  if ( ! defined( 'ABSPATH' ) ) exit;
 /*
 Plugin Name: Mute Screamer
 Plugin URI: https://github.com/ampt/mute-screamer
@@ -34,9 +34,9 @@ Author URI: http://notfornoone.com/
  * THE SOFTWARE.
  */
 
-if( ! class_exists( 'Mute_Screamer' ) AND version_compare( PHP_VERSION, '5.2', '>=' ) ) :
+if ( ! class_exists( 'Mute_Screamer' ) AND version_compare( PHP_VERSION, '5.2', '>=' ) ) :
 
-define( 'MSCR_PATH', dirname(__FILE__) );
+define( 'MSCR_PATH', dirname( __FILE__ ) );
 set_include_path( get_include_path() . PATH_SEPARATOR . MSCR_PATH . '/libraries' );
 
 require_once 'mscr/Utils.php';
@@ -194,12 +194,12 @@ class Mute_Screamer {
 			return;
 
 		// PHPIDS requires a writable folder
-		if( ! is_writable( MSCR_Utils::upload_path() ) ) {
+		if ( ! is_writable( MSCR_Utils::upload_path() ) ) {
 			add_action( 'admin_notices', 'MSCR_Utils::writable_notice' );
 			return;
 		}
 
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			add_action( 'network_admin_notices', 'MSCR_Utils::ms_notice' );
 			return;
 		}
@@ -212,7 +212,7 @@ class Mute_Screamer {
 		$this->run();
 
 		// Process wp-login.php requests
-		if( MSCR_Utils::is_wp_login() ) {
+		if ( MSCR_Utils::is_wp_login() ) {
 			do_action( 'mscr_wp_login' );
 		}
 	}
@@ -234,7 +234,7 @@ class Mute_Screamer {
 
 		// Add ban post type, to track banned users
 		$args = array(
-			'public' => false
+			'public' => false,
 		);
 		register_post_type( self::POST_TYPE, $args );
 
@@ -245,8 +245,8 @@ class Mute_Screamer {
 		$this->banned_user();
 
 		// Are we in the WP Admin?
-		if( is_admin() ) {
-			if( $this->db_version < self::DB_VERSION )
+		if ( is_admin() ) {
+			if ( $this->db_version < self::DB_VERSION )
 				$this->upgrade();
 
 			require_once 'mscr/Update.php';
@@ -261,14 +261,14 @@ class Mute_Screamer {
 	 * @return object
 	 */
 	private function init_ids() {
-		$config['General']['filter_type'] = 'xml';
-		$config['General']['base_path'] = MSCR_PATH . '/libraries/IDS/';
+		$config['General']['filter_type']   = 'xml';
+		$config['General']['base_path']     = MSCR_PATH . '/libraries/IDS/';
 		$config['General']['use_base_path'] = false;
-		$config['General']['filter_path'] = MSCR_PATH . '/libraries/IDS/default_filter.xml';
-		$config['General']['tmp_path'] = MSCR_Utils::upload_path();
-		$config['General']['scan_keys'] = false;
+		$config['General']['filter_path']   = MSCR_PATH . '/libraries/IDS/default_filter.xml';
+		$config['General']['tmp_path']      = MSCR_Utils::upload_path();
+		$config['General']['scan_keys']     = false;
 
-		$config['General']['HTML_Purifier_Path'] = 'vendors/htmlpurifier/HTMLPurifier.auto.php';
+		$config['General']['HTML_Purifier_Path']  = 'vendors/htmlpurifier/HTMLPurifier.auto.php';
 		$config['General']['HTML_Purifier_Cache'] = MSCR_Utils::upload_path();
 
 		$config['Caching']['caching'] = 'none';
@@ -285,12 +285,12 @@ class Mute_Screamer {
 		// Email logging
 		$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		$subject = sprintf( __( '[%s] Mute Screamer IDS Alert', 'mute-screamer' ), $blogname );
-		$config['Logging']['recipients'] = $this->email;
-		$config['Logging']['subject'] = $subject;
-		$config['Logging']['header'] = '';
-		$config['Logging']['envelope'] = '';
-		$config['Logging']['safemode'] = true;
-		$config['Logging']['urlencode'] = true;
+		$config['Logging']['recipients']   = $this->email;
+		$config['Logging']['subject']      = $subject;
+		$config['Logging']['header']       = '';
+		$config['Logging']['envelope']     = '';
+		$config['Logging']['safemode']     = true;
+		$config['Logging']['urlencode']    = true;
 		$config['Logging']['allowed_rate'] = 15;
 
 		$ids = IDS_Init::init();
@@ -306,7 +306,7 @@ class Mute_Screamer {
 	 */
 	public function run() {
 		// Are we running in the WordPress admin?
-		if( is_admin() AND $this->enable_admin == false ) {
+		if ( is_admin() AND $this->enable_admin == false ) {
 			return;
 		}
 
@@ -314,22 +314,22 @@ class Mute_Screamer {
 	        'REQUEST' => $_REQUEST,
 	        'GET' => $_GET,
 	        'POST' => $_POST,
-	        'COOKIE' => $_COOKIE
+	        'COOKIE' => $_COOKIE,
 	    );
 
 		$init = $this->init_ids();
-		$ids = new IDS_Monitor($request, $init);
+		$ids = new IDS_Monitor( $request, $init );
 		$this->result = $ids->run();
 
 		// Nothing more to do
-		if( $this->result->isEmpty() ) {
+		if ( $this->result->isEmpty() ) {
 			return;
 		}
 
 		$compositeLog = new IDS_Log_Composite();
 
 		// Are we logging the attempt?
-		if( $this->enable_intrusion_logs ) {
+		if ( $this->enable_intrusion_logs ) {
 			$compositeLog->addLogger( new MSCR_Log_Database() );
 
 			// Update new intrusion count, log the event
@@ -337,12 +337,12 @@ class Mute_Screamer {
 		}
 
 		// Send alert email
-		if( $this->send_alert_email() ) {
+		if ( $this->send_alert_email() ) {
 			require_once 'mscr/Log_Email.php';
 			$compositeLog->addLogger( MSCR_Log_Email::getInstance( $init, 'MSCR_Log_Email' ) );
 		}
 
-		$compositeLog->execute($this->result);
+		$compositeLog->execute( $this->result );
 		$this->ban_user();
 
 		// Warning page runs last to allow for ban processing
@@ -357,11 +357,11 @@ class Mute_Screamer {
 	 * @return boolean
 	 */
 	private function send_alert_email() {
-		if( ! $this->email_notifications ) {
+		if ( ! $this->email_notifications ) {
 			return false;
 		}
 
-		if( $this->result->getImpact() < $this->email_threshold ) {
+		if ( $this->result->getImpact() < $this->email_threshold ) {
 			return false;
 		}
 
@@ -375,22 +375,22 @@ class Mute_Screamer {
 	 * @return void
 	 */
 	private function warning_page() {
-		if( $this->result->getImpact() < $this->warning_threshold ) {
+		if ( $this->result->getImpact() < $this->warning_threshold ) {
 			return;
 		}
 
 		// End user's session if they are in the wp admin
-		if( is_admin() AND $this->warning_wp_admin == true ) {
+		if ( is_admin() AND $this->warning_wp_admin == true ) {
 			wp_logout();
 			wp_safe_redirect( '/wp-login.php?loggedout=true' );
 			exit;
 		}
 
 		// Load custom error page
-		add_action( 'template_redirect', array($this, 'load_template') );
+		add_action( 'template_redirect', array( $this, 'load_template' ) );
 
 		// Catch wp-login.php requests
-		add_action( 'mscr_wp_login', array($this, 'load_template') );
+		add_action( 'mscr_wp_login', array( $this, 'load_template' ) );
 	}
 
 	/**
@@ -402,29 +402,29 @@ class Mute_Screamer {
 	public function load_template( $template = '' ) {
 		global $wp_query;
 
-		if( did_action( 'mscr_wp_login' ) ) {
+		if ( did_action( 'mscr_wp_login' ) ) {
 			$this->admin_message();
 		}
 
-		$templates[] = "500.php";
-		$templates[] = "404.php";
-		$templates[] = "index.php";
+		$templates[] = '500.php';
+		$templates[] = '404.php';
+		$templates[] = 'index.php';
 
 		$template = locate_template( $templates );
 
 		// Did we find a template? If not fail silently...
-		if( '' == $template )
+		if ( '' == $template )
 			exit;
 
-		if( '404.php' == basename($template) ) {
+		if ( '404.php' == basename( $template ) ) {
 			$wp_query->set_404();
 			status_header( 404 );
 			nocache_headers();
-		} else if( '500.php' == basename($template) ) {
+		} else if ( '500.php' == basename( $template ) ) {
 			status_header( 500 );
 			nocache_headers();
-		} else if( ! is_front_page() ) {
-			wp_redirect( get_bloginfo('url') );
+		} else if ( ! is_front_page() ) {
+			wp_redirect( get_bloginfo( 'url' ) );
 			exit;
 		}
 
@@ -444,14 +444,14 @@ class Mute_Screamer {
 
 		// If the attack is under the ban threshold mark this
 		// post as a repeat attack
-		if( $this->result->getImpact() < $this->ban_threshold ) {
+		if ( $this->result->getImpact() < $this->ban_threshold ) {
 			$data['post_excerpt'] = 'repeat_attack';
 		}
 
-		$data['post_type'] = self::POST_TYPE;
-		$data['post_status'] = 'publish';
+		$data['post_type']    = self::POST_TYPE;
+		$data['post_status']  = 'publish';
 		$data['post_content'] = MSCR_Utils::ip_address();
-		$data['post_title'] = MSCR_Utils::server( 'HTTP_USER_AGENT' );
+		$data['post_title']   = MSCR_Utils::server( 'HTTP_USER_AGENT' );
 		wp_insert_post( $data );
 	}
 
@@ -464,7 +464,7 @@ class Mute_Screamer {
 		global $wpdb;
 
 		$date = date( 'Y-m-d H:i:s', time() - $this->ban_time );
-		$sql = $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE post_type = '".self::POST_TYPE."' AND post_date_gmt < '%s'", $date );
+		$sql  = $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE post_type = '".self::POST_TYPE."' AND post_date_gmt < '%s'", $date );
 		$wpdb->query( $sql );
 	}
 
@@ -476,7 +476,7 @@ class Mute_Screamer {
 	private function attack_count() {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) AS count FROM {$wpdb->posts} WHERE post_content = '%s' AND post_excerpt = 'repeat_attack'", MSCR_Utils::ip_address() );
+		$sql    = $wpdb->prepare( "SELECT COUNT(*) AS count FROM {$wpdb->posts} WHERE post_content = '%s' AND post_excerpt = 'repeat_attack'", MSCR_Utils::ip_address() );
 		$result = $wpdb->get_row( $sql );
 		return (int) $result->count;
 	}
@@ -490,15 +490,15 @@ class Mute_Screamer {
 		global $wpdb;
 
 		// Is banning enabled?
-		if( ! $this->ban_enabled ) {
+		if ( ! $this->ban_enabled ) {
 			return;
 		}
 
-		$sql = $wpdb->prepare( "SELECT post_type, post_content, post_title, post_excerpt FROM {$wpdb->posts} WHERE post_type = '".self::POST_TYPE."' AND post_content = '%s' AND post_excerpt <> 'repeat_attack'", MSCR_Utils::ip_address() );
+		$sql    = $wpdb->prepare( "SELECT post_type, post_content, post_title, post_excerpt FROM {$wpdb->posts} WHERE post_type = '".self::POST_TYPE."' AND post_content = '%s' AND post_excerpt <> 'repeat_attack'", MSCR_Utils::ip_address() );
 		$result = $wpdb->get_row( $sql );
 
 		// If there is no result and the user is under the repeat limit, we're good
-		if( ! $result AND $this->attack_count() < $this->attack_repeat_limit ) {
+		if ( ! $result AND $this->attack_count() < $this->attack_repeat_limit ) {
 			return;
 		}
 
@@ -506,7 +506,7 @@ class Mute_Screamer {
 		$this->is_ban = true;
 
 		// Admin notice
-		if( is_admin() ) {
+		if ( is_admin() ) {
 			$this->admin_message();
 		}
 
@@ -514,7 +514,7 @@ class Mute_Screamer {
 		add_action( 'template_redirect', array( $this, 'load_template' ) );
 
 		// Catch wp-login.php requests
-		add_action( 'mscr_wp_login', array($this, 'load_template') );
+		add_action( 'mscr_wp_login', array( $this, 'load_template' ) );
 	}
 
 	/**
@@ -524,11 +524,11 @@ class Mute_Screamer {
 	 * @return void
 	 */
 	private function admin_message() {
-		$filter = 'mscr_admin_warn_message';
+		$filter  = 'mscr_admin_warn_message';
 		$message = __( 'There was an error with the page you requested.', 'mute-screamer' );
 
-		if( $this->is_ban ) {
-			$filter = 'mscr_admin_ban_message';
+		if ( $this->is_ban ) {
+			$filter  = 'mscr_admin_ban_message';
 			$message = __( 'There was a problem processing your request.', 'mute-screamer' );
 		}
 
@@ -564,7 +564,7 @@ class Mute_Screamer {
 	 */
 	public function set_option( $key = '', $val = '' ) {
 		// Bail if the key to be set does not exist in defaults
-		if( ! array_key_exists( $key, self::default_options() ) )
+		if ( ! array_key_exists( $key, self::default_options() ) )
 			return;
 
 		$options = get_option( 'mscr_options' );
@@ -586,7 +586,7 @@ class Mute_Screamer {
 		// Fallback to default options if the options don't exist in
 		// the database (kind of like a soft upgrade).
 		// Automatic plugin updates don't call register_activation_hook.
-		foreach( $default_options as $key => $val ) {
+		foreach ( $default_options as $key => $val ) {
 			$this->$key = isset( $options[$key] ) ? $options[$key] : $val;
 		}
 	}
@@ -597,7 +597,7 @@ class Mute_Screamer {
 	 * @return void
 	 */
 	private function update_intrusion_count() {
-		$new_count = $this->new_intrusions_count + count($this->result->getIterator());
+		$new_count = $this->new_intrusions_count + count( $this->result->getIterator() );
 		$this->set_option( 'new_intrusions_count', $new_count );
 	}
 
@@ -610,7 +610,7 @@ class Mute_Screamer {
 		global $wp_admin_bar;
 
 		$updates = get_site_transient( 'mscr_update' );
-		if( $updates === false OR empty( $updates['updates'] ) ) {
+		if ( $updates === false OR empty( $updates['updates'] ) ) {
 			return;
 		}
 
@@ -618,29 +618,29 @@ class Mute_Screamer {
 		$mscr_title = sprintf( _n( '%d Mute Screamer Update', '%d Mute Screamer Updates', $mscr_count, 'mute-screamer' ), $mscr_count );
 
 		// WordPress 3.3
-		if( function_exists( 'wp_allowed_protocols' ) ) {
+		if ( function_exists( 'wp_allowed_protocols' ) ) {
 			$this->wp_admin_bar_updates_menu( $wp_admin_bar, $mscr_count, $mscr_title );
 			return;
 		}
 
 		// WordPress 3.1, 3.2
 		// Other WP updates, modify existing menu
-		if( isset( $wp_admin_bar->menu->updates ) ) {
+		if ( isset( $wp_admin_bar->menu->updates ) ) {
 			// <span title='1 Plugin Update'>Updates <span id='ab-updates' class='update-count'>1</span></span>
 			$title = $wp_admin_bar->menu->updates['title'];
 
 			// Get the existing title attribute
 			preg_match( "/title='(.+?)'/", $title, $matches );
-			$link_title = isset( $matches[1] ) ? $matches[1] : '';
+			$link_title  = isset( $matches[1] ) ? $matches[1] : '';
 			$link_title .= ', '.esc_attr( $mscr_title );
 
 			// Get the existing update count
-			preg_match( "/<span\b[^>]*>(\d+)<\/span>/", $title, $matches );
+			preg_match( '/<span\b[^>]*>(\d+)<\/span>/', $title, $matches );
 			$update_count = isset( $matches[1] ) ? $matches[1] : 0;
 
 			$update_count += $mscr_count;
 
-			$update_title = "<span title='$link_title'>";
+			$update_title  = "<span title='$link_title'>";
 			$update_title .= sprintf( __( 'Updates %s', 'mute-screamer' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $update_count ) . '</span>' );
 			$update_title .= '</span>';
 
@@ -649,8 +649,8 @@ class Mute_Screamer {
 		}
 
 		// Add update menu
-		$update_title = "<span title='".esc_attr( $mscr_title )."'>";
-		$update_title .= sprintf( __('Updates %s', 'mute-screamer' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $mscr_count ) . '</span>' );
+		$update_title  = "<span title='".esc_attr( $mscr_title )."'>";
+		$update_title .= sprintf( __( 'Updates %s', 'mute-screamer' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $mscr_count ) . '</span>' );
 		$update_title .= '</span>';
 		$wp_admin_bar->add_menu( array( 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
 	}
@@ -675,8 +675,8 @@ class Mute_Screamer {
 		$update_data['counts']['total'] += $count;
 		$update_data['title'] .= ", {$title}";
 
-		$update_title = "<span title='{$update_data['title']}'>";
-		$update_title .= sprintf( __('Updates %s'), "<span id='ab-updates' class='update-count'>" . number_format_i18n($update_data['counts']['total']) . '</span>' );
+		$update_title  = "<span title='{$update_data['title']}'>";
+		$update_title .= sprintf( __( 'Updates %s' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . '</span>' );
 		$update_title .= '</span>';
 
 		// Modify existing update menu
@@ -717,7 +717,7 @@ class Mute_Screamer {
 			'db_version' => self::DB_VERSION,
 			'email_threshold' => 20,
 			'email_notifications' => false,
-			'email' => get_option('admin_email'),
+			'email' => get_option( 'admin_email' ),
 			'exception_fields' => $default_exceptions,
 			'html_fields' => array(),
 			'json_fields' => array(),
@@ -730,7 +730,7 @@ class Mute_Screamer {
 			'attack_repeat_limit' => 5,
 			'ban_time' => 300,
 			'enable_intrusion_logs' => 1,
-			'enable_automatic_updates' => 1
+			'enable_automatic_updates' => 1,
 		);
 	}
 
@@ -742,26 +742,26 @@ class Mute_Screamer {
 	private function upgrade() {
 		global $wpdb;
 
-		if( $this->db_version < 2 ) {
+		if ( $this->db_version < 2 ) {
 			// Prefix intrusions table
-			$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->mscr_intrusions . "`" );
-			$wpdb->query( "ALTER TABLE ".self::INTRUSIONS_TABLE." RENAME TO {$wpdb->mscr_intrusions}" );
+			$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->mscr_intrusions . '`' );
+			$wpdb->query( 'ALTER TABLE ' . self::INTRUSIONS_TABLE . " RENAME TO {$wpdb->mscr_intrusions}" );
 
 			// Take a punt and change the intrusion dates to what we *think* GMT time is
 			$time_difference = get_option( 'gmt_offset' );
 
-			$server_time = time() + date('Z');
-			$blog_time = $server_time + $time_difference * 3600;
-			$gmt_time = time();
+			$server_time = time() + date( 'Z' );
+			$blog_time   = $server_time + $time_difference * 3600;
+			$gmt_time    = time();
 
-			$diff_gmt_server = ($gmt_time - $server_time) / 3600;
+			$diff_gmt_server  = ($gmt_time - $server_time) / 3600;
 			$diff_blog_server = ($blog_time - $server_time) / 3600;
-			$diff_gmt_blog = $diff_gmt_server - $diff_blog_server;
-			$gmt_offset = -$diff_gmt_blog;
+			$diff_gmt_blog    = $diff_gmt_server - $diff_blog_server;
+			$gmt_offset       = -$diff_gmt_blog;
 
 			// Add or substract time to all dates, to get GMT dates
-			$add_hours = intval($diff_gmt_blog);
-			$add_minutes = intval(60 * ($diff_gmt_blog - $add_hours));
+			$add_hours   = intval( $diff_gmt_blog );
+			$add_minutes = intval( 60 * ($diff_gmt_blog - $add_hours) );
 			$wpdb->query( "UPDATE $wpdb->mscr_intrusions SET created = DATE_ADD(created, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)" );
 		}
 
@@ -775,7 +775,7 @@ class Mute_Screamer {
 	 * @return void
 	 */
 	public static function activate() {
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			return;
 		}
 
@@ -805,13 +805,13 @@ class Mute_Screamer {
 
 		// If we didn't previously have a db_version don't add one,
 		// we want the upgrade routine to handle this
-		if( is_array( $prev_options ) AND ! isset( $prev_options['db_version'] ) ) {
+		if ( is_array( $prev_options ) AND ! isset( $prev_options['db_version'] ) ) {
 			unset( $options['db_version'] );
 		}
 
 		// Do previous options exist? Merge them, this way we keep existing options
 		// and if an update adds new options they get added too.
-		if( is_array( $prev_options ) ) {
+		if ( is_array( $prev_options ) ) {
 			$options = array_merge( $options, $prev_options );
 		}
 
@@ -842,7 +842,7 @@ class Mute_Screamer {
 		delete_option( 'mscr_options' );
 
 		// Remove intrusions table
-		$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->mscr_intrusions . "`" );
+		$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->mscr_intrusions . '`' );
 	}
 
 	/**
@@ -871,12 +871,12 @@ class Mute_Screamer {
 
 // Register activation, deactivation and uninstall hooks,
 // run Mute Screamer on init
-if( ! defined('WP_UNINSTALL_PLUGIN') ) {
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	register_activation_hook( __FILE__, 'Mute_Screamer::activate' );
 	register_deactivation_hook( __FILE__, 'Mute_Screamer::deactivate' );
 	register_uninstall_hook( __FILE__, 'Mute_Screamer::uninstall' );
 
-	add_action( 'init', create_function('','new Mute_Screamer();') );
+	add_action( 'init', create_function( '','new Mute_Screamer();' ) );
 }
 
 endif;

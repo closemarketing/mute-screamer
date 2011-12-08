@@ -1,11 +1,11 @@
-<?php if( ! defined('ABSPATH')) exit; ?>
+<?php if( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <div class="wrap">
 	<div class="icon32" id="icon-options-general"><br /></div>
 	<h2><?php _e( 'Mute Screamer Settings', 'mute-screamer' ); ?></h2>
 
 	<form action="options.php" method="post">
-		<?php settings_fields('mscr_options'); ?>
+		<?php settings_fields( 'mscr_options' ); ?>
 
 		<h3><?php _e( 'General Settings', 'mute-screamer' ); ?></h3>
 		<table class="form-table">
@@ -16,7 +16,7 @@
 						<fieldset>
 							<legend class="screen-reader-text"><span><?php _e( 'WordPress Admin', 'mute-screamer' ); ?></span></legend>
 							<label for="mscr_enable_admin">
-								<input type="checkbox" value="1" id="mscr_enable_admin" name="mscr_options[enable_admin]" <?php checked('1', $enable_admin); ?> />
+								<input type="checkbox" value="1" id="mscr_enable_admin" name="mscr_options[enable_admin]" <?php checked( '1', $enable_admin ); ?> />
 								<?php _e( 'Enable Mute Screamer for the WordPress admin', 'mute-screamer' ); ?>
 							</label>
 						</fieldset>
@@ -29,7 +29,7 @@
 						<fieldset>
 							<legend class="screen-reader-text"><span><?php _e( 'Intrusion Logs', 'mute-screamer' ); ?></span></legend>
 							<label for="mscr_enable_intrusion_logs">
-								<input type="checkbox" value="1" id="mscr_enable_intrusion_logs" name="mscr_options[enable_intrusion_logs]" <?php checked('1', $enable_intrusion_logs); ?> />
+								<input type="checkbox" value="1" id="mscr_enable_intrusion_logs" name="mscr_options[enable_intrusion_logs]" <?php checked( '1', $enable_intrusion_logs ); ?> />
 								<?php _e( 'Enable logging for intrusion attempts', 'mute-screamer' ); ?>
 							</label>
 						</fieldset>
@@ -42,7 +42,7 @@
 						<fieldset>
 							<legend class="screen-reader-text"><span><?php _e( 'Automatic Updates', 'mute-screamer' ); ?></span></legend>
 							<label for="mscr_enable_automatic_updates">
-								<input type="checkbox" value="1" id="mscr_enable_automatic_updates" name="mscr_options[enable_automatic_updates]" <?php checked('1', $enable_automatic_updates); ?> />
+								<input type="checkbox" value="1" id="mscr_enable_automatic_updates" name="mscr_options[enable_automatic_updates]" <?php checked( '1', $enable_automatic_updates ); ?> />
 								<?php _e( 'Enable automatic updates for default_filter.xml and Converter.php', 'mute-screamer' ); ?>
 							</label>
 						</fieldset>
@@ -68,7 +68,7 @@
 						<fieldset>
 							<legend class="screen-reader-text"><span><?php _e( 'E-mail Notifications', 'mute-screamer' ); ?></span></legend>
 							<label for="mscr_email_notifications">
-								<input type="checkbox" value="1" id="mscr_email_notifications" name="mscr_options[email_notifications]" <?php checked('1', $email_notifications); ?> />
+								<input type="checkbox" value="1" id="mscr_email_notifications" name="mscr_options[email_notifications]" <?php checked( '1', $email_notifications ); ?> />
 								<?php _e( 'Send alert emails', 'mute-screamer' ); ?>
 							</label>
 						</fieldset>
@@ -87,7 +87,7 @@
 
 		<h3><?php _e( 'Warning Page', 'mute-screamer' ); ?></h3>
 		<p><?php _e( "When a warning page is displayed Mute Screamer will look for a template file named 500.php in the current theme's directory. If a 500.php template is not available the 404.php template will be used. If, for some reason the 404.php template is not available the user will be redirected to the homepage.", 'mute-screamer' ); ?></p>
-		<p><?php printf( __( "Sample 500.php templates can be found in %s/mute-screamer/templates", 'mute-screamer' ), str_replace( ABSPATH, '', WP_PLUGIN_DIR ) ); ?></p>
+		<p><?php printf( __( 'Sample 500.php templates can be found in %s/mute-screamer/templates', 'mute-screamer' ), str_replace( ABSPATH, '', WP_PLUGIN_DIR ) ); ?></p>
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
@@ -96,7 +96,7 @@
 						<fieldset>
 							<legend class="screen-reader-text"><span><?php _e( 'WordPress admin warning', 'mute-screamer' ); ?></span></legend>
 							<label for="mscr_warning_wp_admin">
-								<input type="checkbox" value="1" id="mscr_warning_wp_admin" name="mscr_options[warning_wp_admin]" <?php checked('1', $warning_wp_admin); ?> />
+								<input type="checkbox" value="1" id="mscr_warning_wp_admin" name="mscr_options[warning_wp_admin]" <?php checked( '1', $warning_wp_admin ); ?> />
 								<?php _e( 'Log user out of the WordPress admin', 'mute-screamer' ); ?>
 							</label>
 						</fieldset>
@@ -123,7 +123,7 @@
 						<fieldset>
 							<legend class="screen-reader-text"><span><?php _e( 'Enable banning', 'mute-screamer' ); ?></span></legend>
 							<label for="mscr_ban_enabled">
-								<input type="checkbox" value="1" id="mscr_ban_enabled" name="mscr_options[ban_enabled]" <?php checked('1', $ban_enabled); ?> />
+								<input type="checkbox" value="1" id="mscr_ban_enabled" name="mscr_options[ban_enabled]" <?php checked( '1', $ban_enabled ); ?> />
 							</label>
 						</fieldset>
 					</td>

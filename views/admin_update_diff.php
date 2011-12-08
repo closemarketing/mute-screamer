@@ -1,14 +1,14 @@
-<?php if( ! defined('ABSPATH')) exit; ?>
+<?php if( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <div id="mscr_diff" class="wrap">
-	<?php screen_icon('plugins'); ?>
+	<?php screen_icon( 'plugins' ); ?>
 	<h2><?php _e( 'Update Mute Screamer', 'mute-screamer' ); ?></h2>
 	<p><?php _e( 'Showing changes to be updated.', 'mute-screamer' ); ?></p>
 
 	<form action="update.php?action=mscr_upgrade" method="post">
-		<?php wp_nonce_field('mscr-upgrade-diff'); ?>
+		<?php wp_nonce_field( 'mscr-upgrade-diff' ); ?>
 		<input type="hidden" name="url" value="<?php echo esc_url( $url ); ?>" />
-		<p><input class="button-secondary" type="submit" value="<?php esc_attr_e('Continue', 'mute-screamer'); ?>" /></p>
+		<p><input class="button-secondary" type="submit" value="<?php esc_attr_e( 'Continue', 'mute-screamer' ); ?>" /></p>
 	</form>
 
 	<?php foreach( $diff_files as $file ) : ?>

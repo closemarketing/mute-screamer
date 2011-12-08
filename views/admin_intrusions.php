@@ -1,4 +1,4 @@
-<?php if( ! defined('ABSPATH')) exit; ?>
+<?php if( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <div class="wrap">
 	<div class="icon32" id="icon-index"><br/></div>
@@ -22,7 +22,7 @@
 		<input type="hidden" value="<?php echo $page;?>" name="page"/>
 		<p class="search-box">
 			<label for="s" class="screen-reader-text"><?php _e( 'Search Intrusions', 'mute-screamer' ); ?></label>
-			<input type="text" value="<?php echo esc_attr($intrusions_search);?>" name="intrusions_search" id="mscr-intrusions-search-input"/>
+			<input type="text" value="<?php echo esc_attr( $intrusions_search ); ?>" name="intrusions_search" id="mscr-intrusions-search-input"/>
 			<input type="submit" class="button" value="<?php _e( 'Search Intrusions', 'mute-screamer' ); ?>"/>
 		</p>
 	</form>
@@ -37,7 +37,7 @@
 					<option value="bulk_exclude"><?php _e( 'Exclude', 'mute-screamer' ); ?></option>
 				</select>
 				<input type="submit" class="button-secondary action" id="doaction" name="doaction" value="Apply"/>
-				<?php wp_nonce_field('mscr_action_intrusions_bulk'); ?>
+				<?php wp_nonce_field( 'mscr_action_intrusions_bulk' ); ?>
 
 				<input type="hidden" name="page" value="<?php echo esc_attr( $page ); ?>" />
 			</div>
@@ -78,10 +78,10 @@
 							</th>
 							<?php foreach($columns as $key => $val) : ?>
 								<td class="<?php echo $key; ?> column-<?php echo $key; ?>">
-									<?php switch($key) :
+									<?php switch ($key) :
 										case 'name':
-											$exclude_link = wp_nonce_url( admin_url( 'index.php?page=mscr_intrusions&action=exclude&intrusion='.$intrusion->id ), 'mscr_action_exclude_intrusion' );
-											$delete_link = wp_nonce_url( admin_url( 'index.php?page=mscr_intrusions&action=delete&intrusion='.$intrusion->id ), 'mscr_action_delete_intrusion' );
+											$exclude_link = wp_nonce_url( admin_url( 'index.php?page=mscr_intrusions&action=exclude&intrusion=' . $intrusion->id ), 'mscr_action_exclude_intrusion' );
+											$delete_link  = wp_nonce_url( admin_url( 'index.php?page=mscr_intrusions&action=delete&intrusion=' . $intrusion->id ), 'mscr_action_delete_intrusion' );
 ?>
 											<strong><a href="<?php echo $exclude_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Exclude &#8220;%s&#8221;' ), $intrusion->name ) ); ?>"><?php echo esc_html( $intrusion->name ); ?></a></strong>
 											<div class="row-actions">
@@ -92,23 +92,23 @@
 											break;
 
 										case 'value':
-											echo esc_html($intrusion->value);
+											echo esc_html( $intrusion->value );
 											break;
 
 										case 'page':
-											echo esc_url($intrusion->page);
+											echo esc_url( $intrusion->page );
 											break;
 
 										case 'tags':
-											echo esc_html($intrusion->tags);
+											echo esc_html( $intrusion->tags );
 											break;
 
 										case 'ip':
-											echo esc_html($intrusion->ip);
+											echo esc_html( $intrusion->ip );
 											break;
 
 										case 'impact':
-											echo esc_html($intrusion->impact);
+											echo esc_html( $intrusion->impact );
 											break;
 
 										case 'date':
@@ -116,7 +116,7 @@
 											break;
 
 										default:
-											echo apply_filters('manage_mscr_intrusions_custom_column', '', $key, $intrusion->id);
+											echo apply_filters( 'manage_mscr_intrusions_custom_column', '', $key, $intrusion->id );
 									?>
 									<?php endswitch;?>
 								</td>

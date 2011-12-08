@@ -1,21 +1,21 @@
-<?php  if ( ! defined('ABSPATH') ) exit;
+<?php  if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Example template for displaying 500 error pages (Server Error).
  */
 
 // Change the page title for a 500 error
-if( function_exists( 'mscr_filter_wp_title' ) ) {
+if ( function_exists( 'mscr_filter_wp_title' ) ) {
 	add_filter( 'wp_title', 'mscr_filter_wp_title', 10, 3 );
 }
 
 // Warning message
-$mscr_error_title = __( 'An Error Was Encountered', 'twentyten' );
+$mscr_error_title   = __( 'An Error Was Encountered', 'twentyten' );
 $mscr_error_message = __( 'There was an error with the page you requested.', 'twentyten' );
 
 // Is this a ban request?
-if( function_exists( 'mscr_is_ban' ) AND mscr_is_ban() ) {
+if ( function_exists( 'mscr_is_ban' ) AND mscr_is_ban() ) {
 	// Ban message
-	$mscr_error_title = sprintf( __( '%s Unavailable', 'twentyten' ), get_bloginfo( 'name' ) );
+	$mscr_error_title   = sprintf( __( '%s Unavailable', 'twentyten' ), get_bloginfo( 'name' ) );
 	$mscr_error_message = __( 'There was a problem processing your request.', 'twentyten' );
 }
 

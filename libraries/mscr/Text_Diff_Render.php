@@ -1,4 +1,4 @@
-<?php  if ( ! defined('ABSPATH') ) exit;
+<?php  if ( ! defined( 'ABSPATH' ) ) exit;
 
 class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 
@@ -56,19 +56,18 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 		return '<tr><td colspan="2" class="start-block">&nbsp;' . $header . "</td></tr>\n";
 	}
 
-    function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
-    {
-        if ($xlen > 1) {
+    function _blockHeader( $xbeg, $xlen, $ybeg, $ylen ) {
+        if ( $xlen > 1 ) {
             $xbeg .= ',' . ($xbeg + $xlen - 1);
         }
-        if ($ylen > 1) {
+        if ( $ylen > 1 ) {
             $ybeg .= ',' . ($ybeg + $ylen - 1);
         }
 
         // this matches the GNU Diff behaviour
-        if ($xlen && !$ylen) {
+        if ( $xlen && ! $ylen ) {
             $ybeg--;
-        } elseif (!$xlen) {
+        } elseif ( ! $xlen ) {
             $xbeg--;
         }
 
@@ -81,24 +80,24 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 	 * @return string
 	 */
     function _block( $xbeg, $xlen, $ybeg, $ylen, &$edits ) {
-        $output = $this->_startBlock($this->_blockHeader($xbeg, $xlen, $ybeg, $ylen));
+        $output = $this->_startBlock( $this->_blockHeader( $xbeg, $xlen, $ybeg, $ylen ) );
 
-        foreach ($edits as $edit) {
-            switch (strtolower(get_class($edit))) {
+        foreach ( $edits as $edit ) {
+            switch ( strtolower( get_class( $edit ) ) ) {
             case 'text_diff_op_copy':
-                $output .= $this->_context($edit->orig);
+                $output .= $this->_context( $edit->orig );
                 break;
 
             case 'text_diff_op_add':
-                $output .= $this->_added($edit->final);
+                $output .= $this->_added( $edit->final );
                 break;
 
             case 'text_diff_op_delete':
-                $output .= $this->_deleted($edit->orig);
+                $output .= $this->_deleted( $edit->orig );
                 break;
 
             case 'text_diff_op_change':
-                $output .= $this->_changed($edit->orig, $edit->final);
+                $output .= $this->_changed( $edit->orig, $edit->final );
                 break;
             }
         }
@@ -116,7 +115,7 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 	 */
 	function _added( $lines, $encode = true ) {
 		$r = '';
-		foreach ($lines as $line) {
+		foreach ( $lines as $line ) {
 			if ( $encode )
 				$line = htmlspecialchars( $line );
 
@@ -135,7 +134,7 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 	 */
 	function _deleted( $lines, $encode = true ) {
 		$r = '';
-		foreach ($lines as $line) {
+		foreach ( $lines as $line ) {
 			if ( $encode )
 				$line = htmlspecialchars( $line );
 
@@ -154,7 +153,7 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 	 */
 	function _context( $lines, $encode = true ) {
 		$r = '';
-		foreach ($lines as $line) {
+		foreach ( $lines as $line ) {
 			if ( $encode )
 				$line = htmlspecialchars( $line );
 
@@ -194,19 +193,19 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 
 		// Compute word diffs for each matched pair using the inline diff
 		foreach ( $orig_matches as $o => $f ) {
-			if ( is_numeric($o) && is_numeric($f) ) {
-				$text_diff = new Text_Diff( 'auto', array( array($orig[$o]), array($final[$f]) ) );
-				$renderer = new $this->inline_diff_renderer;
+			if ( is_numeric( $o ) && is_numeric( $f ) ) {
+				$text_diff = new Text_Diff( 'auto', array( array( $orig[$o] ), array( $final[$f] ) ) );
+				$renderer  = new $this->inline_diff_renderer;
 				$diff = $renderer->render( $text_diff );
 
 				// If they're too different, don't include any <ins> or <dels>
 				if ( $diff_count = preg_match_all( '!(<ins>.*?</ins>|<del>.*?</del>)!', $diff, $diff_matches ) ) {
 					// length of all text between <ins> or <del>
-					$stripped_matches = strlen(strip_tags( join(' ', $diff_matches[0]) ));
+					$stripped_matches = strlen( strip_tags( join( ' ', $diff_matches[0] ) ) );
 					// since we count lengith of text between <ins> or <del> (instead of picking just one),
 					//	we double the length of chars not in those tags.
-					$stripped_diff = strlen(strip_tags( $diff )) * 2 - $stripped_matches;
-					$diff_ratio = $stripped_matches / $stripped_diff;
+					$stripped_diff = strlen( strip_tags( $diff ) ) * 2 - $stripped_matches;
+					$diff_ratio    = $stripped_matches / $stripped_diff;
 					if ( $diff_ratio > $this->_diff_threshold )
 						continue; // Too different.  Don't save diffs.
 				}
@@ -217,7 +216,7 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 			}
 		}
 
-		foreach ( array_keys($orig_rows) as $row ) {
+		foreach ( array_keys( $orig_rows ) as $row ) {
 			// Both columns have blanks.  Ignore them.
 			if ( $orig_rows[$row] < 0 && $final_rows[$row] < 0 )
 				continue;
@@ -242,9 +241,9 @@ class MSCR_Text_Diff_Renderer_Table extends WP_Text_Diff_Renderer_Table {
 				$final_line = '';
 
 			if ( $orig_rows[$row] < 0 ) { // Orig is blank.  This is really an added row.
-				$r .= $this->_added( array($final_line), false );
+				$r .= $this->_added( array( $final_line ), false );
 			} elseif ( $final_rows[$row] < 0 ) { // Final is blank.  This is really a deleted row.
-				$r .= $this->_deleted( array($orig_line), false );
+				$r .= $this->_deleted( array( $orig_line ), false );
 			} else { // A true changed row.
 				$r .= '<tr>' . $this->deletedLine( $orig_line ) . "</tr>\n";
 				$r .= '<tr>' . $this->addedLine( $final_line ) . "</tr>\n";

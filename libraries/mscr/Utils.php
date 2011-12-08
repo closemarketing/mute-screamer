@@ -1,4 +1,4 @@
-<?php  if ( !defined('ABSPATH') ) exit;
+<?php  if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*
  * Mute Screamer utils class
@@ -20,25 +20,25 @@ class MSCR_Utils {
 		$found = false;
 
 		// Look in Mute Screamer views and the current Wordpress theme directories
-		for( $i = 1; $i < 3; $i++ ) {
-			$path = ($i % 2) ? MSCR_PATH . "/views/" : TEMPLATEPATH . '/';
+		for ( $i = 1; $i < 3; $i++ ) {
+			$path = ($i % 2) ? MSCR_PATH . '/views/' : TEMPLATEPATH . '/';
 			$view_path = $path . $view . '.php';
 
 			// Does the file exist?
-			if( file_exists($view_path) ) {
+			if ( file_exists( $view_path ) ) {
 				$found = true;
 				break;
 			}
 		}
 
-		if( $found === true ) {
-			extract($vars);
+		if ( $found === true ) {
+			extract( $vars );
 			ob_start();
 
-			include($view_path);
+			include( $view_path );
 
 			// Return the data if requested
-			if( $return === true ) {
+			if ( $return === true ) {
 				$buffer = ob_get_contents();
 				@ob_end_clean();
 				return $buffer;
@@ -48,8 +48,8 @@ class MSCR_Utils {
 			@ob_end_clean();
 
 			echo $output;
-		} else if( defined('WP_DEBUG') && WP_DEBUG == true ) {
-			trigger_error(__('Unable to load the requested view.', 'mute-screamer'), E_USER_ERROR);
+		} else if ( defined( 'WP_DEBUG' ) && WP_DEBUG == true ) {
+			trigger_error( __( 'Unable to load the requested view.', 'mute-screamer' ), E_USER_ERROR );
 		}
 	}
 
@@ -58,18 +58,18 @@ class MSCR_Utils {
 	 *
 	 * @return string
 	 */
-	public static function pagination($current_page = 1, $total_pages = 0, $per_page = 0, $count = 0)
+	public static function pagination( $current_page = 1, $total_pages = 0, $per_page = 0, $count = 0 )
 	{
 		$page_links = paginate_links( array(
 			'base' => add_query_arg( 'paged', '%#%' ),
 			'format' => '',
-			'prev_text' => __('&laquo;', 'mute-screamer'),
-			'next_text' => __('&raquo;', 'mute-screamer'),
+			'prev_text' => __( '&laquo;', 'mute-screamer' ),
+			'next_text' => __( '&raquo;', 'mute-screamer' ),
 			'total' => $total_pages,
-			'current' => $current_page
-		));
+			'current' => $current_page,
+		) );
 
-		if( !$page_links ) {
+		if ( !$page_links ) {
 			return '';
 		}
 
@@ -89,10 +89,10 @@ class MSCR_Utils {
 	 * @return integer
 	 */
 	public static function mscr_intrusions_per_page() {
-		$per_page = (int) get_user_option('mscr_intrusions_per_page');
+		$per_page = (int) get_user_option( 'mscr_intrusions_per_page' );
 
 		// Set default if user option does not exist
-		if( !$per_page ) {
+		if ( !$per_page ) {
 			$per_page = 20;
 		}
 
@@ -107,7 +107,7 @@ class MSCR_Utils {
 	public static function upload_path() {
 		$upload_dir = wp_upload_dir();
 
-		if( ! isset( $upload_dir['basedir'] ) ) {
+		if ( ! isset( $upload_dir['basedir'] ) ) {
 			return '';
 		}
 
@@ -120,7 +120,7 @@ class MSCR_Utils {
 	 * @return void
 	 */
 	public static function writable_notice() {
-		echo "<div class='update-nag'>".sprintf( __( "Mute Screamer requires that your uploads folder %s is writable.", 'mute-screamer' ), self::upload_path() )."</div>";
+		echo '<div class="update-nag">' . sprintf( __( 'Mute Screamer requires that your uploads folder %s is writable.', 'mute-screamer' ), self::upload_path() ) . '</div>';
 	}
 
 	/**
@@ -129,7 +129,7 @@ class MSCR_Utils {
 	 * @return void
 	 */
 	public static function ms_notice() {
-		echo "<div class='update-nag'>".sprintf( __( "Mute Screamer multisite install currently not supported.", 'mute-screamer' ), self::upload_path() )."</div>";
+		echo '<div class="update-nag">' . __( 'Mute Screamer multisite install currently not supported.', 'mute-screamer' ) . '</div>';
 	}
 
 
@@ -141,17 +141,17 @@ class MSCR_Utils {
 	public static function ip_address() {
 		$ip = '0.0.0.0';
 
-		if( self::$ip )
+		if ( self::$ip )
 			return self::$ip;
 
-		foreach( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
-			if( ! isset($_SERVER[$key]) )
+		foreach ( array( 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR' ) as $key ) {
+			if ( ! isset( $_SERVER[$key] ) )
 				continue;
 
-			foreach( explode(',', $_SERVER[$key]) as $val ) {
-				$ip = trim($val);
+			foreach ( explode( ',', $_SERVER[$key] ) as $val ) {
+				$ip = trim( $val );
 
-				if( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false ) {
+				if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== false ) {
 					self::$ip = $ip;
 					return $ip;
 				}
@@ -180,15 +180,15 @@ class MSCR_Utils {
 		if ( ! class_exists( 'MSCR_Text_Diff_Renderer_Table' ) )
 			require_once( 'mscr/Text_Diff_Render.php' );
 
-		$left_string  = normalize_whitespace($left_string);
-		$right_string = normalize_whitespace($right_string);
+		$left_string  = normalize_whitespace( $left_string );
+		$right_string = normalize_whitespace( $right_string );
 
-		$left_lines  = split("\n", $left_string);
-		$right_lines = split("\n", $right_string);
+		$left_lines  = split( "\n", $left_string );
+		$right_lines = split( "\n", $right_string );
 
-		$text_diff = new Text_Diff($left_lines, $right_lines);
+		$text_diff = new Text_Diff( $left_lines, $right_lines );
 		$renderer  = new MSCR_Text_Diff_Renderer_Table();
-		$diff = $renderer->render($text_diff);
+		$diff = $renderer->render( $text_diff );
 
 		if ( !$diff )
 			return '';
@@ -197,7 +197,7 @@ class MSCR_Utils {
 		$r .= "<col class='ltype' /><col class='content' /><col class='ltype' /><col class='content' />";
 
 		if ( $args['title'] || $args['title_left'] || $args['title_right'] )
-			$r .= "<thead>";
+			$r .= '<thead>';
 		if ( $args['title'] )
 			$r .= "<tr class='diff-title'><th colspan='4'>$args[title]</th></tr>\n";
 		if ( $args['title_left'] || $args['title_right'] ) {
@@ -210,7 +210,7 @@ class MSCR_Utils {
 			$r .= "</thead>\n";
 
 		$r .= "<tbody>\n$diff\n</tbody>\n";
-		$r .= "</table>";
+		$r .= '</table>';
 
 		return $r;
 	}
@@ -253,7 +253,7 @@ class MSCR_Utils {
 	 * @return mixed
 	 */
 	private static function _fetch_from_array( $array, $index = '' ) {
-		if( ! isset( $array[$index] ) )
+		if ( ! isset( $array[$index] ) )
 			return false;
 
 		return $array[$index];

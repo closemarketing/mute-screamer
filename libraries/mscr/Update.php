@@ -1,4 +1,4 @@
-<?php  if ( ! defined('ABSPATH') ) exit;
+<?php  if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*
  * Mute Screamer update class
@@ -58,7 +58,7 @@ class MSCR_Update {
 	 * @return object
 	 */
 	public static function instance() {
-		if( ! self::$instance )
+		if ( ! self::$instance )
 			self::$instance = new MSCR_Update;
 
 		return self::$instance;
@@ -78,11 +78,11 @@ class MSCR_Update {
 		// TODO: Make this more efficient/responsive so it doesn't
 		// TODO: look like Wordpress is really slow
 
-		if( ! $this->can_update() )
+		if ( ! $this->can_update() )
 			return false;
 
 		// Is it time to check for updates?
-		if( $this->updates !== false )
+		if ( $this->updates !== false )
 			return false;
 
 		// Initialise the update cache
@@ -95,14 +95,14 @@ class MSCR_Update {
 		// Suppress libxml parsing errors
 		$libxml_use_errors = libxml_use_internal_errors( true );
 
-		foreach( $this->files as $file ) {
+		foreach ( $this->files as $file ) {
 			$this->file = $file;
 
 			// Fetch the remote sha1
 			$this->sha1_fetch();
 
 			// Is the sha1 different?
-			if( ! $this->sha1_compare() ) {
+			if ( ! $this->sha1_compare() ) {
 				// File doesn't need updating remove from update array
 				unset( $this->updates['updates'][$file] );
 				continue;
@@ -110,7 +110,7 @@ class MSCR_Update {
 		}
 
 		// Are there any files to update?
-		if( empty( $this->updates['updates'] ) ) {
+		if ( empty( $this->updates['updates'] ) ) {
 			$this->abort();
 			return false;
 		}
@@ -120,19 +120,19 @@ class MSCR_Update {
 
 		// Load up the RSS
 		$rss = simplexml_load_string( $this->updates['rss'] );
-		if( ! $rss ) {
+		if ( ! $rss ) {
 			$this->abort();
 			return false;
 		}
 
 		// Does the feed have what we are looking for?
-		if( ! isset( $rss->entry ) ) {
+		if ( ! isset( $rss->entry ) ) {
 			$this->abort();
 			return false;
 		}
 
 		// Make sure the elements we are going to use are set
-		if( ! isset( $rss->entry->id ) OR ! isset( $rss->entry->title ) OR ! isset( $rss->entry->updated ) OR ! isset( $rss->entry->link ) ) {
+		if ( ! isset( $rss->entry->id ) OR ! isset( $rss->entry->title ) OR ! isset( $rss->entry->updated ) OR ! isset( $rss->entry->link ) ) {
 			$this->abort();
 			return false;
 		}
@@ -143,7 +143,7 @@ class MSCR_Update {
 		$revision_number = end( $x );
 
 		// Add update information to each file
-		foreach( $this->files as $file ) {
+		foreach ( $this->files as $file ) {
 			// Simple XML elements can't be serialized so cast them to strings
 			$this->updates['updates'][$file]->title = (string) $rss->entry->title;
 			$this->updates['updates'][$file]->revision = $revision_number;
@@ -170,12 +170,12 @@ class MSCR_Update {
 	private function can_update() {
 		// Don't check for updates on wp-login.php, this happens when you request
 		// an admin page but are not logged in and then redirected to wp-login.php
-		if( false === wp_validate_auth_cookie() )
+		if ( false === wp_validate_auth_cookie() )
 			return false;
 
 		// Don't run on plugin activation/deactivation, request will seem slow
-		foreach( array( 'activate', 'deactivate', 'activate-multi', 'deactivate-multi' ) as $key ) {
-			if( array_key_exists( $key, $_REQUEST ) ) {
+		foreach ( array( 'activate', 'deactivate', 'activate-multi', 'deactivate-multi' ) as $key ) {
+			if ( array_key_exists( $key, $_REQUEST ) ) {
 				return false;
 			}
 		}
@@ -188,9 +188,9 @@ class MSCR_Update {
 			'activate',
 			'deactivate',
 			'activate-selected',
-			'deactivate-selected'
+			'deactivate-selected',
 		);
-		if( in_array( MSCR_Utils::get( 'action' ), $actions ) )
+		if ( in_array( MSCR_Utils::get( 'action' ), $actions ) )
 			return false;
 
 		return true;
@@ -206,7 +206,7 @@ class MSCR_Update {
 		$response = $this->remote_get( $url );
 
 		// Did the request fail?
-		if( $response['body'] == '' ) {
+		if ( $response['body'] == '' ) {
 			$this->abort();
 		}
 
@@ -220,11 +220,11 @@ class MSCR_Update {
 	 * @return void
 	 */
 	private function rss_fetch() {
-		$url = "http://dev.itratos.de/projects/php-ids/repository/revisions/1/revisions/trunk/?format=atom";
+		$url = 'http://dev.itratos.de/projects/php-ids/repository/revisions/1/revisions/trunk/?format=atom';
 		$response = $this->remote_get( $url );
 
 		// Did the request fail?
-		if( $response['body'] == '' ) {
+		if ( $response['body'] == '' ) {
 			$this->abort();
 		}
 
@@ -240,13 +240,13 @@ class MSCR_Update {
 		// Get the current sha1
 		$local_file = MSCR_PATH."/libraries/IDS/{$this->file}";
 
-		if( ! file_exists( $local_file ) )
+		if ( ! file_exists( $local_file ) )
 			return false;
 
-		$local_sha1 = sha1_file( $local_file );
+		$local_sha1  = sha1_file( $local_file );
 		$remote_sha1 = $this->updates['updates'][$this->file]->responses['sha1'];
 
-		if( $local_sha1 == $remote_sha1 )
+		if ( $local_sha1 == $remote_sha1 )
 			return false;
 
 		return true;
@@ -265,23 +265,23 @@ class MSCR_Update {
 
 		// Is it in the cache?
 		$hash = md5( $url );
-		if( isset( $cache[$hash] ) )
+		if ( isset( $cache[$hash] ) )
 			return $cache[$hash];
 
 		// Default options
-		if( empty( $options ) ) {
+		if ( empty( $options ) ) {
 			$options = array( 'sslverify' => false );
 		}
 
 		$response = wp_remote_get( $url, $options );
 
-		if( is_wp_error( $response ) )
+		if ( is_wp_error( $response ) )
 			return array( 'body' => '' );
 
-		if( 200 != $response['response']['code'] )
+		if ( 200 != $response['response']['code'] )
 			return array( 'body' => '' );
 
-		if( ! is_array( $cache ) )
+		if ( ! is_array( $cache ) )
 			$cache = array();
 
 		$cache[$hash] = $response;
@@ -297,9 +297,9 @@ class MSCR_Update {
 	 */
 	private function abort() {
 		// Set error flag and try again when the transient expires next
-		$this->updates = array();
+		$this->updates            = array();
 		$this->updates['updates'] = array();
-		$this->updates['status'] = 'Failed';
+		$this->updates['status']  = 'Failed';
 		set_site_transient( 'mscr_update', $this->updates, $this->timeout );
 	}
 
@@ -309,7 +309,7 @@ class MSCR_Update {
 	 * @return void
 	 */
 	public function list_mscr_updates() {
-		if( empty( $this->updates['updates'] ) ) {
+		if ( empty( $this->updates['updates'] ) ) {
 			echo '<h3>' . __( 'Mute Screamer', 'mute-screamer' ) . '</h3>';
 			echo '<p>' . __( 'All files are up to date.', 'mute-screamer' ) . '</p>';
 			return;
@@ -327,27 +327,27 @@ class MSCR_Update {
 	public function do_upgrade_diff() {
 		$diff_files = array();
 
-		if ( ! current_user_can('update_plugins') )
-			wp_die(__('You do not have sufficient permissions to update Mute Screamer for this site.', 'mute-screamer'));
+		if ( ! current_user_can( 'update_plugins' ) )
+			wp_die( __( 'You do not have sufficient permissions to update Mute Screamer for this site.', 'mute-screamer' ) );
 
-		check_admin_referer('upgrade-core');
+		check_admin_referer( 'upgrade-core' );
 
 		$files = (array) MSCR_Utils::post( 'checked' );
 
 		// Valid files to upgrade?
-		foreach( $files as $file ) {
-			if( ! isset( $this->updates['updates'][$file]))
+		foreach ( $files as $file ) {
+			if ( ! isset( $this->updates['updates'][$file] ) )
 				continue;
 
 			// Get local file
 			$local = MSCR_PATH.'/libraries/IDS/'.$file;
 
-			if( ! file_exists( $local ) ) {
-				wp_die( new WP_Error( 'mscr_upgrade_file_missing', sprintf( __( '%s does not exist.', 'mute-screamer' ), esc_html($file) ) ) );
+			if ( ! file_exists( $local ) ) {
+				wp_die( new WP_Error( 'mscr_upgrade_file_missing', sprintf( __( '%s does not exist.', 'mute-screamer' ), esc_html( $file ) ) ) );
 			}
 
-			if( ! @is_readable( $local ) ) {
-				wp_die( new WP_Error( 'mscr_upgrade_file_read_error', sprintf( __( 'Can not read file %s.', 'mute-screamer' ), esc_html($file) ) ) );
+			if ( ! @is_readable( $local ) ) {
+				wp_die( new WP_Error( 'mscr_upgrade_file_read_error', sprintf( __( 'Can not read file %s.', 'mute-screamer' ), esc_html( $file ) ) ) );
 			}
 
 			$local = file_get_contents( $local );
@@ -355,7 +355,7 @@ class MSCR_Update {
 			// Fetch remote file
 			$remote = $this->remote_get( $this->updates['updates'][$file]->revision_file_url );
 
-			if( $remote['body'] == '' )
+			if ( $remote['body'] == '' )
 				wp_die( new WP_Error( 'mscr_upgrade_error', __( 'Could not connect to phpids.org, please try again later.', 'mute-screamer' ) ) );
 
 			$remote = $remote['body'];
@@ -365,13 +365,13 @@ class MSCR_Update {
 			$diff_files[$file]->diff = MSCR_Utils::text_diff( $local, $remote );
 		}
 
-		if( empty( $diff_files ) ) {
+		if ( empty( $diff_files ) ) {
 			wp_redirect( admin_url( 'update-core.php' ) );
 			exit;
 		}
 
-		$url = 'update.php?action=mscr_upgrade_run&files=' . urlencode(implode(',', $files));
-		$url = wp_nonce_url($url, 'bulk-update-mscr');
+		$url = 'update.php?action=mscr_upgrade_run&files=' . urlencode( implode( ',', $files ) );
+		$url = wp_nonce_url( $url, 'bulk-update-mscr' );
 
 		$this->admin_header( __( 'Update Mute Screamer', 'mute-screamer' ) );
 
@@ -413,7 +413,7 @@ class MSCR_Update {
 
 		// The $url below will invoke do_upgrade_run
 		echo '<div class="wrap">';
-		screen_icon('plugins');
+		screen_icon( 'plugins' );
 		echo '<h2>' . __( 'Update Mute Screamer', 'mute-screamer' ) . '</h2>';
 		echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 		echo '</div>';
@@ -429,7 +429,7 @@ class MSCR_Update {
 	public function do_upgrade_run() {
 		$upgrade_files = array(
 			'default_filter.xml',
-			'Converter.php'
+			'Converter.php',
 		);
 		$files = MSCR_Utils::get( 'files' );
 		$files = explode( ',', $files );
@@ -440,9 +440,9 @@ class MSCR_Update {
 		check_admin_referer( 'bulk-update-mscr' );
 
 		// Valid files to upgrade?
-		foreach( $files as $key => $val ) {
-			if( ! in_array( $val, $upgrade_files ) )
-				wp_die( sprintf( __( "%s can't be upgraded.", 'mute-screamer' ), esc_html($val) ) );
+		foreach ( $files as $key => $val ) {
+			if ( ! in_array( $val, $upgrade_files ) )
+				wp_die( sprintf( __( "%s can't be upgraded.", 'mute-screamer' ), esc_html( $val ) ) );
 
 			// Fetch file contents from cache
 			$files[$val] = $this->remote_get( $this->updates['updates'][$val]->revision_file_url );
@@ -451,22 +451,22 @@ class MSCR_Update {
 
 		require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		require_once 'mscr/Upgrader.php';
-		wp_enqueue_script('jquery');
+		wp_enqueue_script( 'jquery' );
 		iframe_header();
 
 		$upgrader = new MSCR_Upgrader();
 		$res = $upgrader->upgrade( $files );
 
 		// All good? Clear the update array, reset transients
-		if( $res ) {
+		if ( $res ) {
 			// Remove the files we updated from the update array
-			foreach( $files as $key => $file ) {
+			foreach ( $files as $key => $file ) {
 				unset( $this->updates['updates'][$key] );
 			}
 
 			// Did we update everything?
 			// Only clear the update array and cache if there are no files left to update
-			if( empty( $this->updates['updates'] ) ) {
+			if ( empty( $this->updates['updates'] ) ) {
 				$this->updates['updates'] = array();
 				delete_site_transient( 'mscr_requests_cache' );
 			}

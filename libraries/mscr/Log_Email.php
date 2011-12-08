@@ -1,4 +1,4 @@
-<?php  if ( ! defined('ABSPATH') ) exit;
+<?php  if ( ! defined( 'ABSPATH' ) ) exit;
 /*
  * Mute Screamer
  *
@@ -23,7 +23,7 @@ class MSCR_Log_Email extends IDS_Log_Email {
 	* @param mixed $data the report data
 	* @return string
 	*/
-	protected function prepareData($data) {
+	protected function prepareData( $data ) {
 		$format  = __( "The following attack has been detected by PHPIDS\n\n", 'mute-screamer' );
 		$format .= __( "IP: %s \n", 'mute-screamer' );
 		$format .= __( "Date: %s \n", 'mute-screamer' );
@@ -31,25 +31,26 @@ class MSCR_Log_Email extends IDS_Log_Email {
 		$format .= __( "Affected tags: %s \n", 'mute-screamer' );
 
 		$attackedParameters = '';
-		foreach( $data as $event ) {
+		foreach ( $data as $event ) {
 			$attackedParameters .= $event->getName() . '=' .
 				( ( ! isset( $this->urlencode ) || $this->urlencode )
 				? urlencode( $event->getValue() )
-				: $event->getValue() ) . ", ";
+				: $event->getValue() ) . ', ';
 		}
 
 		$format .= __( "Affected parameters: %s \n", 'mute-screamer' );
 		$format .= __( "Request URI: %s \n", 'mute-screamer' );
 		$format .= __( "Origin: %s \n", 'mute-screamer' );
 
-		return sprintf($format,
+		return sprintf( $format,
 			$this->ip,
-			date('c'),
+			date( 'c' ),
 			$data->getImpact(),
-			join(' ', $data->getTags()),
-			trim($attackedParameters),
-			htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'),
-			$_SERVER['SERVER_ADDR']);
+			join( ' ', $data->getTags() ),
+			trim( $attackedParameters ),
+			htmlspecialchars( $_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8' ),
+			$_SERVER['SERVER_ADDR']
+		);
 	}
 
 	/**
