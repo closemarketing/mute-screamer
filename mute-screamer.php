@@ -663,25 +663,41 @@ class Mute_Screamer {
 	 * @param string $title
 	 * @return void
 	 */
-	function wp_admin_bar_updates_menu( $wp_admin_bar, $count = 0, $title = '' ) {
+	private function wp_admin_bar_updates_menu( $wp_admin_bar, $count = 0, $title = '' ) {
 		if ( ! $count OR ! $title )
 			return;
 
 		$update_data = wp_get_update_data();
 
-		if ( ! $update_data['counts']['total'] )
-			return;
-
 		$update_data['counts']['total'] += $count;
-		$update_data['title'] .= ", {$title}";
 
-		$update_title  = "<span title='{$update_data['title']}'>";
-		$update_title .= sprintf( __( 'Updates %s' ), "<span id='ab-updates' class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . '</span>' );
-		$update_title .= '</span>';
+		if ( ! $update_data['title'] ) {
+			$update_data['title'] = $title;
+		} else {
+			$update_data['title'] .= ", {$title}";
+		}
 
-		// Modify existing update menu
+		$update_title = '<span class="ab-icon"></span><span class="ab-label">' . number_format_i18n( $update_data['counts']['total'] ) . '</span>';
+
 		$update_node = $wp_admin_bar->get_node( 'updates' );
+
+		// Does the update menu already exist?
+		if ( ! $update_node ) {
+			$wp_admin_bar->add_menu( array(
+				'id'    => 'updates',
+				'title' => $update_title,
+				'href'  => network_admin_url( 'update-core.php' ),
+				'meta'  => array(
+					'title' => $update_data['title'],
+				),
+			) );
+
+			return;
+		}
+
+		// Update existing menu
 		$update_node->title = $update_title;
+		$update_node->meta['title'] = $update_data['title'];
 
 		$wp_admin_bar->add_menu( $update_node );
 	}
