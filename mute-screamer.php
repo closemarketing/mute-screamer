@@ -711,6 +711,8 @@ class Mute_Screamer {
 			'POST.pass1',
 			'REQUEST.pass2',
 			'POST.pass2',
+			'REQUEST.password',
+			'POST.password',
 		);
 
 		return array(
