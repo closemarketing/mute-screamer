@@ -193,14 +193,14 @@ class Mute_Screamer {
 		if ( ! function_exists( '__return_false' ) )
 			return;
 
-		// PHPIDS requires a writable folder
-		if ( ! is_writable( MSCR_Utils::upload_path() ) ) {
-			add_action( 'admin_notices', 'MSCR_Utils::writable_notice' );
+		if ( is_multisite() ) {
+			add_action( 'network_admin_notices', 'MSCR_Utils::ms_notice' );
 			return;
 		}
 
-		if ( is_multisite() ) {
-			add_action( 'network_admin_notices', 'MSCR_Utils::ms_notice' );
+		// PHPIDS requires a writable folder
+		if ( ! is_writable( MSCR_Utils::upload_path() ) ) {
+			add_action( 'admin_notices', 'MSCR_Utils::writable_notice' );
 			return;
 		}
 
