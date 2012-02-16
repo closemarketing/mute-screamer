@@ -208,6 +208,7 @@ class MSCR_Update {
 		// Did the request fail?
 		if ( $response['body'] == '' ) {
 			$this->abort();
+			return;
 		}
 
 		$this->updates['updates'][$this->file] = new stdClass;
@@ -226,6 +227,7 @@ class MSCR_Update {
 		// Did the request fail?
 		if ( $response['body'] == '' ) {
 			$this->abort();
+			return;
 		}
 
 		$this->updates['rss'] = $response['body'];
@@ -241,6 +243,10 @@ class MSCR_Update {
 		$local_file = MSCR_PATH."/libraries/IDS/{$this->file}";
 
 		if ( ! file_exists( $local_file ) )
+			return false;
+
+		// Problem fetching remote file
+		if ( ! isset( $this->updates['updates'][$this->file] ) )
 			return false;
 
 		$local_sha1  = sha1_file( $local_file );
