@@ -1,24 +1,16 @@
-# Copyright (C) 2010 Mute Screamer
+# Copyright (C) 2012 Mute Screamer
 # This file is distributed under the same license as the Mute Screamer package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Mute Screamer 1.0.4-beta\n"
+"Project-Id-Version: Mute Screamer 1.0.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
-"POT-Creation-Date: 2011-12-15 09:55:36+00:00\n"
+"POT-Creation-Date: 2012-02-17 09:55:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-
-#: libraries/mscr/functions.php:30
-msgid "Error %s "
-msgstr ""
-
-#: libraries/mscr/functions.php:32
-msgid "An Error Was Encountered %s "
-msgstr ""
 
 #: libraries/mscr/Log_Email.php:27
 msgid ""
@@ -54,39 +46,38 @@ msgstr ""
 msgid "Origin: %s \n"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-#: libraries/mscr/Update.php:313 mscr_admin.php:280 views/admin_update.php:3
+#: libraries/mscr/Update.php:319 mscr_admin.php:280 views/admin_update.php:3
 msgid "Mute Screamer"
 msgstr ""
 
-#: libraries/mscr/Update.php:314
+#: libraries/mscr/Update.php:320
 msgid "All files are up to date."
 msgstr ""
 
-#: libraries/mscr/Update.php:331 libraries/mscr/Update.php:407
-#: libraries/mscr/Update.php:438
+#: libraries/mscr/Update.php:337 libraries/mscr/Update.php:413
+#: libraries/mscr/Update.php:444
 msgid "You do not have sufficient permissions to update Mute Screamer for this site."
 msgstr ""
 
-#: libraries/mscr/Update.php:346
+#: libraries/mscr/Update.php:352
 msgid "%s does not exist."
 msgstr ""
 
-#: libraries/mscr/Update.php:350
+#: libraries/mscr/Update.php:356
 msgid "Can not read file %s."
 msgstr ""
 
-#: libraries/mscr/Update.php:359
+#: libraries/mscr/Update.php:365
 msgid "Could not connect to phpids.org, please try again later."
 msgstr ""
 
-#: libraries/mscr/Update.php:376 libraries/mscr/Update.php:412
-#: libraries/mscr/Update.php:417 views/admin_update.php:7
+#: libraries/mscr/Update.php:382 libraries/mscr/Update.php:418
+#: libraries/mscr/Update.php:423 views/admin_update.php:7
 #: views/admin_update.php:34 views/admin_update_diff.php:5
 msgid "Update Mute Screamer"
 msgstr ""
 
-#: libraries/mscr/Update.php:445
+#: libraries/mscr/Update.php:451
 msgid "%s can't be upgraded."
 msgstr ""
 
@@ -132,6 +123,14 @@ msgstr ""
 
 #: libraries/mscr/Utils.php:132
 msgid "Mute Screamer multisite install currently not supported."
+msgstr ""
+
+#: libraries/mscr/functions.php:30
+msgid "Error %s "
+msgstr ""
+
+#: libraries/mscr/functions.php:32
+msgid "An Error Was Encountered %s "
 msgstr ""
 
 #: mscr_admin.php:61
