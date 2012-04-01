@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Mute Screamer package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Mute Screamer 1.0.5\n"
+"Project-Id-Version: Mute Screamer 1.0.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
 "POT-Creation-Date: 2012-04-01 09:54:06+00:00\n"
 "MIME-Version: 1.0\n"
