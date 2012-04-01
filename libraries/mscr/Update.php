@@ -44,6 +44,13 @@ class MSCR_Update {
 	private $timeout = 86400;
 
 	/**
+	 * JSON update data
+	 *
+	 * @var string
+	 */
+	private $json_data = '';
+
+	/**
 	 * Constructor
 	 *
 	 * @return void
@@ -85,6 +92,9 @@ class MSCR_Update {
 		if ( $this->updates !== false )
 			return false;
 
+		// Suppress libxml parsing errors
+		$libxml_use_errors = libxml_use_internal_errors( true );
+
 		// Initialise the update cache
 		$this->updates = array();
 		$this->updates['updates'] = array();
@@ -92,14 +102,12 @@ class MSCR_Update {
 		// Delete requests cache if any are hanging around
 		delete_site_transient( 'mscr_requests_cache' );
 
-		// Suppress libxml parsing errors
-		$libxml_use_errors = libxml_use_internal_errors( true );
+		// Fetch the remote sha1's
+		$this->sha1_fetch();
 
 		foreach ( $this->files as $file ) {
 			$this->file = $file;
-
-			// Fetch the remote sha1
-			$this->sha1_fetch();
+			$this->updates['updates'][$this->file] = new stdClass;
 
 			// Is the sha1 different?
 			if ( ! $this->sha1_compare() ) {
@@ -202,7 +210,7 @@ class MSCR_Update {
 	 * @return void
 	 */
 	private function sha1_fetch() {
-		$url = 'http://phpids.org/hash.php?f='.$this->file;
+		$url = 'http://ampt.github.com/mute-screamer/update.json';
 		$response = $this->remote_get( $url );
 
 		// Did the request fail?
@@ -211,8 +219,7 @@ class MSCR_Update {
 			return;
 		}
 
-		$this->updates['updates'][$this->file] = new stdClass;
-		$this->updates['updates'][$this->file]->responses['sha1'] = $response['body'];
+		$this->json_data = json_decode( $response['body'], true );
 	}
 
 	/**
@@ -245,12 +252,12 @@ class MSCR_Update {
 		if ( ! file_exists( $local_file ) )
 			return false;
 
-		// Problem fetching remote file
-		if ( ! isset( $this->updates['updates'][$this->file] ) )
+		// Problem fetching json data?
+		if ( ! isset( $this->json_data[$this->file] ) )
 			return false;
 
 		$local_sha1  = sha1_file( $local_file );
-		$remote_sha1 = $this->updates['updates'][$this->file]->responses['sha1'];
+		$remote_sha1 = $this->json_data[$this->file];
 
 		if ( $local_sha1 == $remote_sha1 )
 			return false;
