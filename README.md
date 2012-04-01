@@ -2,7 +2,7 @@
 
 [PHPIDS](http://phpids.org/) for [WordPress](http://wordpress.org/).
 
-## Minimum Requirements ##
+## Requirements ##
 
 * PHP 5.2
 * WordPress 3.0
