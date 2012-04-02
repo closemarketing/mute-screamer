@@ -9,6 +9,12 @@
  * Mute Screamer upgrader class. Install and updates default_filter.xml
  * and Converter.php from phpids.org
  */
+
+// For code coverage
+if ( ! class_exists( 'WP_Upgrader' ) ) {
+    require_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
+}
+
 if ( ! class_exists( 'MSCR_Upgrader' ) ) {
 	class MSCR_Upgrader extends WP_Upgrader {
 		/**
