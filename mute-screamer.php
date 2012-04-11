@@ -1,7 +1,7 @@
 <?php  if ( ! defined( 'ABSPATH' ) ) exit;
 /*
 Plugin Name: Mute Screamer
-Plugin URI: https://github.com/ampt/mute-screamer
+Plugin URI: http://ampt.github.com/mute-screamer
 Description: <a href="http://phpids.org/">PHPIDS</a> for Wordpress.
 Author: ampt
 Version: 1.0.6
