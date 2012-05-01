@@ -50,10 +50,10 @@ require_once 'IDS/Log/Composite.php';
  */
 class Mute_Screamer {
 
-	const INTRUSIONS_TABLE	= 'mscr_intrusions';
-	const VERSION			= '1.0.6';
-	const DB_VERSION		= 2;
-	const POST_TYPE			= 'mscr_ban';
+	const INTRUSIONS_TABLE = 'mscr_intrusions';
+	const VERSION          = '1.0.6';
+	const DB_VERSION       = 2;
+	const POST_TYPE        = 'mscr_ban';
 
 	/**
 	 * An instance of this class
