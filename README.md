@@ -36,4 +36,8 @@ Intrusion logs
 
 ![Auto update diff confirmation](https://github.com/ampt/mute-screamer/raw/master/screenshot-2.png)
 
+## Translations
+
+* Spanish by David Perez - [Closemarketing Diseño Web](http://www.closemarketing.es/)
+
 Auto update diff
