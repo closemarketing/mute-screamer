@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Mute Screamer package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Mute Screamer 1.0.5\n"
+"Project-Id-Version: Mute Screamer 1.0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/mute-screamer\n"
 "POT-Creation-Date: 2012-02-17 09:55:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2012-05-01 00:41+0100\n"
+"PO-Revision-Date: 2012-05-02 13:45+1000\n"
 "Last-Translator: David Perez <david@closemarketing.es>\n"
 "Language-Team: Closemarketing <info@closemarketing.es>\n"
 "X-Poedit-Language: Spanish\n"
@@ -52,64 +52,64 @@ msgstr "URL solicitadas: %s \n"
 msgid "Origin: %s \n"
 msgstr "Origen: %s \n"
 
-#: libraries/mscr/Update.php:319
+#: libraries/mscr/Update.php:326
 #: mscr_admin.php:280
 #: views/admin_update.php:3
 msgid "Mute Screamer"
 msgstr "Mute Screamer"
 
-#: libraries/mscr/Update.php:320
+#: libraries/mscr/Update.php:327
 msgid "All files are up to date."
 msgstr "Todos los archivos están actualizados."
 
-#: libraries/mscr/Update.php:337
-#: libraries/mscr/Update.php:413
-#: libraries/mscr/Update.php:444
+#: libraries/mscr/Update.php:344
+#: libraries/mscr/Update.php:420
+#: libraries/mscr/Update.php:451
 msgid "You do not have sufficient permissions to update Mute Screamer for this site."
 msgstr "No tienes suficientes permisos para actualizar Mute Screamer para este sitio."
 
-#: libraries/mscr/Update.php:352
+#: libraries/mscr/Update.php:359
 msgid "%s does not exist."
 msgstr "%s no existe."
 
-#: libraries/mscr/Update.php:356
+#: libraries/mscr/Update.php:363
 msgid "Can not read file %s."
 msgstr "No puedo abrir el archivo %s."
 
-#: libraries/mscr/Update.php:365
+#: libraries/mscr/Update.php:372
 msgid "Could not connect to phpids.org, please try again later."
 msgstr "No pude conectar a phpids.org, por favor intenta más tarde."
 
-#: libraries/mscr/Update.php:382
-#: libraries/mscr/Update.php:418
-#: libraries/mscr/Update.php:423
+#: libraries/mscr/Update.php:389
+#: libraries/mscr/Update.php:425
+#: libraries/mscr/Update.php:430
 #: views/admin_update.php:7
 #: views/admin_update.php:34
 #: views/admin_update_diff.php:5
 msgid "Update Mute Screamer"
 msgstr "Actualizar Mute Screamer"
 
-#: libraries/mscr/Update.php:451
+#: libraries/mscr/Update.php:458
 msgid "%s can't be upgraded."
 msgstr "%s no se ha podido actualizar."
 
-#: libraries/mscr/Upgrader.php:46
+#: libraries/mscr/Upgrader.php:52
 msgid "Could not create directory."
 msgstr "No se pudo crear el directorio."
 
-#: libraries/mscr/Upgrader.php:60
+#: libraries/mscr/Upgrader.php:66
 msgid "Copying %s into place..."
 msgstr "Copiando %s en el sitio..."
 
-#: libraries/mscr/Upgrader.php:67
+#: libraries/mscr/Upgrader.php:73
 msgid "Could not copy files."
 msgstr "No se pudieron copiar los archivos."
 
-#: libraries/mscr/Upgrader.php:79
+#: libraries/mscr/Upgrader.php:85
 msgid "Mute Screamer updated successfully"
 msgstr "Mute Screamer se ha actualizado satisfactoriamente"
 
-#: libraries/mscr/Upgrader.php:80
+#: libraries/mscr/Upgrader.php:86
 msgid "Go to Dashboard"
 msgstr "Ir al escritorio"
 
@@ -557,8 +557,8 @@ msgid "These revisions are identical."
 msgstr "Estas revisiones son idénticas."
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/ampt/mute-screamer"
-msgstr "https://github.com/ampt/mute-screamer"
+msgid "http://ampt.github.com/mute-screamer"
+msgstr "http://ampt.github.com/mute-screamer"
 
 #. Description of the plugin/theme
 msgid "<a href=\"http://phpids.org/\">PHPIDS</a> for Wordpress."
